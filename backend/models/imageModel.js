@@ -1,9 +1,10 @@
 const cloud=require("cloudinary");
-const BannerPreset=cloud.v2.api
-.create_upload_preset(
-  { name: "Banner", 
-    unsigned: true, 
-    folder: "CompanyBanners" });
-console.log(BannerPreset)
+require("dotenv").config()
+const cloudConfig={
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+}
+cloud.config(cloudConfig);
 
-module.exports = BannerPreset;
+module.exports = {cloud,cloudConfig};
