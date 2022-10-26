@@ -1,1 +1,2 @@
-import connectDB from '../db/connect';
+const {connectDB,process} =require('../db/connect');
+
