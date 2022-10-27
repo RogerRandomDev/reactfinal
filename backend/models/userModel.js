@@ -6,10 +6,18 @@ const User = mongoose.model("User", {
     required: true,
     unique: true,
   },
+  username:{
+    type: String,
+    required: true
+  },
   password: {
     type: String,
     required: true,
   },
+  myBusiness: {
+    type: String,
+    default: ""
+  }
 });
 
 module.exports = User;
