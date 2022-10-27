@@ -10,12 +10,12 @@ function LandingPage() {
   return (
     <section className="flex h-screen">
         <div className="basis-[70%] text-center flex flex-col justify-center">
-          <img src={require("./testingsvg.PNG")} className="max-w-full object-cover w-9/12 mx-auto mb-4"alt="" />
+          <img src={require("../assets/testingsvg.PNG")} className="max-w-full object-cover w-9/12 mx-auto mb-4"alt="" />
           <h2 className='text-4xl font-semibold mb-4 text-blue-900'>Software Analytics and Marketing Statistics</h2>
           <p className='text-slate-400'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, est. Lorem, ipsum. <br/>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
         </div>
         <div className="landing__signup basis-[30%] bg-blue-900 flex flex-col items-center justify-between py-24 px-12 text-center text-neutral-100 cursor-pointer">
-          <img src={require("./Logo-Intel.png")} alt="" className="w-3/5" />
+          <img src={require("../assets/Logo-Intel.png")} alt="" className="w-3/5" />
           <form action="" className="flex flex-col items-center gap-4 w-full">
             <div className="flex w-3/4 relative isolate bg-slate-400 rounded-[1.5rem] mb-4">
               <div ref={userSelect}className="transition w-1/2 px-2 py-3 z-10 rounded-[1.5rem]" onClick={()=>{indicator.current.style.transform="translateX(0%)"; businessSelect.current.classList.add("opacity-60"); userSelect.current.classList.remove("opacity-60");}}>User</div>
