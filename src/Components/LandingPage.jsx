@@ -30,7 +30,10 @@ function LandingPage() {
             {/* <h3 className='mb-6 text-neutral-100 text-lg font-light tracking-wide'>Sign Up</h3> */}
             <input placeholder='Username' type="text" value={username}  onChange={(e)=>setUsername(e.target.value)} name="username" className='py-2  px-4 rounded w-9/12 text-neutral-900'/>
             <input placeholder='Password' type="password" value={password} onChange={(e)=>setPassword(e.target.value)} name="password" className='py-2 rounded w-9/12 px-4  text-neutral-900'/>
-            <button type="submit" className="btn-primary mt-4 w-9/12 py-2 rounded bg-blue-500 text-neutral-100 font-semibold">Sign Up</button>
+            <button type="submit" className="btn-primary mt-4 w-9/12 py-2 rounded bg-blue-500 text-neutral-100 font-semibold" onSubmit={(e)=>{
+              e.preventDefault();
+              
+            }}>Sign Up</button>
           </form>
           <div className="alternate-signup">
             <h4>Or Sign Up With</h4>

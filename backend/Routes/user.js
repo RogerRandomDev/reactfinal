@@ -40,41 +40,4 @@ router.post("/signup", (req, res, next) => {
     })
    
   });
-
-
-  router.post("/login", (req, res, next) => {
-    let fetchedUser;
-  
-    User.findOne({email:req.body.email}).then(user=>{
-      if(!user){
-        return res.status(401).json({
-          message: "Auth failed no such user"
-        })
-      }
-      fetchedUser=user;
-      return bcrypt.compare(req.body.password, user.password);
-    }).then(result=>{
-      console.log(fetchedUser)
-      if(!result){
-        return res.status(401).json({
-          message: "Auth failed inccorect password"
-        })
-      }
-      const token = jwt.sign(
-        { email: fetchedUser.email, userId: fetchedUser._id },
-        "secret_this_should_be_longer",
-        { expiresIn: "1h" }
-      );
-      res.status(200).json({
-        token: token,
-        expiresIn: 3600,
-        userId: fetchedUser._id
-      });
-    })
-    .catch(e=>{
-     
-      console.log(e)
-    
-    })
-  })
 module.exports = router
