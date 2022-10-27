@@ -1,6 +1,7 @@
 import React, {useState, useRef} from 'react'
 import {FaFacebookF, FaTwitter} from 'react-icons/fa';
 import {AiOutlineGoogle} from 'react-icons/ai';
+
 function LandingPage() {
   const indicator = useRef(null);
   const userSelect = useRef(null);
@@ -129,6 +130,54 @@ TODO:
         </div>
     </section>
   )
+//Please find a way to use this Trent it has email validation and also has pasword checking
+  /* const myChangeHandler = (event) => {
+
+        let nam = event.target.name;
+        let val = event.target.value;
+        let errors = this.state.errors;
+        const { name, value } = event.target;
+        switch (name) {
+
+            case 'email':
+                if (value.length === 0) {
+                    errors.email =
+                        value.length < 5
+                            ? 'Email is Required!'
+                            : '';
+                    break;
+                }
+                if (value.length > 0) {
+                    errors.email =
+                        validEmailRegex.test(value)
+                            ? ''
+                            : 'Email is not valid!';
+                    break;
+                }
+                break;
+            case 'password':
+                if (value.length > 0) {
+                    errors.password =
+                        value.length < 6
+                            ? 'Password must be 6 characters long!'
+                            : '';
+                }
+
+                if (value.length === 0) {
+                    errors.password =
+                        value.length === 0
+                            ? 'Password is required!'
+                            : '';
+                }
+                break;
+            default:
+                break;
+        }
+
+        this.setState({ errors, user: { ...this.state.user, [nam]: val } }, () => {
+        });
+    }
+    */
 }
 
 export default LandingPage
