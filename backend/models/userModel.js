@@ -10,6 +10,10 @@ const User = mongoose.model("User", {
     type: String,
     required: true,
   },
+  myBusiness: {
+    type: String,
+    default: ""
+  }
 });
 
 module.exports = User;
