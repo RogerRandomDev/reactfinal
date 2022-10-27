@@ -15,3 +15,4 @@ const t = async (BannerData) =>{
         "Rating":5
     }))}
 t(__dirname+"/../src/img.jpg")
+console.log(getBusiness("Realistic FPS games"))
