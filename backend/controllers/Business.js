@@ -4,24 +4,26 @@ require('dotenv').config();
 
 //returns the business database content
 const getBusiness = async (businessName) => {
-  var output = [null];
+  var output=null;
   try {
     await connectDB(process.env.MONGO_URI);
-    await (output = await BusinessModel.find({ Name: businessName }));
+    await (output = await BusinessModel.findOne({ Name: businessName }));
     console.log(output);
   } catch (err) {
     console.log(err);
   }
-  return output[0];
+  return output;
 };
 //creates a business and adds it to the database
 const createBusiness = async (businessData) => {
-  if ((await getBusiness(businessData.Name)) == null) {
-    return { success: false, msg: 'Business already exists with name' };
-  }
+  
   try {
     await connectDB(process.env.MONGO_URI);
-    BusinessModel.create([businessData]);
+    if(await BusinessModel.findOne({Name:businessData.Name})){
+      return { success: false, msg: 'Business already exists with name' };
+    }
+    const newBusiness=new BusinessModel(businessData)
+    newBusiness.save()
   } catch (err) {
     console.log(err);
   }

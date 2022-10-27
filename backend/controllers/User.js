@@ -1,25 +1,26 @@
 const { connectDB, process } = require('../db/connect');
 require('dotenv').config();
 //returns the user database content
-const getUser = async (userName) => {
-    var output = [null];
+const getUser = async (userEmail) => {
+    var output=null;
     try {
       await connectDB(process.env.MONGO_URI);
-      await (output = await UserModel.find({ Name: userName }));
+      await (output = await UserModel.findOne({ email: userEmail }));
       console.log(output);
     } catch (err) {
       console.log(err);
     }
-    return output[0];
+    return output;
   };
   //creates a user and adds it to the database
   const createUser = async (userData) => {
-    if ((await getUser(userData.Name)) == null) {
-      return { success: false, msg: 'User already exists with name' };
-    }
     try {
       await connectDB(process.env.MONGO_URI);
-      UserModel.create([userData]);
+      if(await UserModel.findOne({email:userData.email})){
+        return { success: false, msg: 'User already exists with email' };
+      }
+      const newUser=new UserModel(userData);
+      newUser.save()
     } catch (err) {
       console.log(err);
     }
