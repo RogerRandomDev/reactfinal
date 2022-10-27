@@ -1,9 +1,7 @@
 import React, {useState, useRef} from 'react'
 import {FaFacebookF, FaTwitter} from 'react-icons/fa';
 import {AiOutlineGoogle} from 'react-icons/ai';
-import Auth from "./Auth";
-import validateForm from '../Utils/validateForm';
-import validEmailRegex from '../Utils/emailRegex';
+
 function LandingPage() {
   const indicator = useRef(null);
   const userSelect = useRef(null);
