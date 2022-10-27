@@ -1,4 +1,4 @@
-import LandingPage from './components/LandingPage';
+import LandingPage from './Components/LandingPage';
 function App() {
   return (
     <div className='App'>
