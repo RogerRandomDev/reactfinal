@@ -88,7 +88,6 @@ TODO:
  * All Products Page for Users
  * Cart?
  * Checkout Page
-
 */
   return (
     <section ref={section} className="flex h-screen relative transition delay-200 duration-[600ms] ease-in-out overflow-hidden">
