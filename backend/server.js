@@ -1,30 +1,23 @@
-require('dotenv').config()
-const express = require('express')
-const req = require('express/lib/request')
+require('dotenv').config();
+const express = require('express');
+const {getUser,createUser,buildUserData}=require("./controllers/User");
+const {login, logout}=require("./controllers/auth")
 const app = express()
-const jwt = require('jsonwebtoken')
-const {authenticateToken} = require('./middleware/tokenAuthenticate')
 
-app.use(express.json())
 
-const posts = [
-    {
-        username: 'Bernard',
-        title: 'Instructor'
-    },{
-        username: 'Andi',
-        title: 'Tool'
-    },{
-        username: 'Patty',
-        title: 'Burger'
-    }
-]
+app.get("/",(req,res)=>{
+    console.log('connected')
+    return res.status(200).send("loaded")})
 
-app.get('/posts',authenticateToken,(req,res)=>{
-    res.json(posts.filter(post => post.username === req.user.name))
+app.post('/createAccount',async (req,res)=>{
+    const userData=buildUserData(req)
+    await res.json(await createUser(userData))
+})
+app.post("/Login",async (req,res)=>{
+    const userData=buildUserData(req)
+    await res.json(await login(userData))
 })
 
-
-app.listen(5000,()=>{
+app.listen(process.env.PORT,()=>{
     console.log('server is running on port 5000')
 })
