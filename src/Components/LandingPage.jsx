@@ -22,7 +22,7 @@ function LandingPage() {
     if(isSignUp){
       section.current.classList.add("translate-x-[0%]");
     section.current.classList.remove("-translate-x-[70%]");
-    } else if(!isSignUp && userType=="business"){
+    } else if(!isSignUp && userType==="business"){
       section.current.classList.add("-translate-x-[70%]");
     section.current.classList.remove("translate-x-[0%]");
     }
@@ -32,7 +32,7 @@ function LandingPage() {
  const handleSubmit = (e) =>{
    e.preventDefault();
    if(isSignUp){
-     if(password == confirmPassword){
+     if(password === confirmPassword){
       //  alert("succeed");
       }else{
       // alert("passwords dont match");
@@ -94,12 +94,12 @@ TODO:
     <section ref={section} className="flex h-screen relative transition delay-200 duration-[600ms] ease-in-out overflow-hidden">
    <div ref={businessInfoSlider} className="absolute -right-[70%] h-screen w-[70%] bg-blue-900"></div>
         <div ref={hero} className="w-[70%] text-center flex flex-col justify-center">
-          <img src={require("./testingsvg.PNG")} className="max-w-full object-cover w-9/12 mx-auto mb-4"alt="" />
+          <img src={require("../assets/testingsvg.PNG")} className="max-w-full object-cover w-9/12 mx-auto mb-4"alt="" />
           <h2 className='text-4xl font-semibold mb-4 text-blue-900'>Software Analytics and Marketing Statistics</h2>
           <p className='text-slate-400'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, est. Lorem, ipsum. <br/>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
         </div>
         <div ref={landingSignup} className="landing__signup w-[30%] bg-blue-900 flex flex-col items-center justify-between py-24 px-12 text-center text-neutral-100">
-          <img src={require("./Logo-Intel.png")} alt="" className="w-3/5" />
+          <img src={require("../assets/Logo-Intel.png")} alt="" className="w-3/5" />
           <form action="" className="flex flex-col items-center gap-4 w-full">
             <div className="flex w-3/4 relative isolate bg-slate-400 rounded-[1.5rem] mb-4 cursor-pointer">
               <div ref={userSelect}className="transition w-1/2 px-2 py-3 z-10 rounded-[1.5rem] font-bold " onClick={()=>handleChangeTypeToUser()}>User</div>
@@ -108,7 +108,7 @@ TODO:
             </div>
             {/* <h3 className='mb-6 text-neutral-100 text-lg font-light tracking-wide'>Sign Up</h3> */}
             <input placeholder='Email' type="text" value={email}  onChange={(e)=>setEmail(e.target.value)} name="email" className={`py-2  px-4 rounded w-9/12 text-neutral-900 ${isSignUp ? "block" : "hidden"}`}/>
-            <input placeholder={userType =="user" ? 'Username' : "Business Name"} type="text" value={username}  onChange={(e)=>setUsername(e.target.value)} name="username" className='py-2  px-4 rounded w-9/12 text-neutral-900'/>
+            <input placeholder={userType ==="user" ? 'Username' : "Business Name"} type="text" value={username}  onChange={(e)=>setUsername(e.target.value)} name="username" className='py-2  px-4 rounded w-9/12 text-neutral-900'/>
             <input placeholder='Password' type="password" value={password} onChange={(e)=>setPassword(e.target.value)} name="password" className='py-2 rounded w-9/12 px-4  text-neutral-900'/>
             <input placeholder='Confirm Password' type="password" value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} name="confirmPassword" className={`py-2 rounded w-9/12 px-4 text-neutral-900 ${isSignUp ? "block" : "hidden"}`}/>
             <input type="hidden" name="userType" value={userType} />
