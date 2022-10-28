@@ -41,4 +41,4 @@ const ProductSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Business", BusinessSchema);
+module.exports = mongoose.model("Business", ProductSchema);
