@@ -9,4 +9,4 @@ const emailValidation = async (email) => {
   const { valid, reason, validators } = await isEmailValid(`${email}`);
   return { valid, reason, validators };
 };
-module.exports = emailValidation;
+export default emailValidation
