@@ -7,6 +7,7 @@ function LandingPage() {
   const userSelect = useRef(null);
   const businessSelect = useRef(null);
   const landingSignup = useRef(null);
+  const mover = useRef(null);
   const hero = useRef(null);
   const section = useRef(null);
   const businessInfoSlider = useRef(null);
@@ -19,12 +20,12 @@ function LandingPage() {
 
   const handleChangeSignUp = () =>{
     setIsSignUp(!isSignUp);
-    if(isSignUp){
-      section.current.classList.add("translate-x-[0%]");
-    section.current.classList.remove("-translate-x-[70%]");
-    } else if(!isSignUp && userType=="business"){
-      section.current.classList.add("-translate-x-[70%]");
-    section.current.classList.remove("translate-x-[0%]");
+    if(!isSignUp && userType=="business"){
+      mover.current.classList.add("translate-x-[0%]");
+    mover.current.classList.remove("-translate-x-[70%]");
+    }else{
+mover.current.classList.remove("translate-x-[0%]");
+    mover.current.classList.remove("-translate-x-[70%]");
     }
     
   }
@@ -48,8 +49,10 @@ const handleChangeTypeToUser = () => {
   userSelect.current.classList.remove("opacity-60"); 
   setUserType("user"); 
   if(isSignUp){
-  section.current.classList.add("translate-x-[0%]");
-  section.current.classList.remove("-translate-x-[70%]");
+    mover.current.classList.add("translate-x-[0%]");
+    mover.current.classList.remove("-translate-x-[70%]");
+  //   businessInfoSlider.current.classList.add("-right-[70%]");
+  // businessInfoSlider.current.classList.remove("right-[0%]");
   }
 }
 const handleChangeTypeToBusiness = () =>{
@@ -57,10 +60,11 @@ indicator.current.style.transform="translateX(100%)";
 userSelect.current.classList.add("opacity-60"); 
 businessSelect.current.classList.remove("opacity-60");
 setUserType("business"); 
-// businessInfoSlider.current
 if(isSignUp){
-section.current.classList.add("-translate-x-[70%]");
-section.current.classList.remove("translate-x-[0%]");
+  mover.current.classList.add("-translate-x-[70%]");
+  mover.current.classList.remove("translate-x-[0%]");
+  // businessInfoSlider.current.classList.remove("-right-[70%]");
+  // businessInfoSlider.current.classList.add("right-[0%]");
 }
 }
 /*
@@ -79,26 +83,61 @@ Business Description
 checkboxes for business reqs (products? amount of users?)
 
 */
-/*
-TODO:
- * Add Business Details Section
- * Business Profile Page
- * Business Admin Page
- * User Profile Page
- * All Products Page for Users
- * Cart?
- * Checkout Page
-*/
   return (
-    <section ref={section} className="flex h-screen relative transition delay-200 duration-[600ms] ease-in-out overflow-hidden">
-   <div ref={businessInfoSlider} className="absolute -right-[70%] h-screen w-[70%] bg-blue-900"></div>
+    <section ref={section} className="overflow-hidden">
+      <div className="flex h-screen relative transition delay-200 duration-[600ms] ease-in-out" ref={mover}>
+   
         <div ref={hero} className="w-[70%] text-center flex flex-col justify-center">
-          <img src={require("./testingsvg.PNG")} className="max-w-full object-cover w-9/12 mx-auto mb-4"alt="" />
+          <img src={require("../assets/testingsvg.PNG")} className="max-w-full object-cover w-9/12 mx-auto mb-4"alt="" />
           <h2 className='text-4xl font-semibold mb-4 text-blue-900'>Software Analytics and Marketing Statistics</h2>
           <p className='text-slate-400'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, est. Lorem, ipsum. <br/>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
         </div>
-        <div ref={landingSignup} className="landing__signup w-[30%] bg-blue-900 flex flex-col items-center justify-between py-24 px-12 text-center text-neutral-100">
-          <img src={require("./Logo-Intel.png")} alt="" className="w-3/5" />
+        <div ref={landingSignup} className="relative landing__signup w-[30%] bg-blue-900 flex flex-col items-center justify-between py-24 px-12 text-center text-neutral-100">
+          <div ref={businessInfoSlider} className="absolute top-0 left-full h-screen w-[70vw] bg-blue-900 flex flex-col items-center justify-center gap-10">
+
+          <div className="business-logo flex flex-col items-center justify-center">
+          <h2 className='text-3xl font-semibold mb-8'>Business Logo</h2>
+          <input type="file" name="Image Upload" id="" />
+          </div>
+
+          <div className="general-information">
+          <h2 className='text-3xl font-semibold mb-8'>General Information</h2>
+          <div className="grid gap-8" style={{gridTemplateColumns:"1fr 1fr auto 1fr 1fr"}}>
+            <div className='col-start-1 col-end-3'><label for="city" className='mb-4 block'>City</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="city" id="city" /></div>
+            <div className='col-start-4 col-end-6'><label for="state" className='mb-4 block'>State</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="state" id="state" /></div>
+            <div className='col-start-1 col-end-3'><label for="type" className='mb-4 block'>Type</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="type" id="type" /></div>
+            <div className='col-start-4 col-end-6'><label for="range" className='mb-4 block'>Range</label><select className='py-2  px-4 rounded w-9/12 text-neutral-900' name="range" id="range">
+  <option value="local">Local</option>
+  <option value="regional">Regional</option>
+  <option value="national">National</option>
+  <option value="international">International</option>
+</select></div>
+          {/* business description  */}
+          <textarea className='col-start-2 col-end-5 py-2 px-4 rounded text-neutral-900' name="description" id="" cols="30" rows="5"></textarea>
+          </div>
+</div>
+
+          <div className="agreements">
+          <h2 className='text-3xl font-semibold mb-8'>Agreements</h2>
+          <div className="flex flex-col justify-center gap-4">
+            <div className="flex gap-4">
+          <input type="checkbox" id="agreement1" name="agreement1"/>
+<label for="agreement1">Business has atleast 10 unique products</label>
+</div>
+<div className="flex gap-4">
+<input type="checkbox" id="agreement2" name="agreement2"/>
+<label for="agreement2">Business has a stable supply of products</label>
+</div>
+<div className="flex gap-4">
+<input type="checkbox" id="agreement3" name="agreement3"/>
+<label for="agreement3">Business has their own website</label>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <img src={require("../assets/Logo-Intel.png")} alt="" className="w-3/5" />
           <form action="" className="flex flex-col items-center gap-4 w-full">
             <div className="flex w-3/4 relative isolate bg-slate-400 rounded-[1.5rem] mb-4 cursor-pointer">
               <div ref={userSelect}className="transition w-1/2 px-2 py-3 z-10 rounded-[1.5rem] font-bold " onClick={()=>handleChangeTypeToUser()}>User</div>
@@ -125,6 +164,7 @@ TODO:
           </div>
         <div className="signup__footer">
           <p>{isSignUp ? "Already Have an Account? " : "Create a New Account - "}<span onClick={()=>handleChangeSignUp()} className='underline cursor-pointer hover:text-cyan-600 transition'>Sign {isSignUp ? "In" : "Up"}</span></p>
+        </div>
         </div>
         </div>
     </section>
