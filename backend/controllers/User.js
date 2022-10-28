@@ -1,4 +1,5 @@
-const { connectDB, process } = require('../db/connect');
+const {connectDB,process}=require('../db/connect');
+const {UserModel}=require("../models/userModel");
 require('dotenv').config();
 //returns the user database content
 const getUser = async (userEmail) => {
