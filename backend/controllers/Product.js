@@ -7,7 +7,7 @@ const getProduct = async (productId) => {
   var output=null;
   try {
     await connectDB(process.env.MONGO_URI);
-    (output=await ProductModel.findById(Number(productId)));
+    (output=await ProductModel.findById(productId));
     console.log(output);
   } catch (err) {
     console.log(err);
@@ -19,7 +19,7 @@ const updateProduct = async (productId) => {
   var output=null;
   try {
     await connectDB(process.env.MONGO_URI);
-    (output=await ProductModel.findByIdAndUpdate(Number(productId)));
+    (output=await ProductModel.findByIdAndUpdate(productId));
     console.log(output);
   } catch (err) {
     console.log(err);
@@ -30,7 +30,7 @@ const deleteProduct = async (productId) => {
   var output=null;
   try {
     await connectDB(process.env.MONGO_URI);
-    (output=await ProductModel.findByIdAndDelete(Number(productId)));
+    (output=await ProductModel.findByIdAndDelete(productId));
     console.log(output);
   } catch (err) {
     console.log(err);
