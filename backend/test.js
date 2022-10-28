@@ -1,3 +1,4 @@
+const {getBusiness,createBusiness}=require('./controllers/Business');
 const {getBusiness,createBusiness} = require('./controllers/Business');
 const {getBannerLink} = require('./middleware/images');
 const fs=require("fs");
@@ -10,6 +11,16 @@ const t = async (BannerData) =>{
     console.log(await createBusiness({
         "Name": "Realistic FPS games",
         "BannerLink":await getBannerLink(BannerData),
+        "ProductType":"Product",
+        "TargetAudience":"Child",
+        "Rating":5
+    }))}
+t(__dirname+"/../src/img.jpg")
+
+const a = async (UserData) =>{
+    console.log(await createBusiness({
+        "Name": "Realistic FPS games",
+        "BannerLink":await getUser(UserData),
         "ProductType":"Product",
         "TargetAudience":"Child",
         "Rating":5

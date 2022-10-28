@@ -1,5 +1,5 @@
-const loginAccount = async (userName, password) => {};
+const logIn = async (userName, password) => {};
 
-const createAccount = async (userName, password) => {
-    
-};
+const logOut = async (userToken) => {};
+
+const signUp = async (userName, password) => {};
