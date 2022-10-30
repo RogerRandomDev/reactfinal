@@ -1,7 +1,7 @@
 import React, {useState, useRef} from 'react'
 import {FaFacebookF, FaTwitter} from 'react-icons/fa';
 import {AiOutlineGoogle} from 'react-icons/ai';
-
+//https://coderthemes.com/ubold/layouts/default/index.html
 function LandingPage() {
   const indicator = useRef(null);
   const userSelect = useRef(null);
@@ -21,8 +21,8 @@ function LandingPage() {
   const handleChangeSignUp = () =>{
     setIsSignUp(!isSignUp);
     if(!isSignUp && userType=="business"){
-      mover.current.classList.add("translate-x-[0%]");
-    mover.current.classList.remove("-translate-x-[70%]");
+      mover.current.classList.add("-translate-x-[70%]");
+    mover.current.classList.remove("translate-x-[0%]");
     }else{
 mover.current.classList.remove("translate-x-[0%]");
     mover.current.classList.remove("-translate-x-[70%]");
@@ -112,8 +112,10 @@ checkboxes for business reqs (products? amount of users?)
   <option value="national">National</option>
   <option value="international">International</option>
 </select></div>
-          {/* business description  */}
-          <textarea className='col-start-2 col-end-5 py-2 px-4 rounded text-neutral-900' name="description" id="" cols="30" rows="5"></textarea>
+          <div className="col-start-2 col-end-5">
+            <label htmlFor="business-description">Description</label>
+          <textarea className='mt-4 py-2 px-4 rounded text-neutral-900' name="description" id="business-description" cols="30" rows="5"></textarea>
+          </div>
           </div>
 </div>
 
