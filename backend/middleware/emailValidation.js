@@ -5,8 +5,7 @@ async function isEmailValid(email) {
 }
 
 //create a server object:
-const emailValidation = async (email) => {
+export const emailValidation = async (email) => {
   const { valid, reason, validators } = await isEmailValid(`${email}`);
   return { valid, reason, validators };
 };
-export default emailValidation
