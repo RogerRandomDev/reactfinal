@@ -4,26 +4,25 @@ import {
   BrowserRouter as Router,
   Routes as Switch,
   Route,
-  Link
-} from "react-router-dom";
+  Link,
+} from 'react-router-dom';
 import { FaRegHeart } from 'react-icons/fa';
-import DataOverview from './Components/DataOverview';
+import DataOverview from './components/DataOverview';
 import LandingPage from './Pages/LandingPage';
-import TotalRevenue from './Components/TotalRevenue';
-
+import TotalRevenue from './components/TotalRevenue';
 
 const App = (props) => {
   return (
     <div className='App'>
       <Router>
-        <ul class="flex">
-          <li class="mr-6">
-            <Link to="/login">Log In/Sign Up</Link>
+        <ul class='flex'>
+          <li class='mr-6'>
+            <Link to='/login'>Log In/Sign Up</Link>
           </li>
-          <li class="mr-6">
+          <li class='mr-6'>
             <Link to='/home'>Home</Link>
           </li>
-          <li class="mr-6">
+          <li class='mr-6'>
             <Link to='/test'>test</Link>
           </li>
         </ul>
@@ -31,12 +30,41 @@ const App = (props) => {
           <Route path='/' element={<TotalRevenue />} />
           <Route path='/home' element={<TotalRevenue />} />
           <Route path='/login' element={<LandingPage />} />
-          <Route path='/test' element={ <div className='flex gap-8'>
-        <DataOverview fadedAccentColor="rgba(102, 88, 221, 0.25)" accentColor="rgb(102, 88, 221)" Icon={FaRegHeart} data="$58,947" description="Total Revenue"/>
-        <DataOverview fadedAccentColor="rgba(102, 88, 221, 0.25)" accentColor="rgb(102, 88, 221)" Icon={FaRegHeart} data="$58,947" description="Total Revenue"/>
-        <DataOverview fadedAccentColor="rgba(102, 88, 221, 0.25)" accentColor="rgb(102, 88, 221)" Icon={FaRegHeart} data="$58,947" description="Total Revenue"/>
-        <DataOverview fadedAccentColor="rgba(102, 88, 221, 0.25)" accentColor="rgb(102, 88, 221)" Icon={FaRegHeart} data="$58,947" description="Total Revenue"/>
-      </div> } />
+          <Route
+            path='/test'
+            element={
+              <div className='flex gap-8'>
+                <DataOverview
+                  fadedAccentColor='rgba(102, 88, 221, 0.25)'
+                  accentColor='#6658dd'
+                  Icon={FaRegHeart}
+                  data='$58,947'
+                  description='Total Revenue'
+                />
+                <DataOverview
+                  fadedAccentColor='rgba(102, 88, 221, 0.25)'
+                  accentColor='#6658dd'
+                  Icon={FaRegHeart}
+                  data='$58,947'
+                  description='Total Revenue'
+                />
+                <DataOverview
+                  fadedAccentColor='rgba(102, 88, 221, 0.25)'
+                  accentColor='#6658dd'
+                  Icon={FaRegHeart}
+                  data='$58,947'
+                  description='Total Revenue'
+                />
+                <DataOverview
+                  fadedAccentColor='rgba(102, 88, 221, 0.25)'
+                  accentColor='#6658dd'
+                  Icon={FaRegHeart}
+                  data='$58,947'
+                  description='Total Revenue'
+                />
+              </div>
+            }
+          />
         </Switch>
       </Router>
       {/* <div className='flex gap-8'>
