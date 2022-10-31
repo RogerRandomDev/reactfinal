@@ -10,6 +10,7 @@ app.get("/",(req,res)=>{
     return res.status(200).send("loaded")})
 
 app.post('/createAccount',async (req,res)=>{
+    console.log("a")
     const userData=buildUserData(req)
     await res.json(await createUser(userData))
 })
