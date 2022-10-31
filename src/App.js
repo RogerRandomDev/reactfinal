@@ -10,6 +10,7 @@ import { FaRegHeart } from 'react-icons/fa';
 import DataOverview from './components/DataOverview';
 import LandingPage from './Pages/LandingPage';
 import TotalRevenue from './components/TotalRevenue';
+import SalesAnalytics from './components/SalesAnalytics';
 
 const App = (props) => {
   return (
@@ -24,6 +25,9 @@ const App = (props) => {
           </li>
           <li class='mr-6'>
             <Link to='/test'>test</Link>
+          </li>
+          <li class='mr-6'>
+            <Link to='/test2'>test2</Link>
           </li>
         </ul>
         <Switch>
@@ -65,6 +69,7 @@ const App = (props) => {
               </div>
             }
           />
+          <Route path='/test2' element={<SalesAnalytics />} />
         </Switch>
       </Router>
       {/* <div className='flex gap-8'>
