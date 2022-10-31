@@ -1,8 +1,8 @@
 const {getBusiness,createBusiness}=require('./controllers/Business');
-const {getBusiness,createBusiness} = require('./controllers/Business');
-const {getBannerLink} = require('./middleware/images');
+const {getUser,createUser} = require('./controllers/User');
+const {storeImage} = require('./middleware/images');
 const fs=require("fs");
-
+const {hashString} = require("./middleware/hash")
 const upload_preset= require("./models/imageModel")
 const {cloud,cloudConfig}=require("./models/imageModel");
 
@@ -10,20 +10,16 @@ const {cloud,cloudConfig}=require("./models/imageModel");
 const t = async (BannerData) =>{
     console.log(await createBusiness({
         "Name": "Realistic FPS games",
-        "BannerLink":await getBannerLink(BannerData),
+        "BannerLink":await storeImage(BannerData),
         "ProductType":"Product",
         "TargetAudience":"Child",
         "Rating":5
     }))}
 t(__dirname+"/../src/img.jpg")
 
-const a = async (UserData) =>{
-    console.log(await createBusiness({
-        "Name": "Realistic FPS games",
-        "BannerLink":await getUser(UserData),
-        "ProductType":"Product",
-        "TargetAudience":"Child",
-        "Rating":5
-    }))}
-t(__dirname+"/../src/img.jpg")
-console.log(getBusiness("Realistic FPS games"))
+createUser({
+    email:"ro@gmail.com",
+    password:"testing",
+    username:"its'a me",
+    myBusiness:""
+})
