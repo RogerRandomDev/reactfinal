@@ -2,6 +2,7 @@ import React, {useState, useRef} from 'react'
 import {FaFacebookF, FaTwitter} from 'react-icons/fa';
 import {AiOutlineGoogle} from 'react-icons/ai';
 import {sendRequest} from '../Utils/requests';
+import { storeLocal, getLocal } from '../hooks/useLocalStorageAuth';
 //https://coderthemes.com/ubold/layouts/default/index.html
 function LandingPage() {
   const indicator = useRef(null);
@@ -69,8 +70,8 @@ mover.current.classList.remove("translate-x-[0%]");
     email:email,
     password:password
    });
-  //  let json = await data.json();
-   console.log(data);
+   console.log(JSON.parse(data));
+   await storeLocal("token", data.token);
   }
  }
 const handleChangeTypeToUser = () => {

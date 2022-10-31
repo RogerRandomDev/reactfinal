@@ -3,19 +3,26 @@ import Chart from "react-apexcharts";
           
             series: [{
               name: 'Backpacks',
-              data: [10, 30,20,50,60,60,30,10,80]
+              data: [10, 30,20,50,60]
             }, {
               name: 'T-Shirts',
-              data: [40, 60,50,10,20,30,40,20,10]
+              data: [40, 60,50,10,20]
             }, {
               name: 'Shoes',
-              data: [50,10,30,40,20,10,30,70,10]
+              data: [50,10,30,40,20]
             }],
             options: {
               chart: {
                 type: 'bar',
                 height: 350,
-                stacked:true
+                // stacked:true,
+                // stackType:"100%",
+                toolbar: {
+                  show: true
+                },
+                zoom: {
+                  enabled: true
+                }
               },
               plotOptions: {
                 bar: {
@@ -37,7 +44,7 @@ import Chart from "react-apexcharts";
               },
               yaxis: {
                 title: {
-                  text: 'Percentage'
+                  text: 'Revenue Percentage'
                 }
               },
               fill: {
