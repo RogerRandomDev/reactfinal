@@ -1,4 +1,5 @@
-const jwt = require('jsonwebtoken')
+//TODO Figure out where to use this
+const jwt=require('jsonwebtoken')
 
 function authenticateToken(req, res,next) {
     const authHeader = req.headers['authorization']

@@ -33,7 +33,7 @@ mover.current.classList.remove("translate-x-[0%]");
  const handleSubmit = (e) =>{
    e.preventDefault();
    if(isSignUp){
-     if(password == confirmPassword){
+     if(password === confirmPassword){
       //  alert("succeed");
       }else{
       // alert("passwords dont match");
@@ -148,7 +148,7 @@ checkboxes for business reqs (products? amount of users?)
             </div>
             {/* <h3 className='mb-6 text-neutral-100 text-lg font-light tracking-wide'>Sign Up</h3> */}
             <input placeholder='Email' type="text" value={email}  onChange={(e)=>setEmail(e.target.value)} name="email" className={`py-2  px-4 rounded w-9/12 text-neutral-900 ${isSignUp ? "block" : "hidden"}`}/>
-            <input placeholder={userType =="user" ? 'Username' : "Business Name"} type="text" value={username}  onChange={(e)=>setUsername(e.target.value)} name="username" className='py-2  px-4 rounded w-9/12 text-neutral-900'/>
+            <input placeholder={userType ==="user" ? 'Username' : "Business Name"} type="text" value={username}  onChange={(e)=>setUsername(e.target.value)} name="username" className='py-2  px-4 rounded w-9/12 text-neutral-900'/>
             <input placeholder='Password' type="password" value={password} onChange={(e)=>setPassword(e.target.value)} name="password" className='py-2 rounded w-9/12 px-4  text-neutral-900'/>
             <input placeholder='Confirm Password' type="password" value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} name="confirmPassword" className={`py-2 rounded w-9/12 px-4 text-neutral-900 ${isSignUp ? "block" : "hidden"}`}/>
             <input type="hidden" name="userType" value={userType} />
