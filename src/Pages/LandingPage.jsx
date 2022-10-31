@@ -1,6 +1,7 @@
 import React, {useState, useRef} from 'react'
 import {FaFacebookF, FaTwitter} from 'react-icons/fa';
 import {AiOutlineGoogle} from 'react-icons/ai';
+import {sendRequest} from '../Utils/requests';
 //https://coderthemes.com/ubold/layouts/default/index.html
 function LandingPage() {
   const indicator = useRef(null);
@@ -17,6 +18,15 @@ function LandingPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [userType, setUserType] = useState("user");
   const [isSignUp, setIsSignUp] = useState(true);
+  const [businessLogo, setBusinessLogo] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [type, setType] = useState("");
+  const [range, setRange] = useState("");
+  const [description, setDescription] = useState("");
+  const [agreement1, setAgreement1] = useState(false);
+  const [agreement2, setAgreement2] = useState(false);
+  const [agreement3, setAgreement3] = useState(false);
 
   const handleChangeSignUp = () =>{
     setIsSignUp(!isSignUp);
@@ -32,6 +42,13 @@ mover.current.classList.remove("translate-x-[0%]");
 
  const handleSubmit = (e) =>{
    e.preventDefault();
+   console.log("a")
+   sendRequest("createAccount","POST",{
+    email:email,
+    password:password,
+    username:username,
+    myCompany:""
+   })
    if(isSignUp){
      if(password === confirmPassword){
       //  alert("succeed");
@@ -92,27 +109,27 @@ checkboxes for business reqs (products? amount of users?)
           <h2 className='text-4xl font-semibold mb-4 text-blue-900'>Software Analytics and Marketing Statistics</h2>
           <p className='text-slate-400'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, est. Lorem, ipsum. <br/>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
         </div>
-        <div ref={landingSignup} className="relative landing__signup w-[30%] bg-blue-900 flex flex-col items-center justify-between py-24 px-12 text-center text-neutral-100">
+        <div ref={landingSignup} className="relative landing__signup w-[30%] bg-blue-900 flex flex-col items-center justify-between py-24 px-12 text-center text-neutral-100 border-r border-blue-900">
           <div ref={businessInfoSlider} className="absolute top-0 left-full h-screen w-[70vw] bg-blue-900 flex flex-col items-center justify-center gap-10">
 
           <div className="business-logo flex flex-col items-center justify-center">
           <h2 className='text-3xl font-semibold mb-8'>Business Logo</h2>
-          <input type="file" name="Image Upload" id="" />
+          <input type="file" name="Image Upload" id="" value={businessLogo} onChange={(e)=>setBusinessLogo(e.target.value)} />
           </div>
 
           <div className="general-information">
           <h2 className='text-3xl font-semibold mb-8'>General Information</h2>
           <div className="grid gap-8" style={{gridTemplateColumns:"1fr 1fr auto 1fr 1fr"}}>
-            <div className='col-start-1 col-end-3'><label for="city" className='mb-4 block'>City</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="city" id="city" /></div>
-            <div className='col-start-4 col-end-6'><label for="state" className='mb-4 block'>State</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="state" id="state" /></div>
-            <div className='col-start-1 col-end-3'><label for="type" className='mb-4 block'>Type</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="type" id="type" /></div>
-            <div className='col-start-4 col-end-6'><label for="range" className='mb-4 block'>Range</label><select className='py-2  px-4 rounded w-9/12 text-neutral-900' name="range" id="range">
+            <div className='col-start-1 col-end-3'><label for="city" className='mb-4 block'>City</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="city" id="city"  value={city}  onChange={(e)=>setCity(e.target.value)}/></div>
+            <div className='col-start-4 col-end-6'><label for="state" className='mb-4 block'>State</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="state" id="state"  value={state} onChange={(e)=>setState(e.target.value)}/></div>
+            <div className='col-start-1 col-end-3'><label for="type" className='mb-4 block'>Type</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="type" id="type"  value={type} onChange={(e)=>setType(e.target.value)}/></div>
+            <div className='col-start-4 col-end-6'><label for="range" className='mb-4 block'>Range</label><select className='py-2  px-4 rounded w-9/12 text-neutral-900' name="range" id="range" value={range} onChange={(e)=>setRange(e.target.value)}>
   <option value="local">Local</option>
   <option value="regional">Regional</option>
   <option value="national">National</option>
   <option value="international">International</option>
 </select></div>
-          <div className="col-start-2 col-end-5">
+          <div className="col-start-2 col-end-5 flex flex-col">
             <label htmlFor="business-description">Description</label>
           <textarea className='mt-4 py-2 px-4 rounded text-neutral-900' name="description" id="business-description" cols="30" rows="5"></textarea>
           </div>
@@ -123,15 +140,15 @@ checkboxes for business reqs (products? amount of users?)
           <h2 className='text-3xl font-semibold mb-8'>Agreements</h2>
           <div className="flex flex-col justify-center gap-4">
             <div className="flex gap-4">
-          <input type="checkbox" id="agreement1" name="agreement1"/>
+          <input type="checkbox" id="agreement1" name="agreement1" value={agreement1} onChange={(e)=>setAgreement1(e.target.value)}/>
 <label for="agreement1">Business has atleast 10 unique products</label>
 </div>
 <div className="flex gap-4">
-<input type="checkbox" id="agreement2" name="agreement2"/>
+<input type="checkbox" id="agreement2" name="agreement2" value={agreement2} onChange={(e)=>setAgreement2(e.target.value)}/>
 <label for="agreement2">Business has a stable supply of products</label>
 </div>
 <div className="flex gap-4">
-<input type="checkbox" id="agreement3" name="agreement3"/>
+<input type="checkbox" id="agreement3" name="agreement3" value={agreement3} onChange={(e)=>setAgreement3(e.target.value)}/>
 <label for="agreement3">Business has their own website</label>
 </div>
 </div>
