@@ -1,7 +1,8 @@
 import ApexColumnChart from "./ApexColumnChart"
 function SalesAnalytics() {
   return (
-    <ApexColumnChart/>
+    // <div className="w-3/4"> </div>
+   <ApexColumnChart/>
   )
 }
 

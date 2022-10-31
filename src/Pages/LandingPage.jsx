@@ -50,7 +50,7 @@ mover.current.classList.remove("translate-x-[0%]");
     email,
     password,
     username,
-    myCompany:userType=="user" ? "" : username,  
+    mycompany:userType=="user" ? "" : username,  
     // businessLogo,
     // city,
     // state,
@@ -65,10 +65,12 @@ mover.current.classList.remove("translate-x-[0%]");
       alert("passwords dont match");
     }
   }else{
-    await sendRequest("user/Login","GET",{
+    let data = await sendRequest("user/Login","GET",{
     email:email,
     password:password
-   })
+   });
+  //  let json = await data.json();
+   console.log(data);
   }
  }
 const handleChangeTypeToUser = () => {
