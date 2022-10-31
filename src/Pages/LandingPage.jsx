@@ -40,24 +40,37 @@ mover.current.classList.remove("translate-x-[0%]");
     
   }
 
- const handleSubmit = (e) =>{
+ const handleSubmit = async (e) =>{
    e.preventDefault();
-   console.log("a")
-   sendRequest("createAccount","POST",{
-    email:email,
-    password:password,
-    username:username,
-    myCompany:""
-   })
+   console.log(isSignUp);
    if(isSignUp){
      if(password === confirmPassword){
-      //  alert("succeed");
+      console.log("front end req sent");
+       await sendRequest("user/createAccount","POST",{
+    email,
+    password,
+    username,
+    mycompany:userType=="user" ? "" : username,  
+    // businessLogo,
+    // city,
+    // state,
+    // type,
+    // range,
+    // description,
+    // agreement1,
+    // agreement2,
+    // agreement3
+   })
       }else{
-      // alert("passwords dont match");
+      alert("passwords dont match");
     }
-    // if(userType == "business"){
-    //   // section.current.classList.add("-translate-x-[70%]");
-    // }
+  }else{
+    let data = await sendRequest("user/Login","GET",{
+    email:email,
+    password:password
+   });
+  //  let json = await data.json();
+   console.log(data);
   }
  }
 const handleChangeTypeToUser = () => {
