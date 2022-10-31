@@ -10,16 +10,25 @@ app.use(cors());
 app.get("/",(req,res)=>{
     return res.status(200).send("loaded")})
 
-
-
-app.post('/createAccount',async (req,res)=>{
+app.post('/user/createAccount',async (req,res)=>{
     const userData=buildUserData(req)
     await res.json(await createUser(userData))
 })
-app.post("/Login",async (req,res)=>{
+app.get("/user/Login",async (req,res)=>{
     const userData=buildUserData(req)
     await res.json(await login(userData))
 })
+
+app.get("/user")
+
+
+
+
+
+
+
+
+
 
 
 app.listen(process.env.PORT,()=>{
