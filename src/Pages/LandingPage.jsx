@@ -1,6 +1,7 @@
 import React, {useState, useRef} from 'react'
 import {FaFacebookF, FaTwitter} from 'react-icons/fa';
 import {AiOutlineGoogle} from 'react-icons/ai';
+import {sendRequest} from '../Utils/requests';
 //https://coderthemes.com/ubold/layouts/default/index.html
 function LandingPage() {
   const indicator = useRef(null);
@@ -41,6 +42,13 @@ mover.current.classList.remove("translate-x-[0%]");
 
  const handleSubmit = (e) =>{
    e.preventDefault();
+   console.log("a")
+   sendRequest("createAccount","POST",{
+    email:email,
+    password:password,
+    username:username,
+    myCompany:""
+   })
    if(isSignUp){
      if(password === confirmPassword){
       //  alert("succeed");
