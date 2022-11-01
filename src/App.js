@@ -4,44 +4,30 @@ import {
   BrowserRouter as Router,
   Routes as Switch,
   Route,
-<<<<<<< HEAD
-  Link
-} from "react-router-dom";
-import { FaRegHeart } from 'react-icons/fa';
-import DataOverview from './Components/DataOverview';
-=======
   Link,
 } from 'react-router-dom';
 import { FaRegHeart } from 'react-icons/fa';
-import DataOverview from './components/DataOverview';
->>>>>>> 9f1d7eff7c185523dcd2c58ff6e298f956c88239
+import DataOverview from './Components/DataOverview';
 import LandingPage from './Pages/LandingPage';
-import TotalRevenue from './components/TotalRevenue';
+import TotalRevenue from './Components/TotalRevenue';
+import SalesAnalytics from './Components/SalesAnalytics';
 
 const App = (props) => {
   return (
     <div className='App'>
       <Router>
-<<<<<<< HEAD
-        <ul class="flex">
-          <li class="mr-6">
-            <Link to="/login">Log In/Sign Up</Link>
-          </li>
-          <li class="mr-6">
-            <Link to='/home'>Home</Link>
-          </li>
-          <li class="mr-6">
-=======
-        <ul class='flex'>
-          <li class='mr-6'>
+        <ul className='flex'>
+          <li className='mr-6'>
             <Link to='/login'>Log In/Sign Up</Link>
           </li>
-          <li class='mr-6'>
+          <li className='mr-6'>
             <Link to='/home'>Home</Link>
           </li>
-          <li class='mr-6'>
->>>>>>> 9f1d7eff7c185523dcd2c58ff6e298f956c88239
+          <li className='mr-6'>
             <Link to='/test'>test</Link>
+          </li>
+          <li className='mr-6'>
+            <Link to='/test2'>test2</Link>
           </li>
         </ul>
         <Switch>
@@ -83,6 +69,7 @@ const App = (props) => {
               </div>
             }
           />
+          <Route path='/test2' element={<SalesAnalytics />} />
         </Switch>
       </Router>
       {/* <div className='flex gap-8'>

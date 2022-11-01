@@ -5,11 +5,15 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  ProductType: {
+  ProductCategorie: {
     type: String,
     required: true,
   },
   ProductDescription: {
+    type: String,
+    required: true,
+  },
+  productStatus: {
     type: String,
     required: true,
   },
@@ -37,6 +41,10 @@ const ProductSchema = new mongoose.Schema({
   },
   ProductPrice: {
     type: Number,
+    required: true,
+  },
+  dateCreated: {
+    type: String,
     required: true,
   },
 });

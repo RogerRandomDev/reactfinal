@@ -40,9 +40,6 @@ router.post("/signup", (req, res, next) => {
     })
    
   });
-<<<<<<< HEAD
-module.exports = router
-=======
 
 
   router.post("/login", (req, res, next) => {
@@ -179,4 +176,3 @@ router.get("/logout", (req, res) => {
 });
 
 module.exports = router; */
->>>>>>> accounts
