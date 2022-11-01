@@ -11,6 +11,8 @@ import DataOverview from './Components/DataOverview';
 import LandingPage from './Pages/LandingPage';
 import TotalRevenue from './Components/TotalRevenue';
 import SalesAnalytics from './Components/SalesAnalytics';
+import Table from './Components/Table';
+import ProductDetail from './Pages/ProductDetail';
 
 const App = (props) => {
   return (
@@ -28,6 +30,12 @@ const App = (props) => {
           </li>
           <li className='mr-6'>
             <Link to='/test2'>test2</Link>
+          </li>
+          <li className='mr-6'>
+            <Link to='/test3'>Table</Link>
+          </li>
+          <li className='mr-6'>
+            <Link to='/productDetail'>Product Details</Link>
           </li>
         </ul>
         <Switch>
@@ -70,6 +78,60 @@ const App = (props) => {
             }
           />
           <Route path='/test2' element={<SalesAnalytics />} />
+
+          <Route
+            path='/test3'
+            element={
+              <Table
+                th={['Profile', 'Date', 'Items', 'Amount']}
+                data={[
+                  {
+                    profile: 'Tomaslau',
+                    date: new Date().toDateString(),
+                    items: ['Nike Shoes', 'Adidas Pants'],
+                    amount: '$134.99',
+                  },
+                  {
+                    profile: 'Tomaslau',
+                    date: new Date().toDateString(),
+                    items: ['Nike Shoes', 'Adidas Pants'],
+                    amount: '$134.99',
+                  },
+                  {
+                    profile: 'Tomaslau',
+                    date: new Date().toDateString(),
+                    items: ['Nike Shoes', 'Adidas Pants'],
+                    amount: '$134.99',
+                  },
+                  {
+                    profile: 'Tomaslau',
+                    date: new Date().toDateString(),
+                    items: ['Nike Shoes', 'Adidas Pants'],
+                    amount: '$134.99',
+                  },
+                  {
+                    profile: 'Tomaslau',
+                    date: new Date().toDateString(),
+                    items: ['Nike Shoes', 'Adidas Pants'],
+                    amount: '$134.99',
+                  },
+                ]}
+              />
+            }
+          />
+          <Route
+            path='/productDetail'
+            element={
+              <ProductDetail
+                alternateImages={[
+                  'https://picsum.photos/500/800?random=1',
+                  'https://picsum.photos/500/800?random=2',
+                  'https://picsum.photos/500/800?random=3',
+                  'https://picsum.photos/500/800?random=4',
+                ]}
+              />
+            }
+          />
         </Switch>
       </Router>
       {/* <div className='flex gap-8'>
