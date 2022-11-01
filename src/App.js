@@ -9,6 +9,7 @@ import {
 import { FaRegHeart } from 'react-icons/fa';
 import DataOverview from './Components/DataOverview';
 import LandingPage from './Pages/LandingPage';
+import AboutPage from "./Pages/AboutPage"
 import TotalRevenue from './Components/TotalRevenue';
 import SalesAnalytics from './Components/SalesAnalytics';
 
@@ -24,6 +25,9 @@ const App = (props) => {
             <Link to='/home'>Home</Link>
           </li>
           <li className='mr-6'>
+            <Link to='/about'>About</Link>
+          </li>
+          <li className='mr-6'>
             <Link to='/test'>test</Link>
           </li>
           <li className='mr-6'>
@@ -34,6 +38,7 @@ const App = (props) => {
           <Route path='/' element={<TotalRevenue />} />
           <Route path='/home' element={<TotalRevenue />} />
           <Route path='/login' element={<LandingPage />} />
+          <Route path='/about' element={<AboutPage />} />
           <Route
             path='/test'
             element={
