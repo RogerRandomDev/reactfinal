@@ -134,10 +134,10 @@ checkboxes for business reqs (products? amount of users?)
           <div className="general-information">
           <h2 className='text-3xl font-semibold mb-8'>General Information</h2>
           <div className="grid gap-8" style={{gridTemplateColumns:"1fr 1fr auto 1fr 1fr"}}>
-            <div className='col-start-1 col-end-3'><label for="city" className='mb-4 block'>City</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="city" id="city"  value={city}  onChange={(e)=>setCity(e.target.value)}/></div>
-            <div className='col-start-4 col-end-6'><label for="state" className='mb-4 block'>State</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="state" id="state"  value={state} onChange={(e)=>setState(e.target.value)}/></div>
-            <div className='col-start-1 col-end-3'><label for="type" className='mb-4 block'>Type</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="type" id="type"  value={type} onChange={(e)=>setType(e.target.value)}/></div>
-            <div className='col-start-4 col-end-6'><label for="range" className='mb-4 block'>Range</label><select className='py-2  px-4 rounded w-9/12 text-neutral-900' name="range" id="range" value={range} onChange={(e)=>setRange(e.target.value)}>
+            <div className='col-start-1 col-end-3'><label htmlFor="city" className='mb-4 block'>City</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="city" id="city"  value={city}  onChange={(e)=>setCity(e.target.value)}/></div>
+            <div className='col-start-4 col-end-6'><label htmlFor="state" className='mb-4 block'>State</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="state" id="state"  value={state} onChange={(e)=>setState(e.target.value)}/></div>
+            <div className='col-start-1 col-end-3'><label htmlFor="type" className='mb-4 block'>Type</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="type" id="type"  value={type} onChange={(e)=>setType(e.target.value)}/></div>
+            <div className='col-start-4 col-end-6'><label htmlFor="range" className='mb-4 block'>Range</label><select className='py-2  px-4 rounded w-9/12 text-neutral-900' name="range" id="range" value={range} onChange={(e)=>setRange(e.target.value)}>
   <option value="local">Local</option>
   <option value="regional">Regional</option>
   <option value="national">National</option>
@@ -155,15 +155,15 @@ checkboxes for business reqs (products? amount of users?)
           <div className="flex flex-col justify-center gap-4">
             <div className="flex gap-4">
           <input type="checkbox" id="agreement1" name="agreement1" value={agreement1} onChange={(e)=>setAgreement1(e.target.value)}/>
-<label for="agreement1">Business has atleast 10 unique products</label>
+<label htmlFor="agreement1">Business has atleast 10 unique products</label>
 </div>
 <div className="flex gap-4">
 <input type="checkbox" id="agreement2" name="agreement2" value={agreement2} onChange={(e)=>setAgreement2(e.target.value)}/>
-<label for="agreement2">Business has a stable supply of products</label>
+<label htmlFor="agreement2">Business has a stable supply of products</label>
 </div>
 <div className="flex gap-4">
 <input type="checkbox" id="agreement3" name="agreement3" value={agreement3} onChange={(e)=>setAgreement3(e.target.value)}/>
-<label for="agreement3">Business has their own website</label>
+<label htmlFor="agreement3">Business has their own website</label>
 </div>
 </div>
 </div>

@@ -7,26 +7,26 @@ import {
   Link,
 } from 'react-router-dom';
 import { FaRegHeart } from 'react-icons/fa';
-import DataOverview from './components/DataOverview';
+import DataOverview from './Components/DataOverview';
 import LandingPage from './Pages/LandingPage';
-import TotalRevenue from './components/TotalRevenue';
-import SalesAnalytics from './components/SalesAnalytics';
+import TotalRevenue from './Components/TotalRevenue';
+import SalesAnalytics from './Components/SalesAnalytics';
 
 const App = (props) => {
   return (
     <div className='App'>
       <Router>
-        <ul class='flex'>
-          <li class='mr-6'>
+        <ul className='flex'>
+          <li className='mr-6'>
             <Link to='/login'>Log In/Sign Up</Link>
           </li>
-          <li class='mr-6'>
+          <li className='mr-6'>
             <Link to='/home'>Home</Link>
           </li>
-          <li class='mr-6'>
+          <li className='mr-6'>
             <Link to='/test'>test</Link>
           </li>
-          <li class='mr-6'>
+          <li className='mr-6'>
             <Link to='/test2'>test2</Link>
           </li>
         </ul>
