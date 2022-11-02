@@ -20,6 +20,7 @@
     "express-session": "^1.17.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.0",
+    "nodemon": "^2.0.20",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "react": "^18.2.0",
@@ -34,7 +35,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "backend": "node backend/server.js",
+    "backend": "nodemon backend/server.js",
     "frontend": "react-scripts start",
     "start": "npm-run-all --parallel backend frontend",
     "build": "react-scripts build",
