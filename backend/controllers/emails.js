@@ -14,9 +14,7 @@ var mailOptions = {
   from: 'rgrang816@west-mec.org',
   to: target,
   subject: subject,
-  html:`<div style="color:green;">
-    ${contents}
-  </div>`
+  html:contents
     
 };
 transporter.sendMail(mailOptions, function(error, info){
@@ -29,5 +27,4 @@ transporter.sendMail(mailOptions, function(error, info){
 }
 
 
-sendEmail("rgrang816@west-mec.org","hehe","hehehehehehehehehehehehehe")
 module.exports={sendEmail}
