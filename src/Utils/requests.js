@@ -1,4 +1,5 @@
 const url = 'http://localhost:5000/';
+const local=require("../hooks/useLocalStorageAuth")
 
 const buildHeader = (request, content) => {
   Object.keys(content).forEach((key) =>
@@ -19,3 +20,9 @@ export const sendRequest = async (path, type, contents) => {
     xml.send('');
   })
 };
+
+export const updateToken = async() => {
+  const token=local.getLocal("token")
+  const newToken=await sendRequest("token","GET",{token})
+  local.storeLocal("token",newToken.token)
+}
