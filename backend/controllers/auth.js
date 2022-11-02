@@ -32,6 +32,8 @@ const login = async (userData) => {
 //checks if it should change the token or not yet
 const updateToken=async (oldToken)=>{
   if(isTokenExpired(oldToken)){
+    
+    if(oldToken==null||oldToken.length<16){return {success:false,msg:"no token was found"}}
     if((JSON.parse(decodeToken(oldToken)).exp+300)*1000>=Date.now()) return {success:false,msg:"token expired"}
     return await reloadToken(oldToken)
   }
@@ -47,6 +49,7 @@ const reloadToken=async (oldToken)=>{
 //checks if token is expired
 const isTokenExpired=(token)=>{
   const jsonPayload=decodeToken(token)
+  if(jsonPayload==null){return true}
   const { exp } = JSON.parse(jsonPayload);
   const expired = Date.now() >= exp * 1000
   return expired
@@ -54,6 +57,8 @@ const isTokenExpired=(token)=>{
 
 //decodes the token
 const decodeToken=(token)=>{
+  if(token==undefined||token.length<16){return null}
+  
   const base64Url = token.split(".")[1];
   const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
   return decodeURIComponent(

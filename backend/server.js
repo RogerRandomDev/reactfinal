@@ -24,7 +24,6 @@ app.get('/user/Login', async (req, res) => {
 app.get("/token",async (req,res)=>{
   const userToken=req.get("token")
   var updatedToken=await updateToken(userToken);
-  console.log(updatedToken)
   res.status(200).send(updatedToken);
 })
 

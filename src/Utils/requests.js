@@ -22,7 +22,8 @@ export const sendRequest = async (path, type, contents) => {
 };
 
 export const updateToken = async() => {
-  const token=local.getLocal("token")
+  console.log("checking token validity")
+  var token=local.getLocal("token")
   const newToken=await sendRequest("token","GET",{token})
-  local.storeLocal("token",newToken.token)
+  local.storeLocal("token",JSON.parse(newToken).token)
 }

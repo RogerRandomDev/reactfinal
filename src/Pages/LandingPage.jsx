@@ -70,8 +70,7 @@ mover.current.classList.remove("translate-x-[0%]");
     email:email,
     password:password
    });
-   console.log(JSON.parse(data));
-   await storeLocal("token", data.token);
+   await storeLocal("token", JSON.parse(data).token);
   }
  }
 const handleChangeTypeToUser = () => {
