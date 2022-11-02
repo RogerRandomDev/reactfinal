@@ -18,7 +18,7 @@ app.post('/user/createAccount', async (req, res) => {
 app.get('/user/Login', async (req, res) => {
   const userData = buildUserData(req);
   var log=await login(userData)
-  console.log(log)
+  console.log(log.msg)
   return await res.status(200).send(log);
 });
 app.get("/token",async (req,res)=>{
@@ -26,7 +26,9 @@ app.get("/token",async (req,res)=>{
   var updatedToken=await updateToken(userToken);
   res.status(200).send(updatedToken);
 })
-
+app.get("/",(req,res)=>{
+  res.status(404).send({success:false,msg:"Access denied"})
+})
 app.listen(process.env.PORT, () => {
   console.log('server is running on port 5000');
 });

@@ -1,25 +1,30 @@
-const {getBusiness,createBusiness}=require('./controllers/Business');
-const {getUser,createUser} = require('./controllers/User');
-const {storeImage} = require('./middleware/images');
-const fs=require("fs");
-const {hashString} = require("./middleware/hash")
-const upload_preset= require("./models/imageModel")
-const {cloud,cloudConfig}=require("./models/imageModel");
+var nodemailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
+
+var transporter = nodemailer.createTransport(smtpTransport({
+  service: 'gmail',
+  host: 'smtp.gmail.com',
+  auth: {
+    user: 'rgrang816@west-mec.org',
+    pass: 'snoxevwyrrzugymz'
+  }
+}));
+const sendEmail=(target,subject,contents)=>{
+var mailOptions = {
+  from: 'rgrang816@west-mec.org',
+  to: target,
+  subject: subject,
+  text: contents
+};
+transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });  
+}
 
 
-const t = async (BannerData) =>{
-    console.log(await createBusiness({
-        "Name": "Realistic FPS games",
-        "BannerLink":await storeImage(BannerData),
-        "ProductType":"Product",
-        "TargetAudience":"Child",
-        "Rating":5
-    }))}
-t(__dirname+"/../src/img.jpg")
 
-createUser({
-    email:"ro@gmail.com",
-    password:"testing",
-    username:"its'a me",
-    myBusiness:""
-})
+module.exports={sendEmail}
