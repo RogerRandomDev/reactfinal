@@ -2,7 +2,7 @@ function AboutUs() {
     return (
         <>
             <div>
-                <h1 className="text-4xl mx-auto mb-5 text-center"><b>About Us</b></h1>
+                <h1 className="text-5xl mx-auto mb-5 mt-6 text-center"><b>About Us</b></h1>
                 <img src="https://picsum.photos/501/300" alt="the team" className="mx-auto mb-3"></img>
                 <p className="mb-5 mx-auto text-center w-4/12">We are a group of 4 people who moderately dislike big chungus. We also like e-commerce apps for free money.</p>
             </div>

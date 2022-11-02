@@ -14,7 +14,8 @@ import TotalRevenue from './Components/TotalRevenue';
 import SalesAnalytics from './Components/SalesAnalytics';
 import Table from './Components/Table';
 import ProductDetail from './Pages/ProductDetail';
-import AddEditProduct from './Pages/AddEditProduct';
+import TermsofService from './Pages/TermsofService';
+import PrivacyPolicy from './Pages/PrivacyPolicy';
 
 const App = (props) => {
   return (
@@ -51,6 +52,8 @@ const App = (props) => {
           <Route path='/home' element={<TotalRevenue />} />
           <Route path='/login' element={<LandingPage />} />
           <Route path='/about' element={<AboutPage />} />
+          <Route path='/about/terms' element={<TermsofService />} />
+          <Route path='/about/privacy' element={<PrivacyPolicy />} />
           <Route
             path='/test'
             element={
