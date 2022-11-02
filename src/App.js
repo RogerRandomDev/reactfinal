@@ -9,11 +9,12 @@ import {
 import { FaRegHeart } from 'react-icons/fa';
 import DataOverview from './Components/DataOverview';
 import LandingPage from './Pages/LandingPage';
-import AboutPage from "./Pages/AboutPage"
+import AboutPage from './Pages/AboutPage';
 import TotalRevenue from './Components/TotalRevenue';
 import SalesAnalytics from './Components/SalesAnalytics';
 import Table from './Components/Table';
 import ProductDetail from './Pages/ProductDetail';
+import AddEditProduct from './Pages/AddEditProduct';
 
 const App = (props) => {
   return (
@@ -40,6 +41,9 @@ const App = (props) => {
           </li>
           <li className='mr-6'>
             <Link to='/productDetail'>Product Details</Link>
+          </li>
+          <li className='mr-6'>
+            <Link to='/addEdit'>Add / Edit</Link>
           </li>
         </ul>
         <Switch>
@@ -137,6 +141,7 @@ const App = (props) => {
               />
             }
           />
+          <Route path='/addEdit' element={<AddEditProduct />} />
         </Switch>
       </Router>
       {/* <div className='flex gap-8'>
