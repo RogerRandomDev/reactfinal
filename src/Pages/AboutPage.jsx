@@ -1,10 +1,11 @@
 import AboutUs from "../Components/AboutPageAboutUs"
-import CompanyHistory from "../Components/AboutPageCompanyHistory"
+import TermsAndServices from "../Components/AboutPageTermsAndPrivacy"
 function AboutPage() {
     return (
         <>
             <AboutUs />
-            <CompanyHistory />
+            {/* <CompanyHistory /> */}
+            <TermsAndServices />
         </>
     )
 }
