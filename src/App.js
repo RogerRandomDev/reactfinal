@@ -144,7 +144,7 @@ const App = (props) => {
               />
             }
           />
-          <Route path='/addEdit' element={<AddEditProduct />} />
+          {/*<Route path='/addEdit' element={<AddEditProduct />} />*/}
         </Switch>
       </Router>
       {/* <div className='flex gap-8'>
