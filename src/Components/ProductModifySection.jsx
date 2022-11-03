@@ -1,7 +1,16 @@
+import { useState } from 'react';
+import { useRef } from 'react';
 import { BsCloudUpload } from 'react-icons/bs'
+import FileDisplay from './FileDisplay';
 function ProductModifySection({header, data}) {
-    const handleFileSubmit = () =>{
-
+    const uploadedFiles = useRef(null);
+    const [imageFiles, setImageFiles] = useState([]);
+    const handleFileSubmit = (fileInput) =>{
+        setImageFiles(fileInput);
+        // const files = fileInput.files;
+        // files.forEach(file=>{
+        //     reader.readAsDataURL(file);
+        // })
     }
   return (
     <div className="bg-white rounded p-8 ">
@@ -38,7 +47,11 @@ function ProductModifySection({header, data}) {
                     <BsCloudUpload className='text-slate-400 text-4xl'/>
                     <p className='text-2xl text-neutral-800'>Click Here to Add Files</p>   
                     </label>
-                    <input className='hidden' type="file" name="file" id="product-file" multiple onChange={()=>handleFileSubmit()}/>
+                    <input className='hidden' type="file" accept="image/*" name="file" id="product-file" multiple onChange={(e)=>handleFileSubmit(e.currentTarget)}/>
+                    <div className="uploadedFiles" ref={uploadedFiles}></div>
+                    {imageFiles.map(image=>{
+                        <FileDisplay image={image}/>
+                    })}
                 </div>
             }else{
                 return <div className=""></div>
