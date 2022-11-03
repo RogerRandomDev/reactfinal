@@ -31,13 +31,8 @@ const login = async (userData) => {
 
 //checks if it should change the token or not yet
 const updateToken=async (oldToken)=>{
-  if(isTokenExpired(oldToken)){
-    
-    if(oldToken==null||oldToken.length<16){return {success:false,msg:"no token was found"}}
-    if((JSON.parse(decodeToken(oldToken)).exp+300)*1000>=Date.now()) return {success:false,msg:"token expired"}
-    return await reloadToken(oldToken)
-  }
-  return {success:true,token:oldToken,msg:"token still valid"}
+  if(isTokenExpired(oldToken)) return {success:false,msg:"token expired"};
+  return await reloadToken(oldToken)
 }
 
 //reloads user token if the user has not logged out
