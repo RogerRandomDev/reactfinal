@@ -1,16 +1,39 @@
 import { useState } from 'react';
 import { useRef } from 'react';
-import { BsCloudUpload } from 'react-icons/bs'
+import { AiOutlineDelete } from 'react-icons/ai';
+import { BsCloudUpload } from 'react-icons/bs';
 import FileDisplay from './FileDisplay';
+
 function ProductModifySection({header, data}) {
     const uploadedFiles = useRef(null);
+    const pro = useRef(null);
     const [imageFiles, setImageFiles] = useState([]);
+    const [test,setTest] = useState(false);
+    const [pros, setPros] = useState([]);
+    const removePro = (key) =>{
+        let currentPros = pros;
+        currentPros = currentPros.filter(p=>p.id != key);
+        setPros(currentPros);
+    }
+    const handleAddPro = (e) => {
+        e.preventDefault();
+        setPros([...pros, {val:pro.current.value, id:e.timeStamp}]);
+        pro.current.value = "";
+    }
     const handleFileSubmit = (fileInput) =>{
-        setImageFiles(fileInput);
-        // const files = fileInput.files;
-        // files.forEach(file=>{
-        //     reader.readAsDataURL(file);
-        // })
+        const files = fileInput.files;
+        const data = (imageFiles.length > 0 ? imageFiles : []);
+        for(let i =0; i < files.length; i++){
+            let reader = new FileReader();
+            reader.readAsDataURL(files[i]);
+            reader.addEventListener("load", () => {
+                data.push([files[i].name, files[i].size, reader.result]);
+                setImageFiles(()=>data);
+  }, {once:true});
+        }
+        setTimeout(() => {
+            setTest(!test);
+        }, 100);
     }
   return (
     <div className="bg-white rounded p-8 ">
@@ -50,8 +73,20 @@ function ProductModifySection({header, data}) {
                     <input className='hidden' type="file" accept="image/*" name="file" id="product-file" multiple onChange={(e)=>handleFileSubmit(e.currentTarget)}/>
                     <div className="uploadedFiles" ref={uploadedFiles}></div>
                     {imageFiles.map(image=>{
-                        <FileDisplay image={image}/>
+                      return <FileDisplay name={image[0]} size={image[1]} image={image[2]}/>
                     })}
+                </div>
+            }else if(type == "customAdd"){
+                return <div>
+                    <form onSubmit={(e)=>handleAddPro(e)} className="flex items-center gap-4">
+                    <input ref={pro} type="text" placeholder='e.g. High Quality' className='border-2 rounded p-4 text-sm'/>
+                    <button type="submit" className='btn-primary w-20 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold text-lg'>Add</button>
+                </form>
+                <div className="flex flex-wrap mt-4 gap-2">
+                {pros.map(({val, id})=>{
+                    return <p data-id={id} key={id} className='rounded px-4 py-2 bg-blue-500 text-neutral-100 font-semibold text-base w-max flex justify-between gap-8 items-center'><span>{val}</span><span><AiOutlineDelete onClick={(e)=>removePro(e.currentTarget.parentElement.parentElement.getAttribute("data-id"))} className="text-neutral-100 font-extrabold text-xl hover:text-red-400 transition cursor-pointer"/></span></p>
+                })}
+                </div>
                 </div>
             }else{
                 return <div className=""></div>
