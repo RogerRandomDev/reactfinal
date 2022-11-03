@@ -7,7 +7,10 @@ var confirmationTokens=[]
 const sendConfirmationEmail =async(userData)=> {
   var confirmationToken= await jsonwebtoken.sign(userData, JWT_SECRET,{expiresIn: '30m'})
   confirmationTokens.push(confirmationToken)
-  sendEmail(userData.email,"Account Confirmation",`<a class="btn btn-success" href="http://localhost:5000/user/confirmAccount/?token=${String(confirmationToken)}" target="_blank">Google</a>`)
+  sendEmail(userData.email,"Account Confirmation",`
+  <a class="btn btn-success" href="http://localhost:5000/user/confirmAccount/?token=${String(confirmationToken)}" target="_blank">
+  Confirm Account
+  </a>`)
 }
 const recieveConfirmationToken = async(req,res)=>{
     var {token}=req.query
