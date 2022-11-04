@@ -16,7 +16,7 @@ import Table from './Components/Table';
 import ProductDetail from './Pages/ProductDetail';
 import TermsofService from './Pages/TermsofService';
 import PrivacyPolicy from './Pages/PrivacyPolicy';
-import AddEditProduct from './Pages/AddEditProduct';
+import AddEditProduct from "./Pages/AddEditProduct"
 
 const App = (props) => {
   return (
