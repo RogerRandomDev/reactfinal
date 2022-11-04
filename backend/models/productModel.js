@@ -47,6 +47,10 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  creatorID:{
+    type:Number,
+    required:true
+  }
 });
 
 module.exports = mongoose.model("Products", ProductSchema);

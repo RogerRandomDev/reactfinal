@@ -3,7 +3,7 @@ const jsonwebtoken=require("jsonwebtoken");
 const {connectDB} = require("../db/connect");
 const {hashString,compareHash} = require("../middleware/hash")
 const {getUser} = require("./User");
-const JWT_SECRET = "ASEDsano17sdskan216754dio_peuba64ifuwiqaso832jdehifncmaofi522351'112Hda"
+
 
 
 
@@ -14,7 +14,7 @@ const login = async (userData) => {
     console.log(`${email} is trying to login ..`);
     var checkUser=await getUser(email);
     if(checkUser!=null&&compareHash(password,checkUser.password)) {
-        var tokenData=jsonwebtoken.sign({user:checkUser.email}, JWT_SECRET,{expiresIn: '20m'})
+        var tokenData=jsonwebtoken.sign({user:checkUser.email}, process.env.JWT_SECRET,{expiresIn: '20m'})
         tokens.push(tokenData)
         return {success:true,token:tokenData,msg:"Login Token Generated"}
     }
@@ -39,7 +39,7 @@ const updateToken=async (oldToken)=>{
 const reloadToken=async (oldToken)=>{
   tokens=tokens.filter((myToken)=>myToken.token!=oldToken)
   const decoded=JSON.parse(decodeToken(oldToken))
-  var tokenData=jsonwebtoken.sign({user:decoded.email}, JWT_SECRET,{expiresIn: '20m'})
+  var tokenData=jsonwebtoken.sign({user:decoded.email}, process.env.JWT_SECRET,{expiresIn: '20m'})
   return tokenData
 }
 //checks if token is expired
@@ -66,6 +66,7 @@ const decodeToken=(token)=>{
       .join("")
   );
 }
+//checks if token is valid
+const checkToken=(token)=>{return tokens.includes(token)}
 
-
-  module.exports = {login,logout,reloadToken,updateToken}
+  module.exports = {login,logout,reloadToken,updateToken,decodeToken,checkToken}

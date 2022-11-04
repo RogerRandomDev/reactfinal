@@ -9,6 +9,8 @@ const router = express.Router();
 
 
 router.use((req,res,next)=>{
+  const token=req.headers.get("token")
+  if(token==null||!findToken(token)){return res.status(202).send({success:false,msg:"Invalid Login Token"})}
   next();
 })
 
@@ -43,6 +45,7 @@ router.post("/logout",async (req,res)=>{
 router.get("/show",async (req,res)=>{
   const email=req.header.get("email");
   const userData=await getUser(email);
+  userData.password=null
   res.status(200).post(userData)
 })
 

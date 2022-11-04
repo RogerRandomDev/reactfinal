@@ -1,5 +1,7 @@
 const { connectDB } = require('../db/connect');
+const {decodeToken,checkToken} = require("./auth");
 const ProductModel = require('../models/productModel');
+const userModel = require('../models/userModel');
 require('dotenv').config();
 
 //returns the business database content
@@ -15,16 +17,19 @@ const getProduct = async (productId) => {
   return output;
 };
 
-const updateProduct = async (productId) => {
-  var output=null;
+const updateProduct = async (productID,productData,senderToken) => {
+  var output={success:false,msg:"default output"};
+  if(!checkToken(senderToken)){return {success:false,msg:"invalid sender token"}}
+  const senderData=decodeToken(senderToken)
   try {
     await connectDB(process.env.MONGO_URI);
-    (output=await ProductModel.findByIdAndUpdate(productId));
+    const creator=await userModel.findOne({email:senderData.email})
+    (output=await ProductModel.updateOne({_id:productID,creatorID:creator._id},productData));
     console.log(output);
   } catch (err) {
     console.log(err);
   }
-  return output;
+  return {success:true,output,msg:"updated product data"};
 };
 const deleteProduct = async (productId) => {
   var output=null;
