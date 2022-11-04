@@ -28,7 +28,8 @@ app.get("/token",async (req,res)=>{
 app.get("/user/confirmAccount",async (req,res)=>{
   console.log("account authenticated")
   var userData=await recieveConfirmationToken(req,res)
-  await createUser(userData)
+  if(!userData.success) return res.send("Authentication Failed")
+  await createUser(userData.decoded)
   res.send("Account Authenticated")
 })
 app.get("/",(req,res)=>{
