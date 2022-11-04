@@ -6,6 +6,9 @@ module.exports = {
       transitionProperty: {
         right: 'right',
       },
+      screens: {
+        '3xl': '1800px',
+      },
     },
   },
   plugins: [],

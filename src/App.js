@@ -17,35 +17,39 @@ import ProductDetail from './Pages/ProductDetail';
 import TermsofService from './Pages/TermsofService';
 import PrivacyPolicy from './Pages/PrivacyPolicy';
 import AddEditProduct from './Pages/AddEditProduct';
+import Customers from './Pages/Customers';
 
 const App = (props) => {
   return (
     <div className='App'>
       <Router>
-        <ul className='flex'>
-          <li className='mr-6'>
+        <ul className='flex gap-6'>
+          <li>
             <Link to='/login'>Log In/Sign Up</Link>
           </li>
-          <li className='mr-6'>
+          <li>
             <Link to='/home'>Home</Link>
           </li>
-          <li className='mr-6'>
+          <li>
             <Link to='/about'>About</Link>
           </li>
-          <li className='mr-6'>
+          <li>
             <Link to='/test'>test</Link>
           </li>
-          <li className='mr-6'>
+          <li>
             <Link to='/test2'>test2</Link>
           </li>
-          <li className='mr-6'>
+          <li>
             <Link to='/test3'>Table</Link>
           </li>
-          <li className='mr-6'>
+          <li>
             <Link to='/productDetail'>Product Details</Link>
           </li>
-          <li className='mr-6'>
+          <li>
             <Link to='/addEdit'>Add / Edit</Link>
+          </li>
+          <li>
+            <Link to='/customers'>Customers</Link>
           </li>
         </ul>
         <Switch>
@@ -96,6 +100,8 @@ const App = (props) => {
             path='/test3'
             element={
               <Table
+                title='Recent Purchases'
+                type='Small'
                 th={['Profile', 'Date', 'Items', 'Amount']}
                 data={[
                   {
@@ -146,6 +152,7 @@ const App = (props) => {
             }
           />
           <Route path='/addEdit' element={<AddEditProduct />} />
+          <Route path='/customers' element={<Customers />}></Route>
         </Switch>
       </Router>
       {/* <div className='flex gap-8'>

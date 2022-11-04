@@ -13,7 +13,7 @@ function ProductDetailInformation({company, title, reviewsCount, price, discount
             <p className="text-red-400 font-bold text-xs mb-1">{discount*100}% OFF</p>
             <p className="text-xl font-semibold">Price: <span className="text-slate-400 line-through mr-4">${price} USD</span><span className="text-neutral-900">${price*(1-discount)} USD</span></p>
         </div>
-        <Availability type={true}/>
+        <Availability type={true} labels={["Instock","Unavailable"]}/>
         <div className="text-slate-400 font-normal leading-7 max-w-2xl">{description}</div>
         <ProductDetailPros data={["Sed ut perspiciatis unde", "Nemo enim ipsam voluptatem", "Temporibus autem quibusdam et", "Itaque earum rerum hic", "Donec quam felis ultricies nec"]}/>
         <div className="flex items-center gap-8">

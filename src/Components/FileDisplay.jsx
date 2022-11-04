@@ -4,7 +4,7 @@ function FileDisplay({name, size, image}) {
   return (
     <div className="w-full rounded border p-2 flex justify-between items-center mt-4">
         <div className="flex gap-4 items-center">
-        <img src={image} alt="Preview" className="w-12 h-12 rounded-full border border-slate-400"/>
+        <img src={image} alt="Preview" className="object-cover w-12 h-12 rounded-full border border-slate-400"/>
             <div className="">
         <p>{name}</p>
         <p>{(size/1000000).toFixed(2)} MB</p>
