@@ -16,6 +16,7 @@ import Table from './Components/Table';
 import ProductDetail from './Pages/ProductDetail';
 import TermsofService from './Pages/TermsofService';
 import PrivacyPolicy from './Pages/PrivacyPolicy';
+import AddEditProduct from './Pages/AddEditProduct';
 
 const App = (props) => {
   return (
@@ -144,7 +145,7 @@ const App = (props) => {
               />
             }
           />
-          {/* <Route path='/addEdit' element={<AddEditProduct />} /> */}
+          {/*<Route path='/addEdit' element={<AddEditProduct />} />*/}
         </Switch>
       </Router>
       {/* <div className='flex gap-8'>
