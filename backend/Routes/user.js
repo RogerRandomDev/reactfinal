@@ -1,178 +1,49 @@
 const express = require('express')
-const User = require('../models/userModel')
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
+const { getUser, createUser, buildUserData } = require('../controllers/User');
+const { login, logout, updateToken} = require('../controllers/auth');
+const {sendConfirmationEmail,recieveConfirmationToken} = require("../middleware/accountConfirmation")
 
 const router = express.Router();
 
-router.post("/signup", (req, res, next) => {
-    bcrypt.hash(req.body.password, 10).then(hash => {
-      const user = new User({
-        email: req.body.email,
-        password: hash
-      });
-
-      User.findOne({email:req.body.email}).then(user1=>{
-        if(user1){
-          return res.status(401).json({
-            message: "User Already Exist"
-          })
-        }
-
-        user.save().then(result => {
-          if(!result){
-            return res.status(500).json({
-              message: "Error Creating USer"
-            })
-          }
-          res.status(201).json({
-            message: "User created!",
-            result: result
-          });
-      })
-        })   
-      .catch(err => {
-        res.status(500).json({
-          error: err
-        });
-      });;
-    })
-   
-  });
 
 
-  router.post("/login", (req, res, next) => {
-    let fetchedUser;
-  
-    User.findOne({email:req.body.email}).then(user=>{
-      if(!user){
-        return res.status(401).json({
-          message: "Auth failed no such user"
-        })
-      }
-      fetchedUser=user;
-      return bcrypt.compare(req.body.password, user.password);
-    }).then(result=>{
-      console.log(fetchedUser)
-      if(!result){
-        return res.status(401).json({
-          message: "Auth failed inccorect password"
-        })
-      }
-      const token = jwt.sign(
-        { email: fetchedUser.email, userId: fetchedUser._id },
-        "secret_this_should_be_longer",
-        { expiresIn: "1h" }
-      );
-      res.status(200).json({
-        token: token,
-        expiresIn: 3600,
-        userId: fetchedUser._id
-      });
-    })
-    .catch(e=>{
-     
-      console.log(e)
-    
-    })
-  })
-module.exports=router
+router.use((req,res,next)=>{
+  next();
+})
 
-/*
-TODO *!Use bottom code and make it work!*
-*/
 
-/*
-*Need Help making this work
-const express = require("express");
-const router = express.Router();
-const User=require("../models/user");
-const bcrypt=require("bcrypt");
-const passport=require("../config/passport")
 
-//login handler
-router.get("/login", (req, res) => {
-  res.render("login");
-});
-router.get("/register", (req, res) => {
-  res.render("Register");
+router.post('/createAccount', async (req, res) => {
+  const userData = buildUserData(req);
+  sendConfirmationEmail(userData)
+  return res.status(200).send({success:true,msg:"Sent confirmation email successfully"})
 });
 
-//Register Handle
-router.post("/register", (req, res) => {
-  const { name, email, password, password2 } = req.body;
-  let errors = [];
-  console.log(" Name " + name + " email :" + email + " pass:" + password);
-  if (!name || !email || !password || !password2) {
-    errors.push({ msg: "Please fill in all fields" });
-  }
-  //check if match
-  if (password !== password2) {
-    errors.push({ msg: "passwords dont match" });
-  }
-
-  //check if password is more than 6 characters
-  if (password.length < 6) {
-    errors.push({ msg: "password atleast 6 characters" });
-  }
-  if (errors.length > 0) {
-    res.render("register", {
-      errors: errors,
-      name: name,
-      email: email,
-      password: password,
-      password2: password2,
-    });
-  } else {
-    //validation passed
-    User.findOne({ email: email }).exec((err, user) => {
-      console.log(user);
-      if (user) {
-        errors.push({ msg: "email already registered" });
-        res.render(res, errors, name, email, password, password2);
-      } else {
-        const newUser = new User({
-          name: name,
-          email: email,
-          password: password,
-        });
-        //hash password
-        bcrypt.genSalt(10, (err, salt) =>
-          bcrypt.hash(newUser.password, salt, (err, hash) => {
-            if (err) throw err;
-            //save pass to hash
-            newUser.password = hash;
-            //save user
-            newUser
-              .save()
-              .then((value) => {
-                console.log(value);
-                req.flash("success_msg", "You have now registered!");
-                res.redirect("/users/login");
-              })
-              .catch((value) => console.log(value));
-          })
-        );
-      }
-    });
-  }
+router.get('/Login', async (req, res) => {
+  const userData = buildUserData(req);
+  var log=await login(userData)
+  console.log(log.msg)
+  return await res.status(200).send(log);
 });
 
-router.post("/login", (req, res) => {
-  passport.authenticate("local", {
-    successRedirect: "/dashboard",
-    failureRedirect: "/users/login",
-    failureFlash: true,
-  // eslint-disable-next-line no-undef
-  })(req, res, next);
-});
 
-//Logout
-router.get("/logout", (req, res) => {
-  req.logout();
-  req.flash("success_msg", "Now logged out");
-  res.redirect("/users/login");
-});
+router.get("/confirmAccount",async (req,res)=>{
+  console.log("account authenticated")
+  var userData=await recieveConfirmationToken(req,res)
+  if(!userData.success) return res.send("Authentication Failed")
+  await createUser(userData.decoded)
+  if(userData.decoded.businessData!=""){await createBusiness(userData.decoded.businessData)}
+  res.send("Account Authenticated")
+})
+router.post("/logout",async (req,res)=>{
+  await logout(req,res)
+  console.log("account logged out")
+})
+router.get("/show",async (req,res)=>{
+  const email=req.header.get("email");
+  const userData=await getUser(email);
+  res.status(200).post(userData)
+})
 
-module.exports = router; */
+module.exports = router

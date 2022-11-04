@@ -24,4 +24,6 @@ const checkEmail = async (email)=>{
 }
 
 
+
+
 module.exports = {blacklistEmail,whitelistEmail,checkEmail}

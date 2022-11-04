@@ -5,13 +5,21 @@ const BusinessSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  Location: {
+    type:Array,
+    required:true
+  },
   ProductType: {
     type: String,
     required: true,
   },
-  TargetAudience: {
+  Description: {
     type: String,
     required: true,
+  },
+  Range:{
+    type:String,
+    required:true
   },
   Rating: {
     type: Number,
@@ -21,7 +29,10 @@ const BusinessSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  
+  chosenAgreements:{
+    type:Array,
+    required:true
+  }
 });
 
 module.exports = mongoose.model('Business', BusinessSchema);

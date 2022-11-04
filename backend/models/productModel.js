@@ -5,7 +5,11 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  ProductCategorie: {
+  ProductImages: {
+    type: Array,
+    required: true
+  },
+  ProductCategories: {
     type: String,
     required: true,
   },
@@ -26,18 +30,14 @@ const ProductSchema = new mongoose.Schema({
     required: true,
   },
   Location: {
-    type: String,
+    type: String
   },
   Tags: {
-    type: Array,
+    type: Array
   },
   ProductAmount: {
     type: Number,
     default: 1,
-  },
-  ImageLinks: {
-    type: Array,
-    required: true,
   },
   ProductPrice: {
     type: Number,
@@ -49,4 +49,4 @@ const ProductSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Business", ProductSchema);
+module.exports = mongoose.model("Products", ProductSchema);
