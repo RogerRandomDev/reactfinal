@@ -1,10 +1,12 @@
 import React, {useState, useRef} from 'react'
+// import {useHistory} from 'react-router-dom';
 import {FaFacebookF, FaTwitter} from 'react-icons/fa';
 import {AiOutlineGoogle} from 'react-icons/ai';
 import {sendRequest} from '../Utils/requests';
 import { storeLocal, getLocal } from '../hooks/useLocalStorageAuth';
 //https://coderthemes.com/ubold/layouts/default/index.html
 function LandingPage() {
+  // let history = useHistory();
   const indicator = useRef(null);
   const userSelect = useRef(null);
   const businessSelect = useRef(null);
@@ -28,7 +30,7 @@ function LandingPage() {
   const [agreement1, setAgreement1] = useState(false);
   const [agreement2, setAgreement2] = useState(false);
   const [agreement3, setAgreement3] = useState(false);
-
+// memo, reducer, prop types needed
   const handleChangeSignUp = () =>{
     setIsSignUp(!isSignUp);
     if(!isSignUp && userType=="business"){
@@ -70,7 +72,10 @@ mover.current.classList.remove("translate-x-[0%]");
     email:email,
     password:password
    });
-   await storeLocal("token", JSON.parse(data).token);
+   data = JSON.parse(data);
+   if(data.success == false) return;
+   await storeLocal("token", data.token);
+  //  history.push("/home");
   }
  }
 const handleChangeTypeToUser = () => {
