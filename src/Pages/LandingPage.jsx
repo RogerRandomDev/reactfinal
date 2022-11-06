@@ -72,14 +72,10 @@ mover.current.classList.remove("translate-x-[0%]");
     email:email,
     password:password
    });
-<<<<<<< HEAD
    data = JSON.parse(data);
    if(data.success == false) return;
    await storeLocal("token", data.token);
   //  history.push("/home");
-=======
-   await storeLocal("token", JSON.parse(data).token);
->>>>>>> 056c677077aa76ab00833ad664d2d63d5d0fbdd9
   }
  }
 const handleChangeTypeToUser = () => {

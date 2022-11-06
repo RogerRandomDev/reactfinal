@@ -18,6 +18,7 @@ import TermsofService from './Pages/TermsofService';
 import PrivacyPolicy from './Pages/PrivacyPolicy';
 import AddEditProduct from './Pages/AddEditProduct';
 import Customers from './Pages/Customers';
+import Profile from './Pages/Profile';
 
 const App = (props) => {
   return (
@@ -50,6 +51,9 @@ const App = (props) => {
           </li>
           <li>
             <Link to='/customers'>Customers</Link>
+          </li>
+          <li>
+            <Link to='/profile'>Profile</Link>
           </li>
         </ul>
         <Switch>
@@ -153,6 +157,7 @@ const App = (props) => {
           />
           <Route path='/addEdit' element={<AddEditProduct />} />
           <Route path='/customers' element={<Customers />}></Route>
+          <Route path='/profile' element={<Profile />}></Route>
         </Switch>
       </Router>
       {/* <div className='flex gap-8'>

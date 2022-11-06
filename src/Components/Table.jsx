@@ -1,8 +1,9 @@
 import { useState } from "react";
 import TableRow from "./TableRow";
 
-function Table({title="", type, th,data}) {
+function Table({search=false, title="", type, th,data}) {
   const [allChecked, setAllChecked] = useState(false);
+  const [customerSearch, setCustomerSearch] = useState("");
   const unCheck = () => {
     // console.log("running");
     setAllChecked(false)
@@ -10,7 +11,9 @@ function Table({title="", type, th,data}) {
   return (
     <div className={`bg-neutral-100 p-4 ${type=="Full" ? "" : "w-max"} rounded`}>
         <h4 className="font-semibold text-2xl mb-4">{title}</h4>
-    
+        {search && <><label htmlFor="customers-search">Search:</label>
+        <input type="text" className="mb-8 ml-4 border border-slate-400 rounded px-4 py-1" id="customers-search" value={customerSearch} onChange={(e)=>setCustomerSearch(e.currentTarget.value)}/></>}
+        
     <table className={type=="Full" ? "w-full" : ""}>
          <tbody>
         <tr className="bg-slate-200">
@@ -22,7 +25,7 @@ function Table({title="", type, th,data}) {
             })}
         </tr>
         {data.map((dataSet, idx)=>{
-             return <TableRow dataSet={dataSet} idx={idx} isChecked={allChecked} unCheck={unCheck}/>
+             return <TableRow key={idx} dataSet={dataSet} idx={idx} isChecked={allChecked} unCheck={unCheck} searchValue={customerSearch}/>
         })}
         </tbody>
     </table>
