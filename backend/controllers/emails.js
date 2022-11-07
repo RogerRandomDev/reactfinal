@@ -1,6 +1,6 @@
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
-require("dotenv").config()
+require('dotenv').config()
 var transporter = nodemailer.createTransport(smtpTransport({
   service: 'gmail',
   host: 'smtp.gmail.com',
@@ -9,6 +9,7 @@ var transporter = nodemailer.createTransport(smtpTransport({
     pass: process.env.NODEMAILER_PASS
   }
 }));
+
 const sendEmail=(target,subject,contents)=>{
 var mailOptions = {
   from: 'rgrang816@west-mec.org',

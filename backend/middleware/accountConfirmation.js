@@ -15,6 +15,7 @@ const sendConfirmationEmail =async(userData)=> {
   confirmationTokens.push(confirmationToken)
   
   sendEmail(userData.email,"Account Confirmation",emailForm.replace("${AUTH_TOKEN}",String(confirmationToken)))
+  
   return {success:true,msg:"Sent account authentication email"}
 }
 const recieveConfirmationToken = async(req,res)=>{

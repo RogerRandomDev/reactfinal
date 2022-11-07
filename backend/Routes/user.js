@@ -9,8 +9,12 @@ const router = express.Router();
 
 
 router.use((req,res,next)=>{
-  const token=req.headers.get("token")
-  if(token==null||!findToken(token)){return res.status(202).send({success:false,msg:"Invalid Login Token"})}
+  const token=req.get("token")
+  
+  if(
+    !req.originalUrl.includes("createAccount")&&
+    (token==null||!findToken(token))
+  ){return res.status(202).send({success:false,msg:"Invalid Login Token"})}
   next();
 })
 
