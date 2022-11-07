@@ -49,7 +49,7 @@ mover.current.classList.remove("translate-x-[0%]");
    if(isSignUp){
      if(password === confirmPassword){
       console.log("front end req sent");
-       await sendRequest("user/createAccount","POST",{
+       let newUserData = await sendRequest("user/createAccount","POST",{
     email,
     password,
     username,
@@ -63,7 +63,8 @@ mover.current.classList.remove("translate-x-[0%]");
     // agreement1,
     // agreement2,
     // agreement3
-   })
+   });
+   console.log(newUserData);
       }else{
       alert("passwords dont match");
     }
@@ -74,6 +75,7 @@ mover.current.classList.remove("translate-x-[0%]");
    });
    data = JSON.parse(data);
    if(data.success == false) return;
+   console.log(data._id);
    await storeLocal("token", data.token);
   //  history.push("/home");
   }

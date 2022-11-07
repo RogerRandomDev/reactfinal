@@ -1,3 +1,5 @@
+import {useEffect} from 'react';
+
 import ProductCard from "../Components/ProductCard";
 import ProfileInfoCard from "../Components/ProfileInfoCard";
 import PurchaseReceipt from "../Components/PurchaseReceipt";
@@ -6,6 +8,9 @@ import ResponsiveGridDisplay from "../Components/ResponsiveGridDisplay";
 import RowDisplay from "../Components/RowDisplay";
 
 function Profile() {
+  useEffect(()=>{
+    let req = fetch("http://localhost:3000/user/show?user=")
+  },[]);
   return (
     <div className="flex flex-col gap-12 py-8 px-20">
     <div className="flex gap-12 items-center">
