@@ -11,7 +11,7 @@ function ProductCard({type="favorite", favoritePreset=false, image, title, price
           type=="favorite" ? 
           <div className={`absolute top-4 left-4 text-2xl z-10 hover:scale-125 transition ${!favorited && "-translate-x-10"} group-hover:translate-x-0`}>
             <div onClick={()=>setFavorited(!favorited)}>
-              {favorited ? <AiFillHeart className="text-red-400"/> : <AiOutlineHeart className="text-red-400"/>}
+              {favorited ? <AiFillHeart onClick={()=>{return}} className="text-red-400"/> : <AiOutlineHeart className="text-red-400"/>}
               </div>
               </div> 
               : 
