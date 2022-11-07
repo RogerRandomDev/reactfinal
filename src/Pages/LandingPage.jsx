@@ -1,12 +1,56 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useReducer} from 'react'
 // import {useHistory} from 'react-router-dom';
 import {FaFacebookF, FaTwitter} from 'react-icons/fa';
 import {AiOutlineGoogle} from 'react-icons/ai';
 import {sendRequest} from '../Utils/requests';
 import { storeLocal, getLocal } from '../hooks/useLocalStorageAuth';
 //https://coderthemes.com/ubold/layouts/default/index.html
+const initialState = {username:"",email:"",password:"",confirmPassword:"",userType:"user",isSignUp:true, businessLogo:"",city:"",state:"",range:"",description:"",agreements:[false,false,false]};
 function LandingPage() {
-  // let history = useHistory();
+  const formInputReducer = (state,action)=>{
+    if(action.type=="username"){
+      return {...state, username:action.payload}
+    }
+    if(action.type=="email"){
+      return {...state, email:action.payload}
+    }
+    if(action.type=="password"){
+      return {...state, password:action.payload}
+    }
+    if(action.type=="confirmPassword"){
+      return {...state, confirmPassword:action.payload}
+    }
+    if(action.type=="userType"){
+      return {...state, userType:action.payload}
+    }
+    if(action.type=="isSignUp"){
+      return {...state, isSignUp:action.payload}
+    }
+    if(action.type=="businessLogo"){
+      return {...state, businessLogo:action.payload}
+    }
+    if(action.type=="city"){
+      return {...state, city:action.payload}
+    }
+    if(action.type=="state"){
+      return {...state, state:action.payload}
+    }
+    if(action.type=="range"){
+      return {...state, range:action.payload}
+    }
+    if(action.type=="description"){
+      return {...state, description:action.payload}
+    }
+    if(action.type=="agreements"){
+      let agreements = state.agreements;
+      // action.payload = ["true", "0"]
+      agreements[action.payload[0]] = action.payload[1];
+      return {...state, agreements}
+    }
+    throw new Error("No Matching Action Type");
+    
+  }
+  const [state, dispatch] = useReducer(formInputReducer, initialState);
   const indicator = useRef(null);
   const userSelect = useRef(null);
   const businessSelect = useRef(null);
@@ -23,7 +67,7 @@ function LandingPage() {
   const [isSignUp, setIsSignUp] = useState(true);
   const [businessLogo, setBusinessLogo] = useState("");
   const [city, setCity] = useState("");
-  const [state, setState] = useState("");
+  // const [state, setState] = useState("");
   const [type, setType] = useState("");
   const [range, setRange] = useState("");
   const [description, setDescription] = useState("");
@@ -32,7 +76,8 @@ function LandingPage() {
   const [agreement3, setAgreement3] = useState(false);
 // memo, reducer, prop types needed
   const handleChangeSignUp = () =>{
-    setIsSignUp(!isSignUp);
+    dispatch({type:"isSignUp", payload:!state.isSignUp});
+    // setIsSignUp(!isSignUp);
     if(!isSignUp && userType=="business"){
       mover.current.classList.add("-translate-x-[70%]");
     mover.current.classList.remove("translate-x-[0%]");
@@ -45,15 +90,15 @@ mover.current.classList.remove("translate-x-[0%]");
 
  const handleSubmit = async (e) =>{
    e.preventDefault();
-   console.log(isSignUp);
-   if(isSignUp){
-     if(password === confirmPassword){
+   console.log(state.isSignUp);
+   if(state.isSignUp){
+     if(state.password === state.confirmPassword){
       console.log("front end req sent");
        let newUserData = await sendRequest("user/createAccount","POST",{
-    email,
-    password,
-    username,
-    mycompany:userType=="user" ? "" : username,  
+    email:state.email,
+    password:state.password,
+    username:state.username,
+    mycompany:state.userType=="user" ? "" : state.username,  
     // businessLogo,
     // city,
     // state,
@@ -70,8 +115,8 @@ mover.current.classList.remove("translate-x-[0%]");
     }
   }else{
     let data = await sendRequest("user/Login","GET",{
-    email:email,
-    password:password
+    email:state.email,
+    password:state.password
    });
    data = JSON.parse(data);
    if(data.success == false) return;
@@ -84,8 +129,9 @@ const handleChangeTypeToUser = () => {
   indicator.current.style.transform="translateX(0%)"; 
   businessSelect.current.classList.add("opacity-60");
   userSelect.current.classList.remove("opacity-60"); 
-  setUserType("user"); 
-  if(isSignUp){
+  dispatch({type:"setUser", payload:"user"})
+  // setUserType("user"); 
+  if(state.isSignUp){
     mover.current.classList.add("translate-x-[0%]");
     mover.current.classList.remove("-translate-x-[70%]");
   //   businessInfoSlider.current.classList.add("-right-[70%]");
@@ -96,8 +142,9 @@ const handleChangeTypeToBusiness = () =>{
 indicator.current.style.transform="translateX(100%)";
 userSelect.current.classList.add("opacity-60"); 
 businessSelect.current.classList.remove("opacity-60");
-setUserType("business"); 
-if(isSignUp){
+dispatch({type:"setUser", payload:"business"})
+// setUserType("business"); 
+if(state.isSignUp){
   mover.current.classList.add("-translate-x-[70%]");
   mover.current.classList.remove("translate-x-[0%]");
   // businessInfoSlider.current.classList.remove("-right-[70%]");
@@ -134,16 +181,16 @@ checkboxes for business reqs (products? amount of users?)
 
           <div className="business-logo flex flex-col items-center justify-center">
           <h2 className='text-3xl font-semibold mb-8'>Business Logo</h2>
-          <input type="file" name="Image Upload" id="" value={businessLogo} onChange={(e)=>setBusinessLogo(e.target.value)} />
+          <input type="file" name="Image Upload" id="" value={state.businessLogo} onChange={(e)=>dispatch({type:"businessLogo",payload:e.target.value})} />
           </div>
-
+        {/* RESUME HERE FOR FIXING USEREDUCER */}
           <div className="general-information">
           <h2 className='text-3xl font-semibold mb-8'>General Information</h2>
           <div className="grid gap-8" style={{gridTemplateColumns:"1fr 1fr auto 1fr 1fr"}}>
-            <div className='col-start-1 col-end-3'><label htmlFor="city" className='mb-4 block'>City</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="city" id="city"  value={city}  onChange={(e)=>setCity(e.target.value)}/></div>
-            <div className='col-start-4 col-end-6'><label htmlFor="state" className='mb-4 block'>State</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="state" id="state"  value={state} onChange={(e)=>setState(e.target.value)}/></div>
-            <div className='col-start-1 col-end-3'><label htmlFor="type" className='mb-4 block'>Type</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="type" id="type"  value={type} onChange={(e)=>setType(e.target.value)}/></div>
-            <div className='col-start-4 col-end-6'><label htmlFor="range" className='mb-4 block'>Range</label><select className='py-2  px-4 rounded w-9/12 text-neutral-900' name="range" id="range" value={range} onChange={(e)=>setRange(e.target.value)}>
+            <div className='col-start-1 col-end-3'><label htmlFor="city" className='mb-4 block'>City</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="city" id="city"  value={state.city}  onChange={(e)=>setCity(e.target.value)}/></div>
+            <div className='col-start-4 col-end-6'><label htmlFor="state" className='mb-4 block'>State</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="state" id="state"  value={state.state} onChange={(e)=>setState(e.target.value)}/></div>
+            <div className='col-start-1 col-end-3'><label htmlFor="type" className='mb-4 block'>Type</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="type" id="type"  value={state.type} onChange={(e)=>setType(e.target.value)}/></div>
+            <div className='col-start-4 col-end-6'><label htmlFor="range" className='mb-4 block'>Range</label><select className='py-2  px-4 rounded w-9/12 text-neutral-900' name="range" id="range" value={state.range} onChange={(e)=>setRange(e.target.value)}>
   <option value="local">Local</option>
   <option value="regional">Regional</option>
   <option value="national">National</option>
