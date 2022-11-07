@@ -16,6 +16,14 @@ const UserSchema = mongoose.Schema({
   myBusiness: {
     type: String,
     default: ""
+  },
+  joinDate:{
+    type:String,
+    required:true
+  },
+  favorites: {
+    type:Array,
+    default:[]
   }
 });
 

@@ -1,6 +1,6 @@
 const express = require('express')
 
-const { getUser, createUser, buildUserData } = require('../controllers/User');
+const { getUser, getUserByID, createUser, buildUserData } = require('../controllers/User');
 const { login, logout, updateToken} = require('../controllers/auth');
 const {sendConfirmationEmail,recieveConfirmationToken} = require("../middleware/accountConfirmation")
 
@@ -43,8 +43,8 @@ router.post("/logout",async (req,res)=>{
   console.log("account logged out")
 })
 router.get("/show",async (req,res)=>{
-  const email=req.header.get("email");
-  const userData=await getUser(email);
+  const {user}=req.query;
+  const userData=await getUserByID(user);
   userData.password=null
   res.status(200).post(userData)
 })

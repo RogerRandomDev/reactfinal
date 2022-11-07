@@ -50,6 +50,10 @@ const ProductSchema = new mongoose.Schema({
   creatorID:{
     type:Number,
     required:true
+  },
+  isBusiness:{
+    type:Boolean,
+    default:false
   }
 });
 

@@ -18,6 +18,17 @@ const getUser = async (userEmail) => {
   }
   return output;
 };
+//returns user from database through the user id
+const getUserByID = async (userID) => {
+  var output = null;
+  try {
+    await connectDB(process.env.MONGO_URI);
+    await (output = await UserModel.findById(userID));
+  } catch (err) {
+    console.log(err);
+  }
+  return output;
+};
 //creates a user and adds it to the database
 const createUser = async (userData) => {
   console.log(userData)
@@ -47,4 +58,4 @@ const buildUserData = (req) => {
   };
 };
 
-module.exports = { getUser, createUser, buildUserData };
+module.exports = { getUser, getUserByID, createUser, buildUserData };

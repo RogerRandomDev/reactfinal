@@ -14,7 +14,7 @@ const login = async (userData) => {
     console.log(`${email} is trying to login ..`);
     var checkUser=await getUser(email);
     if(checkUser!=null&&compareHash(password,checkUser.password)) {
-        var tokenData=jsonwebtoken.sign({user:checkUser.email}, process.env.JWT_SECRET,{expiresIn: '20m'})
+        var tokenData=jsonwebtoken.sign({user:checkUser.email,userID:checkUser._id}, process.env.JWT_SECRET,{expiresIn: '20m'})
         tokens.push(tokenData)
         return {success:true,token:tokenData,msg:"Login Token Generated"}
     }
@@ -39,7 +39,7 @@ const updateToken=async (oldToken)=>{
 const reloadToken=async (oldToken)=>{
   tokens=tokens.filter((myToken)=>myToken.token!=oldToken)
   const decoded=JSON.parse(decodeToken(oldToken))
-  var tokenData=jsonwebtoken.sign({user:decoded.email}, process.env.JWT_SECRET,{expiresIn: '20m'})
+  var tokenData=jsonwebtoken.sign({email:decoded.email,userID:decoded._id}, process.env.JWT_SECRET,{expiresIn: '20m'})
   return tokenData
 }
 //checks if token is expired
