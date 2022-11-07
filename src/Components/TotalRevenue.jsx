@@ -3,7 +3,7 @@ import ApexRadialChart from './ApexRadialChart';
 import LabeledComparison from './LabeledComparison';
 import {updateToken} from '../Utils/requests';
 function TotalRevenue() {
-  updateToken();
+  
     
   return (
     <div className="bg-neutral-100 p-5 rounded w-[35rem]">

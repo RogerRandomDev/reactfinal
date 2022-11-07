@@ -3,14 +3,26 @@ const {decodeToken,checkToken} = require("./auth");
 const ProductModel = require('../models/productModel');
 const userModel = require('../models/userModel');
 require('dotenv').config();
+//returns products from given business/user
+const getUserProducts = async(creatorID)=>{
+  var output = null;
+  try {
+    await connectDB(process.env.MONGO_URI)
+    (output = await ProductModel.find({creatorID}))
+  }
+  catch(err){
+    console.log(err)
+  }
+  return output
+}
 
-//returns the business database content
+
+//returns the product from the id
 const getProduct = async (productId) => {
   var output=null;
   try {
     await connectDB(process.env.MONGO_URI);
     (output=await ProductModel.findById(productId));
-    console.log(output);
   } catch (err) {
     console.log(err);
   }
@@ -42,9 +54,11 @@ const deleteProduct = async (productId) => {
   }
   return output;
 };
-//creates a business and adds it to the database
-const createProduct = async (productData) => {
-  
+//creates a product and adds it to the database
+const createProduct = async (productData,userToken) => {
+  if(!checkToken(userToken)){return {success:false,msg:"token invalid"}}
+  const userData=await decodeToken(userToken);
+  productData.creatorID=userData.userID;
   try {
     await connectDB(process.env.MONGO_URI);
     const newProduct=new ProductModel(productData)
@@ -55,4 +69,6 @@ const createProduct = async (productData) => {
   return { success: true, msg: 'Product Created successfully' };
 };
 
-module.exports = { getProduct, createProduct, updateProduct, deleteProduct };
+
+
+module.exports = { getProduct, getUserProducts, createProduct, updateProduct, deleteProduct };

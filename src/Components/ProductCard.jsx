@@ -1,10 +1,12 @@
 import { useState } from "react"
+import {useNavigate} from 'react-router-dom';
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import {MdEdit, MdDelete} from 'react-icons/md';
 function ProductCard({type="favorite", favoritePreset=false, image, title, price, location, link}) {
   const [favorited, setFavorited] = useState(favoritePreset);
+  const navigate = useNavigate();
   return (
-    <div className="flex flex-col justify-center gap-1 group cursor-pointer relative overflow-hidden">
+    <div onClick={(e)=>navigate("/productDetail")} className="flex flex-col justify-center gap-1 group cursor-pointer relative overflow-hidden">
           {
           type=="favorite" ? 
           <div className={`absolute top-4 left-4 text-2xl z-10 hover:scale-125 transition ${!favorited && "-translate-x-10"} group-hover:translate-x-0`}>

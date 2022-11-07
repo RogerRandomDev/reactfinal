@@ -19,6 +19,7 @@ app.get("/token",async (req,res)=>{
   var updatedToken=await updateToken(userToken);
   res.status(200).send({success:true,token:updatedToken});
 })
+
 app.use("/user",userRouter)
 
 app.get("/",(req,res)=>{
