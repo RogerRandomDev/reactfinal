@@ -16,10 +16,10 @@ const login = async (userData) => {
     if(checkUser!=null&&compareHash(password,checkUser.password)) {
         var tokenData=jsonwebtoken.sign({user:checkUser.email,userID:checkUser._id}, process.env.JWT_SECRET,{expiresIn: '20m'})
         tokens.push(tokenData)
-        return {success:true,token:tokenData,msg:"Login Token Generated"}
+        return {success:true,token:tokenData,msg:"Login Token Generated",_id:checkUser._id}
     }
   
-    return {success:false,msg:"Invalid Login"};
+    return {success:false,msg:"Invalid Login",_id:null};
   };
 
   const logout = async(req,res) =>{

@@ -21,7 +21,7 @@ router.post('/createAccount', async (req, res) => {
 router.get('/Login', async (req, res) => {
   const userData = buildUserData(req);
   var log=await login(userData)
-  console.log(log.msg)
+  
   return await res.status(200).send(log);
 });
 
@@ -44,7 +44,7 @@ router.get("/show",async (req,res)=>{
   const {user}=req.query;
   const userData=await getUserByID(user);
   userData.password=null
-  res.status(200).post(userData)
+  res.status(200).send(userData)
 })
 
 module.exports = router
