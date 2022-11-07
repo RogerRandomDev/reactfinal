@@ -12,7 +12,8 @@ router.use((req,res,next)=>{
   const token=req.get("token")
   
   if(
-    !req.originalUrl.includes("createAccount")&&
+    (!req.originalUrl.includes("createAccount")&&
+    !req.originalUrl.includes("confirmAccount"))&&
     (token==null||!findToken(token))
   ){return res.status(202).send({success:false,msg:"Invalid Login Token"})}
   next();
