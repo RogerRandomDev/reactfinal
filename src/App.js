@@ -20,46 +20,13 @@ import AddEditProduct from './Pages/AddEditProduct';
 import Customers from './Pages/Customers';
 import Profile from './Pages/Profile';
 import Products from './Pages/Products';
+import NavBar from "./Components/Navbar"
 
 const App = (props) => {
   return (
     <div className='App'>
       <Router>
-        <ul className='flex gap-6'>
-          <li>
-            <Link to='/login'>Log In/Sign Up</Link>
-          </li>
-          <li>
-            <Link to='/home'>Home</Link>
-          </li>
-          <li>
-            <Link to='/about'>About</Link>
-          </li>
-          <li>
-            <Link to='/test'>test</Link>
-          </li>
-          <li>
-            <Link to='/test2'>test2</Link>
-          </li>
-          <li>
-            <Link to='/test3'>Table</Link>
-          </li>
-          <li>
-            <Link to='/productDetail'>Product Details</Link>
-          </li>
-          <li>
-            <Link to='/addEdit'>Add / Edit</Link>
-          </li>
-          <li>
-            <Link to='/customers'>Customers</Link>
-          </li>
-          <li>
-            <Link to='/profile'>Profile</Link>
-          </li>
-          <li>
-            <Link to='/products'>Products (Admin)</Link>
-          </li>
-        </ul>
+        <NavBar />
         <Switch>
           <Route path='/' element={<TotalRevenue />} />
           <Route path='/home' element={<TotalRevenue />} />
