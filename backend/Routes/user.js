@@ -21,7 +21,6 @@ router.post('/createAccount', async (req, res) => {
 router.get('/Login', async (req, res) => {
   const userData = buildUserData(req);
   var log=await login(userData)
-  
   return await res.status(200).send(log);
 });
 
@@ -31,10 +30,11 @@ router.get("/confirmAccount",async (req,res)=>{
   var userData=await recieveConfirmationToken(req,res)
   console.log(userData)
   if(!userData.success) return res.send("Authentication Failed")
-  await createUser(userData.decoded)
-  console.log(userData.decoded)
+  const newUser=await createUser(userData.decoded)
+  if(!newUser.success){return res.send(newUser)}
   if(userData.decoded.businessData!=null){await createBusiness(userData.decoded.businessData)}
-  res.send("Account Authenticated")
+  var ID=newUser._id
+  res.send({success:true,msg:"account authenticated",'_id':ID})
 })
 router.post("/logout",async (req,res)=>{
   await logout(req,res)

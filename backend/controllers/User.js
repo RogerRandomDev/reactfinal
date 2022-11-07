@@ -38,6 +38,7 @@ const createUser = async (userData) => {
     myBusiness:userData.myBusiness,
     joinDate:new Date().toDateString()
   };
+  var _id=null;
   try {
     await connectDB(process.env.MONGO_URI);
     if (await UserModel.findOne({ email: userData.email })) {
@@ -46,12 +47,12 @@ const createUser = async (userData) => {
 
     userData.password = await hashString(userData.password);
     const newUser = new UserModel(userData);
-
     newUser.save();
+    _id=newUser._id;
   } catch (err) {
     console.log(err);
   }
-  return { success: true, msg: 'User Created successfully' };
+  return { success: true, msg: 'User Created successfully',_id};
 };
 
 
