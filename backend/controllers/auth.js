@@ -47,7 +47,7 @@ const isTokenExpired=(token)=>{
   const jsonPayload=decodeToken(token)
   if(jsonPayload==null){return true}
   const { exp } = JSON.parse(jsonPayload);
-  const expired = Date.now() >= exp * 1000
+  const expired = Date.now() >= exp*1000
   return expired
 }
 

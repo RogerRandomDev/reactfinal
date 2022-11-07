@@ -3,21 +3,12 @@ const express = require('express')
 const { getUser, getUserByID, createUser, buildUserData } = require('../controllers/User');
 const { login, logout, updateToken} = require('../controllers/auth');
 const {sendConfirmationEmail,recieveConfirmationToken} = require("../middleware/accountConfirmation")
-
+const {createBusiness} = require('../controllers/Business')
 const router = express.Router();
 
 
 
-router.use((req,res,next)=>{
-  const token=req.get("token")
-  
-  if(
-    (!req.originalUrl.includes("createAccount")&&
-    !req.originalUrl.includes("confirmAccount"))&&
-    (token==null||!findToken(token))
-  ){return res.status(202).send({success:false,msg:"Invalid Login Token"})}
-  next();
-})
+
 
 
 
@@ -38,9 +29,11 @@ router.get('/Login', async (req, res) => {
 router.get("/confirmAccount",async (req,res)=>{
   console.log("account authenticated")
   var userData=await recieveConfirmationToken(req,res)
+  console.log(userData)
   if(!userData.success) return res.send("Authentication Failed")
   await createUser(userData.decoded)
-  if(userData.decoded.businessData!=""){await createBusiness(userData.decoded.businessData)}
+  console.log(userData.decoded)
+  if(userData.decoded.businessData!=null){await createBusiness(userData.decoded.businessData)}
   res.send("Account Authenticated")
 })
 router.post("/logout",async (req,res)=>{

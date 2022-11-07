@@ -31,7 +31,13 @@ const getUserByID = async (userID) => {
 };
 //creates a user and adds it to the database
 const createUser = async (userData) => {
-  console.log(userData)
+  userData={
+    email:userData.email,
+    password:userData.password,
+    username:userData.username,
+    myBusiness:userData.myBusiness,
+    joinDate:new Date().toDateString()
+  };
   try {
     await connectDB(process.env.MONGO_URI);
     if (await UserModel.findOne({ email: userData.email })) {
