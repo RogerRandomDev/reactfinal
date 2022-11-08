@@ -113,7 +113,8 @@ mover.current.classList.remove("translate-x-[0%]");
       Name:state.username,
       BannerLink:state.businessLogo,
       Range:state.range,
-      Location:[state.city,state.state]
+      Location:[state.city,state.state],
+      Description:state.description
     })
   }
     // businessLogo,
@@ -172,7 +173,7 @@ mover.current.classList.remove("translate-x-[0%]");
             })
             fr.readAsDataURL(e.target.files[0])
           }} />
-          
+
           </div>
           <div className="general-information">
           <h2 className='text-3xl font-semibold mb-8'>General Information</h2>
