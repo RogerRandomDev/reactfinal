@@ -3,7 +3,8 @@ const jsonwebtoken=require("jsonwebtoken");
 const {connectDB} = require("../db/connect");
 const {hashString,compareHash} = require("../middleware/hash")
 const {getUser} = require("./User");
-
+const timers=require("timers");
+const { info } = require('console');
 
 
 
@@ -68,5 +69,14 @@ const decodeToken=(token)=>{
 }
 //checks if token is valid
 const checkToken=(token)=>{return tokens.includes(token)}
+
+//updates tokens every so often to ensure no excess ram usage for authenticating users
+
+const checkAllTokens=()=>{
+  Object.keys(tokens).forEach((token)=>{
+    if(isTokenExpired(token)){delete tokens[token]}
+  })
+}
+timers.setTimeout(checkAllTokens,1920000)
 
   module.exports = {login,logout,reloadToken,updateToken,decodeToken,checkToken}

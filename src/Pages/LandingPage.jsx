@@ -1,11 +1,17 @@
 import React, {useState, useRef, useReducer} from 'react'
+import { useNavigate } from 'react-router-dom';
 import {FaFacebookF, FaTwitter} from 'react-icons/fa';
+import { useContext } from 'react';
 import {AiOutlineGoogle} from 'react-icons/ai';
 import {sendRequest} from '../Utils/requests';
 import { storeLocal, getLocal } from '../hooks/useLocalStorageAuth';
+import userContext from '../Context/userContext';
+import { Link } from 'react-router-dom';
 //https://coderthemes.com/ubold/layouts/default/index.html
-const initialState = {username:"",email:"",password:"",confirmPassword:"",userType:"user",isSignUp:true, businessLogo:"",city:"",state:"",range:"",description:"",agreements:[false,false,false]};
-function LandingPage() {
+const initialState = {username:"",email:"",password:"",confirmPassword:"",userType:"user",isSignUp:true, businessLogo:"",city:"",state:"",range:"Local",description:"",agreements:[false,false,false]};
+function LandingPage({updateContext}) {
+  const navigate = useNavigate();
+   const context = useContext(userContext);
   
   const indicator = useRef(null);
   const userSelect = useRef(null);
@@ -66,6 +72,7 @@ mover.current.classList.remove("translate-x-[0%]");
       return {...state, isSignUp:!state.isSignUp}
     }
     if(action.type=="businessLogo"){
+      console.log(action)
       return {...state, businessLogo:action.payload}
     }
     if(action.type=="city"){
@@ -96,15 +103,27 @@ mover.current.classList.remove("translate-x-[0%]");
 
  const handleSubmit = async (e) =>{
    e.preventDefault();
-   console.log(state.isSignUp);
-   if(state.isSignUp){
+   console.log(state.userType=="business");
+   if(state.userType=="business"){
      if(state.password === state.confirmPassword){
       console.log("front end req sent");
        let newUserData = await sendRequest("user/createAccount","POST",{
+        header:{
     email:state.email,
     password:state.password,
     username:state.username,
-    mycompany:state.userType=="user" ? "" : state.username,  
+    mycompany:state.userType=="user" ? "" : state.username,
+    Location:[state.city,state.state],
+    businessData:JSON.stringify({
+      chosenAgreement:state.agreements,
+      email:state.email,
+      Name:state.username,
+      BannerLink:state.businessLogo,
+      Range:state.range,
+      Location:[state.city,state.state],
+      Description:state.description
+    })
+  }
     // businessLogo,
     // city,
     // state,
@@ -120,17 +139,33 @@ mover.current.classList.remove("translate-x-[0%]");
       alert("passwords dont match");
     }
   }else{
+    
     let data = await sendRequest("user/Login","GET",{
-    email:state.email,
-    password:state.password
+    header:{
+      email:state.email,
+      password:state.password
+    }
    });
    data = JSON.parse(data);
    if(data.success == false) return;
    console.log(data._id);
    await storeLocal("token", data.token);
+
+   let userData = await sendRequest("user/show","GET",{
+    query:{
+      "user":data._id
+    }
+   });
+   userData = JSON.parse(userData);
+   updateContext(userData);
+   navigate("/profile");
+  //  navigate(`/profile?user=${context._id}`);
+  //  useNavigate(`/profile/${context._id}`)
+   console.log(context._id);
   }
  }
 
+ 
   return (
     <section ref={section} className="overflow-hidden">
       <div className="flex h-screen relative transition delay-200 duration-[600ms] ease-in-out" ref={mover}>
@@ -142,18 +177,23 @@ mover.current.classList.remove("translate-x-[0%]");
         </div>
         <div ref={landingSignup} className="relative landing__signup w-[30%] bg-blue-900 flex flex-col items-center justify-between py-24 px-12 text-center text-neutral-100 border-r border-blue-900">
           <div ref={businessInfoSlider} className="absolute top-0 left-full h-screen w-[70vw] bg-blue-900 flex flex-col items-center justify-center gap-10">
-
           <div className="business-logo flex flex-col items-center justify-center">
           <h2 className='text-3xl font-semibold mb-8'>Business Logo</h2>
-          <input type="file" name="Image Upload" id="" value={state.businessLogo} onChange={(e)=>dispatch({type:"businessLogo",payload:e.target.value})} />
+          <input type="file" name="Image Upload" id="" onChange={async (e)=>{
+            var fr=new FileReader();
+            fr.onload=((f)=>{
+              dispatch({type:"businessLogo",payload:f.target.result})
+            })
+            fr.readAsDataURL(e.target.files[0])
+          }} />
+
           </div>
           <div className="general-information">
           <h2 className='text-3xl font-semibold mb-8'>General Information</h2>
           <div className="grid gap-8" style={{gridTemplateColumns:"1fr 1fr auto 1fr 1fr"}}>
             <div className='col-start-1 col-end-3'><label htmlFor="city" className='mb-4 block'>City</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="city" id="city"  value={state.city}  onChange={(e)=>dispatch({type:"city",payload:e.target.value})}/></div>
             <div className='col-start-4 col-end-6'><label htmlFor="state" className='mb-4 block'>State</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="state" id="state"  value={state.state} onChange={(e)=>dispatch({type:"state",payload:e.target.value})}/></div>
-            <div className='col-start-1 col-end-3'><label htmlFor="type" className='mb-4 block'>Type</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="type" id="type"  value={state.businessType} onChange={(e)=>dispatch({type:"businessType",payload:e.target.value})}/></div>
-            <div className='col-start-4 col-end-6'><label htmlFor="range" className='mb-4 block'>Range</label><select className='py-2  px-4 rounded w-9/12 text-neutral-900' name="range" id="range" value={state.range} onChange={(e)=>dispatch({type:"range",payload:e.target.value})}>
+            <div className='col-start-2 col-end-5'><label htmlFor="range" className='mb-4 block'>Range</label><select className='py-2  px-4 rounded w-9/12 text-neutral-900' name="range" id="range" value={state.range} onChange={(e)=>dispatch({type:"range",payload:e.target.value})}>
   <option value="local">Local</option>
   <option value="regional">Regional</option>
   <option value="national">National</option>
@@ -190,20 +230,22 @@ mover.current.classList.remove("translate-x-[0%]");
           <form action="" className="flex flex-col items-center gap-4 w-full">
             <div className="flex w-3/4 relative isolate bg-slate-400 rounded-[1.5rem] mb-4 cursor-pointer">
               {/* modify these state functions for reducer */}
-              <div ref={userSelect}className="transition w-1/2 px-2 py-3 z-10 rounded-[1.5rem] font-bold " onClick={()=>dispatch({type:"changeToUserType"})}>User</div>
-              <div ref={businessSelect}className="transition w-1/2 px-2 py-3 z-10 rounded-[1.5rem]  font-bold opacity-60" onClick={()=>dispatch({type:"changeToBusinessType"})}>Business</div>
+              <div ref={userSelect}className="transition w-1/2 px-2 py-3 z-10 rounded-[1.5rem] font-bold " onClick={()=>dispatch({type:"changeToUserType"})}>Sign In</div>
+              <div ref={businessSelect}className="transition w-1/2 px-2 py-3 z-10 rounded-[1.5rem]  font-bold opacity-60" onClick={()=>dispatch({type:"changeToBusinessType"})}>Sign Up</div>
               <div ref={indicator} className="absolute transition duration-300 inset-y-0 w-1/2 left-0 bg-blue-500 z-0 rounded-[1.5rem]"></div>
             </div>
             {/* <h3 className='mb-6 text-neutral-100 text-lg font-light tracking-wide'>Sign Up</h3> */}
-            <input placeholder='Email' type="text" value={state.email}  onChange={(e)=>dispatch({type:"email",payload:e.target.value})} name="email" className={`py-2  px-4 rounded w-9/12 text-neutral-900 ${state.isSignUp ? "block" : "hidden"}`}/>
-            <input placeholder={state.userType ==="user" ? 'Username' : "Business Name"} type="text" value={state.username}  onChange={(e)=>dispatch({type:"username",payload:e.target.value})} name="username" className='py-2  px-4 rounded w-9/12 text-neutral-900'/>
+            <input placeholder='Email' type="text" value={state.email}  onChange={(e)=>dispatch({type:"email",payload:e.target.value})} name="email" className={`py-2  px-4 rounded w-9/12 text-neutral-900`}/>
+            <input placeholder={"Username"} type="text" value={state.username}  onChange={(e)=>dispatch({type:"username",payload:e.target.value})} name="username" className={`py-2  px-4 rounded w-9/12 text-neutral-900 ${state.userType=="business" ? "block" : "hidden"}`}/>
             <input placeholder='Password' type="password" value={state.password} onChange={(e)=>dispatch({type:"password",payload:e.target.value})} name="password" className='py-2 rounded w-9/12 px-4  text-neutral-900'/>
-            <input placeholder='Confirm Password' type="password" value={state.confirmPassword} onChange={(e)=>dispatch({type:"confirmPassword",payload:e.target.value})} name="confirmPassword" className={`py-2 rounded w-9/12 px-4 text-neutral-900 ${state.isSignUp ? "block" : "hidden"}`}/>
+            <input placeholder='Confirm Password' type="password" value={state.confirmPassword} onChange={(e)=>dispatch({type:"confirmPassword",payload:e.target.value})} name="confirmPassword" className={`py-2 rounded w-9/12 px-4 text-neutral-900 ${state.userType=="business" ? "block" : "hidden"}`}/>
             <input type="hidden" name="userType" value={state.userType} />
-            <button type="submit" className='btn-primary mt-4 w-9/12 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold' onClick={(e)=>handleSubmit(e)}>Sign {state.isSignUp ? "Up" : "In"}</button>
+            
+            <button type="submit" className='btn-primary mt-4 w-9/12 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold' onClick={(e)=>handleSubmit(e)}>Sign {state.userType=="business" ? "Up" : "In"}</button>
+            
           </form>
           <div className="alternate-signup">
-            <h4>Or Sign {state.isSignUp ? "Up" : "In"} With</h4>
+            <h4>Or Sign {state.userType=="business" ? "Up" : "In"} With</h4>
             <div className="signup-cards">
               <div className="flex gap-4 justify-center mt-4">
                 <div className="w-8 h-8 rounded-full bg-neutral-100 grid place-items-center cursor-pointer hover:-translate-y-1 transition"><FaFacebookF className='text-blue-900'></FaFacebookF></div>
@@ -213,7 +255,7 @@ mover.current.classList.remove("translate-x-[0%]");
             </div>
           </div>
         <div className="signup__footer">
-          <p>{state.isSignUp ? "Already Have an Account? " : "Create a New Account - "}<span onClick={()=>dispatch({type:"changeSignUp"})} className='underline cursor-pointer hover:text-cyan-600 transition'>Sign {state.isSignUp ? "In" : "Up"}</span></p>
+          {/* <p>{state.isSignUp ? "Already Have an Account? " : "Create a New Account - "}<span onClick={()=>dispatch({type:"changeSignUp"})} className='underline cursor-pointer hover:text-cyan-600 transition'>Sign {state.isSignUp ? "In" : "Up"}</span></p> */}
         </div>
         </div>
         </div>

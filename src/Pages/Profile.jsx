@@ -1,4 +1,5 @@
-import {useEffect} from 'react';
+import {useEffect, useContext} from 'react';
+import userContext from '../Context/userContext';
 
 import ProductCard from "../Components/ProductCard";
 import ProfileInfoCard from "../Components/ProfileInfoCard";
@@ -8,13 +9,21 @@ import ResponsiveGridDisplay from "../Components/ResponsiveGridDisplay";
 import RowDisplay from "../Components/RowDisplay";
 
 function Profile() {
+  const context = useContext(userContext);
   useEffect(()=>{
-    let req = fetch("http://localhost:3000/user/show?user=")
+    (async () => {
+    let userId = window.location.search.split("=")[1];
+    if(userId){
+      let req = await fetch(`http://localhost:5000/user/show?user=${userId}`);
+      let userData = await req.json();
+      console.log(userData);
+    }
+    })();
   },[]);
   return (
     <div className="flex flex-col gap-12 py-8 px-20">
     <div className="flex gap-12 items-center">
-    <ProfileInfoCard image={"https://picsum.photos/400"} username={"Rory Seekamp"} joinDate={new Date().toDateString()} location={"Phoenix, AZ"} rating={4} ratingCount={53} bought={6} sold={17}/>
+    <ProfileInfoCard image={"https://picsum.photos/400"} username={context.username} joinDate={context.joinDate} location={`${context.Location[0]}, ${context.Location[1]}`} rating={0} ratingCount={0} bought={0} sold={0}/>
     {/* Favorited items must come from database, so props are just placeholders for now */}
     <div className="border-l pl-12">
         <RowDisplay title={"Favorited Items"}>

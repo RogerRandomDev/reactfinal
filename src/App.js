@@ -20,9 +20,18 @@ import AddEditProduct from './Pages/AddEditProduct';
 import Customers from './Pages/Customers';
 import Profile from './Pages/Profile';
 import Products from './Pages/Products';
-import NavBar from "./Components/Navbar"
+import NavBar from './Components/Navbar';
 
-const App = (props) => {
+import userContext from './Context/userContext';
+
+const App = () => {
+  const [user, setUser] = useState('');
+
+  const updateContext = (data) => {
+    console.log(data);
+    setUser(data);
+  };
+
   return (
     <div className='App'>
       <Router>
@@ -174,6 +183,7 @@ const App = (props) => {
         <DataOverview fadedAccentColor="rgba(102, 88, 221, 0.25)" accentColor="rgb(102, 88, 221)" Icon={FaRegHeart} data="$58,947" description="Total Revenue"/>
       </div> */}
     </div>
+    // </userContext.Provider>
   );
 };
 

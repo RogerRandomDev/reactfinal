@@ -7,31 +7,25 @@ const BusinessSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true,
+    required: true
   },
   Location: {
     type:Array,
     required:true
   },
-  ProductType: {
-    type: String,
-    required: true,
-  },
   Description: {
-    type: String,
-    required: true,
+    type: String
   },
   Range:{
-    type:String,
-    required:true
+    type:String
   },
   Rating: {
     type: Number,
-    default: 5,
+    default: 5
   },
   BannerLink: {
     type: String,
-    required: true,
+    required: true
   },
   chosenAgreements:{
     type:Array,
