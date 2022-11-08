@@ -192,8 +192,7 @@ mover.current.classList.remove("translate-x-[0%]");
           <div className="grid gap-8" style={{gridTemplateColumns:"1fr 1fr auto 1fr 1fr"}}>
             <div className='col-start-1 col-end-3'><label htmlFor="city" className='mb-4 block'>City</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="city" id="city"  value={state.city}  onChange={(e)=>dispatch({type:"city",payload:e.target.value})}/></div>
             <div className='col-start-4 col-end-6'><label htmlFor="state" className='mb-4 block'>State</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="state" id="state"  value={state.state} onChange={(e)=>dispatch({type:"state",payload:e.target.value})}/></div>
-            <div className='col-start-1 col-end-3'><label htmlFor="type" className='mb-4 block'>Type</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="type" id="type"  value={state.businessType} onChange={(e)=>dispatch({type:"businessType",payload:e.target.value})}/></div>
-            <div className='col-start-4 col-end-6'><label htmlFor="range" className='mb-4 block'>Range</label><select className='py-2  px-4 rounded w-9/12 text-neutral-900' name="range" id="range" value={state.range} onChange={(e)=>dispatch({type:"range",payload:e.target.value})}>
+            <div className='col-start-2 col-end-5'><label htmlFor="range" className='mb-4 block'>Range</label><select className='py-2  px-4 rounded w-9/12 text-neutral-900' name="range" id="range" value={state.range} onChange={(e)=>dispatch({type:"range",payload:e.target.value})}>
   <option value="local">Local</option>
   <option value="regional">Regional</option>
   <option value="national">National</option>

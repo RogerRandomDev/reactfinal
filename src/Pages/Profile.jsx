@@ -23,7 +23,7 @@ function Profile() {
   return (
     <div className="flex flex-col gap-12 py-8 px-20">
     <div className="flex gap-12 items-center">
-    <ProfileInfoCard image={"https://picsum.photos/400"} username={context.username} joinDate={context.joinDate} location={`${context.city}, ${context.state}`} rating={0} ratingCount={0} bought={0} sold={0}/>
+    <ProfileInfoCard image={"https://picsum.photos/400"} username={context.username} joinDate={context.joinDate} location={`${context.Location[0]}, ${context.Location[1]}`} rating={0} ratingCount={0} bought={0} sold={0}/>
     {/* Favorited items must come from database, so props are just placeholders for now */}
     <div className="border-l pl-12">
         <RowDisplay title={"Favorited Items"}>
