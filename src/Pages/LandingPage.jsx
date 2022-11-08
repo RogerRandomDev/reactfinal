@@ -8,7 +8,7 @@ import { storeLocal, getLocal } from '../hooks/useLocalStorageAuth';
 import userContext from '../Context/userContext';
 import { Link } from 'react-router-dom';
 //https://coderthemes.com/ubold/layouts/default/index.html
-const initialState = {username:"",email:"",password:"",confirmPassword:"",userType:"user",isSignUp:true, businessLogo:"",city:"",state:"",range:"",description:"",agreements:[false,false,false]};
+const initialState = {username:"",email:"",password:"",confirmPassword:"",userType:"user",isSignUp:true, businessLogo:"",city:"",state:"",range:"Local",description:"",agreements:[false,false,false]};
 function LandingPage({updateContext}) {
   const navigate = useNavigate();
    const context = useContext(userContext);
