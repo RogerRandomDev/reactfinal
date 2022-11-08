@@ -32,7 +32,9 @@ router.get("/confirmAccount",async (req,res)=>{
   if(!userData.success) return res.send("Authentication Failed")
   const newUser=await createUser(userData.decoded)
   if(!newUser.success){return res.send(newUser)}
-  if(userData.decoded.businessData!=null){await createBusiness(userData.decoded.businessData)}
+  //creates the business account for the user
+  await createBusiness(userData.tokenData)
+  
   var ID=newUser._id
   res.send({success:true,msg:"account authenticated",'_id':ID})
 })
