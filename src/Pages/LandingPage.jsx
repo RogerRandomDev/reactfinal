@@ -1,11 +1,17 @@
 import React, {useState, useRef, useReducer} from 'react'
+import { useNavigate } from 'react-router-dom';
 import {FaFacebookF, FaTwitter} from 'react-icons/fa';
+import { useContext } from 'react';
 import {AiOutlineGoogle} from 'react-icons/ai';
 import {sendRequest} from '../Utils/requests';
 import { storeLocal, getLocal } from '../hooks/useLocalStorageAuth';
+import userContext from '../Context/userContext';
+import { Link } from 'react-router-dom';
 //https://coderthemes.com/ubold/layouts/default/index.html
 const initialState = {username:"",email:"",password:"",confirmPassword:"",userType:"user",isSignUp:true, businessLogo:"",city:"",state:"",range:"",description:"",agreements:[false,false,false]};
-function LandingPage() {
+function LandingPage({updateContext}) {
+  const navigate = useNavigate();
+   const context = useContext(userContext);
   
   const indicator = useRef(null);
   const userSelect = useRef(null);
@@ -96,8 +102,8 @@ mover.current.classList.remove("translate-x-[0%]");
 
  const handleSubmit = async (e) =>{
    e.preventDefault();
-   console.log(state.isSignUp);
-   if(state.isSignUp){
+   console.log(state.userType=="business");
+   if(state.userType=="business"){
      if(state.password === state.confirmPassword){
       console.log("front end req sent");
        let newUserData = await sendRequest("user/createAccount","POST",{
@@ -144,10 +150,16 @@ mover.current.classList.remove("translate-x-[0%]");
       "user":data._id
     }
    });
-   console.log(userData);
+   userData = JSON.parse(userData);
+   updateContext(userData);
+   navigate("/profile");
+  //  navigate(`/profile?user=${context._id}`);
+  //  useNavigate(`/profile/${context._id}`)
+   console.log(context._id);
   }
  }
 
+ 
   return (
     <section ref={section} className="overflow-hidden">
       <div className="flex h-screen relative transition delay-200 duration-[600ms] ease-in-out" ref={mover}>
@@ -207,20 +219,22 @@ mover.current.classList.remove("translate-x-[0%]");
           <form action="" className="flex flex-col items-center gap-4 w-full">
             <div className="flex w-3/4 relative isolate bg-slate-400 rounded-[1.5rem] mb-4 cursor-pointer">
               {/* modify these state functions for reducer */}
-              <div ref={userSelect}className="transition w-1/2 px-2 py-3 z-10 rounded-[1.5rem] font-bold " onClick={()=>dispatch({type:"changeToUserType"})}>User</div>
-              <div ref={businessSelect}className="transition w-1/2 px-2 py-3 z-10 rounded-[1.5rem]  font-bold opacity-60" onClick={()=>dispatch({type:"changeToBusinessType"})}>Business</div>
+              <div ref={userSelect}className="transition w-1/2 px-2 py-3 z-10 rounded-[1.5rem] font-bold " onClick={()=>dispatch({type:"changeToUserType"})}>Sign In</div>
+              <div ref={businessSelect}className="transition w-1/2 px-2 py-3 z-10 rounded-[1.5rem]  font-bold opacity-60" onClick={()=>dispatch({type:"changeToBusinessType"})}>Sign Up</div>
               <div ref={indicator} className="absolute transition duration-300 inset-y-0 w-1/2 left-0 bg-blue-500 z-0 rounded-[1.5rem]"></div>
             </div>
             {/* <h3 className='mb-6 text-neutral-100 text-lg font-light tracking-wide'>Sign Up</h3> */}
-            <input placeholder='Email' type="text" value={state.email}  onChange={(e)=>dispatch({type:"email",payload:e.target.value})} name="email" className={`py-2  px-4 rounded w-9/12 text-neutral-900 ${state.isSignUp ? "block" : "hidden"}`}/>
-            <input placeholder={state.userType ==="user" ? 'Username' : "Business Name"} type="text" value={state.username}  onChange={(e)=>dispatch({type:"username",payload:e.target.value})} name="username" className='py-2  px-4 rounded w-9/12 text-neutral-900'/>
+            <input placeholder='Email' type="text" value={state.email}  onChange={(e)=>dispatch({type:"email",payload:e.target.value})} name="email" className={`py-2  px-4 rounded w-9/12 text-neutral-900`}/>
+            <input placeholder={state.userType ==="user" ? 'Username' : "Business Name"} type="text" value={state.username}  onChange={(e)=>dispatch({type:"username",payload:e.target.value})} name="username" className={`py-2  px-4 rounded w-9/12 text-neutral-900 ${state.userType=="business" ? "block" : "hidden"}`}/>
             <input placeholder='Password' type="password" value={state.password} onChange={(e)=>dispatch({type:"password",payload:e.target.value})} name="password" className='py-2 rounded w-9/12 px-4  text-neutral-900'/>
-            <input placeholder='Confirm Password' type="password" value={state.confirmPassword} onChange={(e)=>dispatch({type:"confirmPassword",payload:e.target.value})} name="confirmPassword" className={`py-2 rounded w-9/12 px-4 text-neutral-900 ${state.isSignUp ? "block" : "hidden"}`}/>
+            <input placeholder='Confirm Password' type="password" value={state.confirmPassword} onChange={(e)=>dispatch({type:"confirmPassword",payload:e.target.value})} name="confirmPassword" className={`py-2 rounded w-9/12 px-4 text-neutral-900 ${state.userType=="business" ? "block" : "hidden"}`}/>
             <input type="hidden" name="userType" value={state.userType} />
-            <button type="submit" className='btn-primary mt-4 w-9/12 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold' onClick={(e)=>handleSubmit(e)}>Sign {state.isSignUp ? "Up" : "In"}</button>
+            
+            <button type="submit" className='btn-primary mt-4 w-9/12 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold' onClick={(e)=>handleSubmit(e)}>Sign {state.userType=="business" ? "Up" : "In"}</button>
+            
           </form>
           <div className="alternate-signup">
-            <h4>Or Sign {state.isSignUp ? "Up" : "In"} With</h4>
+            <h4>Or Sign {state.userType=="business" ? "Up" : "In"} With</h4>
             <div className="signup-cards">
               <div className="flex gap-4 justify-center mt-4">
                 <div className="w-8 h-8 rounded-full bg-neutral-100 grid place-items-center cursor-pointer hover:-translate-y-1 transition"><FaFacebookF className='text-blue-900'></FaFacebookF></div>
@@ -230,7 +244,7 @@ mover.current.classList.remove("translate-x-[0%]");
             </div>
           </div>
         <div className="signup__footer">
-          <p>{state.isSignUp ? "Already Have an Account? " : "Create a New Account - "}<span onClick={()=>dispatch({type:"changeSignUp"})} className='underline cursor-pointer hover:text-cyan-600 transition'>Sign {state.isSignUp ? "In" : "Up"}</span></p>
+          {/* <p>{state.isSignUp ? "Already Have an Account? " : "Create a New Account - "}<span onClick={()=>dispatch({type:"changeSignUp"})} className='underline cursor-pointer hover:text-cyan-600 transition'>Sign {state.isSignUp ? "In" : "Up"}</span></p> */}
         </div>
         </div>
         </div>
