@@ -104,7 +104,14 @@ mover.current.classList.remove("translate-x-[0%]");
     email:state.email,
     password:state.password,
     username:state.username,
-    mycompany:state.userType=="user" ? "" : state.username,  
+    mycompany:state.userType=="user" ? "" : state.username,
+    businessData:{
+      chosenAgreement:state.agreements,
+      email:state.email,
+      Name:state.username,
+      
+    }
+    
     // businessLogo,
     // city,
     // state,
