@@ -31,7 +31,6 @@ app.delete('/logout', (req, res) => {
 
 app.post('/login',(req,res)=>{
     //Authenticate Users-You should alread have code for authentication
-    console.log(req.body)
     const username = req.body.username
     const user = {name:username}
     //Assuming that the authentication has been completed thje jwt.sign

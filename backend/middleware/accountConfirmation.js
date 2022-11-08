@@ -13,7 +13,7 @@ const sendConfirmationEmail =async(userData)=> {
   if(userData.businessData.BannerLink!=null&&await getBusiness(userData.businessData.email)) return {success:false,msg:"business name already in use"}
   var confirmationToken= await jsonwebtoken.sign(userData, JWT_SECRET,{expiresIn: '1h'})
   confirmationTokens[confirmationToken]=userData.businessData
-  console.log(userData.businessData)
+
   sendEmail(userData.email,"Account Confirmation",emailForm.replace("${AUTH_TOKEN}",String(confirmationToken)))
   
   return {success:true,msg:"Sent account authentication email"}
@@ -22,7 +22,7 @@ const recieveConfirmationToken = async(req,res)=>{
     var {token}=req.query
     if(!Object.keys(confirmationTokens).includes(token)) return {success:false,msg:"token invalid"}
     var decoded=await jsonwebtoken.decode(token)
-    console.log(decoded)
+    
     if(Date.now()>=decoded.exp*1000){return {success:false,msg:"token expired"}}
      var tokenData=confirmationTokens[token]
     delete confirmationTokens[token]

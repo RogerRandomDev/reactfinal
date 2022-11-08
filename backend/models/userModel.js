@@ -21,6 +21,10 @@ const UserSchema = mongoose.Schema({
     type:String,
     required:true
   },
+  Location: {
+    type:Array,
+    required:true
+  },
   favorites: {
     type:Array,
     default:[]

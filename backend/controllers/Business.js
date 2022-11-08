@@ -9,7 +9,7 @@ const getBusiness = async (businessEmail) => {
   try {
     await connectDB(process.env.MONGO_URI);
     await (output = await BusinessModel.findOne({ email: businessEmail }));
-    console.log(output);
+    
   } catch (err) {
     console.log(err);
   }
@@ -18,7 +18,7 @@ const getBusiness = async (businessEmail) => {
 //creates a business and adds it to the database
 const createBusiness = async (businessData) => {
   if(businessData.BannerLink!=null){businessData.BannerLink=await storeImage(businessData.BannerLink)}
-  console.log(businessData)
+
   var _id=null;
   try {
     await connectDB(process.env.MONGO_URI);
