@@ -7,7 +7,7 @@ export default function Navbar({ AccountName }) {
                 <img src="https://picsum.photos/40/40" className="inline-block place-self-center" />
             </span>
         </div>
-        <div class="h-full m-none md:m-auto justify-self-start md:justify-self-center">
+        <div className="h-full m-0 md:m-auto justify-self-start md:justify-self-center">
             <button className="w-9 sm:block md:hidden mr-3"><GoThreeBars className="w-full h-full m-auto text-white" /></button>
             <button className="hidden md:inline-block mr-5 bg-none text-gray-300 hover:text-gray-200 transition-colors">Dashboard</button>
             <button className="hidden md:inline-block mr-5 bg-none text-gray-300 hover:text-gray-200 transition-colors">All Products</button>
