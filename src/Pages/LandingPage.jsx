@@ -72,6 +72,7 @@ mover.current.classList.remove("translate-x-[0%]");
       return {...state, isSignUp:!state.isSignUp}
     }
     if(action.type=="businessLogo"){
+      console.log(action)
       return {...state, businessLogo:action.payload}
     }
     if(action.type=="city"){
@@ -107,17 +108,21 @@ mover.current.classList.remove("translate-x-[0%]");
      if(state.password === state.confirmPassword){
       console.log("front end req sent");
        let newUserData = await sendRequest("user/createAccount","POST",{
+        header:{
     email:state.email,
     password:state.password,
     username:state.username,
     mycompany:state.userType=="user" ? "" : state.username,
-    businessData:{
+    businessData:JSON.stringify({
       chosenAgreement:state.agreements,
       email:state.email,
       Name:state.username,
-      
-    }
-    
+      BannerLink:state.businessLogo,
+      Range:state.range,
+      Location:[state.city,state.state],
+      Description:state.description
+    })
+  }
     // businessLogo,
     // city,
     // state,
@@ -171,10 +176,16 @@ mover.current.classList.remove("translate-x-[0%]");
         </div>
         <div ref={landingSignup} className="relative landing__signup w-[30%] bg-blue-900 flex flex-col items-center justify-between py-24 px-12 text-center text-neutral-100 border-r border-blue-900">
           <div ref={businessInfoSlider} className="absolute top-0 left-full h-screen w-[70vw] bg-blue-900 flex flex-col items-center justify-center gap-10">
-
           <div className="business-logo flex flex-col items-center justify-center">
           <h2 className='text-3xl font-semibold mb-8'>Business Logo</h2>
-          <input type="file" name="Image Upload" id="" value={state.businessLogo} onChange={(e)=>dispatch({type:"businessLogo",payload:e.target.value})} />
+          <input type="file" name="Image Upload" id="" onChange={async (e)=>{
+            var fr=new FileReader();
+            fr.onload=((f)=>{
+              dispatch({type:"businessLogo",payload:f.target.result})
+            })
+            fr.readAsDataURL(e.target.files[0])
+          }} />
+
           </div>
           <div className="general-information">
           <h2 className='text-3xl font-semibold mb-8'>General Information</h2>

@@ -62,6 +62,7 @@ const buildUserData = (req) => {
     password: req.get('password'),
     username: req.get('username'),
     myBusiness: req.get('mycompany'),
+    businessData: req.get('businessData')
   };
 };
 

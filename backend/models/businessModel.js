@@ -13,10 +13,6 @@ const BusinessSchema = new mongoose.Schema({
     type:Array,
     required:true
   },
-  ProductType: {
-    type: String,
-    required: true,
-  },
   Description: {
     type: String,
     required: true,

@@ -6,26 +6,27 @@ const {getBusiness} = require("../controllers/Business");
 const {checkEmail} = require("../controllers/blacklist")
 const fs=require("fs")
 const emailForm = fs.readFileSync(__dirname+"/../interface/emailForm.html",'utf-8');
-var confirmationTokens=[]
+var confirmationTokens={}
 //sends an activation email for the user to their email address
 const sendConfirmationEmail =async(userData)=> {
   if(await checkEmail(userData.email)) return {success:false,msg:"email/domain blacklisted"}
-  if(userData.business!=null&&await getBusiness(userData.business.Name)) return {success:false,msg:"business name already in use"}
+  if(userData.businessData.BannerLink!=null&&await getBusiness(userData.businessData.email)) return {success:false,msg:"business name already in use"}
   var confirmationToken= await jsonwebtoken.sign(userData, JWT_SECRET,{expiresIn: '1h'})
-  confirmationTokens.push(confirmationToken)
-  
+  confirmationTokens[confirmationToken]=userData.businessData
+  console.log(userData.businessData)
   sendEmail(userData.email,"Account Confirmation",emailForm.replace("${AUTH_TOKEN}",String(confirmationToken)))
   
   return {success:true,msg:"Sent account authentication email"}
 }
 const recieveConfirmationToken = async(req,res)=>{
     var {token}=req.query
-    if(!confirmationTokens.includes(token)) return {success:false,msg:"token invalid"}
+    if(!Object.keys(confirmationTokens).includes(token)) return {success:false,msg:"token invalid"}
     var decoded=await jsonwebtoken.decode(token)
     console.log(decoded)
     if(Date.now()>=decoded.exp*1000){return {success:false,msg:"token expired"}}
-    
-    return {success:true,decoded,msg:"account authenticated"}
+     var tokenData=confirmationTokens[token]
+    delete confirmationTokens[token]
+    return {success:true,decoded,msg:"account authenticated",tokenData}
 }
 
 module.exports = {sendConfirmationEmail,recieveConfirmationToken}

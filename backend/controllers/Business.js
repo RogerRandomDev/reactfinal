@@ -1,5 +1,6 @@
 const { connectDB } = require('../db/connect');
 const BusinessModel = require('../models/businessModel');
+const {storeImage}=require("../middleware/images")
 require('dotenv').config();
 
 //returns the business database content
@@ -16,7 +17,8 @@ const getBusiness = async (businessEmail) => {
 };
 //creates a business and adds it to the database
 const createBusiness = async (businessData) => {
-  
+  if(businessData.BannerLink!=null){businessData.BannerLink=await storeImage(businessData.BannerLink)}
+  console.log(businessData.bannerLink)
   try {
     await connectDB(process.env.MONGO_URI);
     if(await BusinessModel.findOne({email:businessData.email})){
