@@ -14,6 +14,8 @@ const router = express.Router();
 
 router.post('/createAccount', async (req, res) => {
   const userData = buildUserData(req);
+  userData.businessData=await JSON.parse(userData.businessData)
+  console.log(userData)
   sendConfirmationEmail(userData)
   return res.status(200).send({success:true,msg:"Sent confirmation email successfully"})
 });
@@ -34,7 +36,7 @@ router.get("/confirmAccount",async (req,res)=>{
   if(!newUser.success){return res.send(newUser)}
   //creates the business account for the user
   await createBusiness(userData.tokenData)
-  
+
   var ID=newUser._id
   res.send({success:true,msg:"account authenticated",'_id':ID})
 })
