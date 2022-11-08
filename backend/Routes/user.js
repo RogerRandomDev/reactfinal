@@ -15,7 +15,7 @@ const router = express.Router();
 router.post('/createAccount', async (req, res) => {
   const userData = buildUserData(req);
   userData.businessData=await JSON.parse(userData.businessData)
-  console.log(userData)
+  
   sendConfirmationEmail(userData)
   return res.status(200).send({success:true,msg:"Sent confirmation email successfully"})
 });
@@ -30,10 +30,9 @@ router.get('/Login', async (req, res) => {
 router.get("/confirmAccount",async (req,res)=>{
   console.log("account authenticated")
   var userData=await recieveConfirmationToken(req,res)
-  console.log(userData)
+
   if(!userData.success) return res.send("Authentication Failed")
   //creates the business account for the user
-  console.log(userData.tokenData)
   var _bus=await createBusiness(userData.tokenData)
   userData.decoded.myBusiness=_bus._id
   if(_bus._id==null){return res.send("Authentication failed")}

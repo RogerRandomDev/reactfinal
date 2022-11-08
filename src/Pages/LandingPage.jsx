@@ -113,6 +113,7 @@ mover.current.classList.remove("translate-x-[0%]");
     password:state.password,
     username:state.username,
     mycompany:state.userType=="user" ? "" : state.username,
+    Location:[state.city,state.state],
     businessData:JSON.stringify({
       chosenAgreement:state.agreements,
       email:state.email,
