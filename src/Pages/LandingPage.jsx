@@ -236,7 +236,7 @@ mover.current.classList.remove("translate-x-[0%]");
             </div>
             {/* <h3 className='mb-6 text-neutral-100 text-lg font-light tracking-wide'>Sign Up</h3> */}
             <input placeholder='Email' type="text" value={state.email}  onChange={(e)=>dispatch({type:"email",payload:e.target.value})} name="email" className={`py-2  px-4 rounded w-9/12 text-neutral-900`}/>
-            <input placeholder={state.userType ==="user" ? 'Username' : "Business Name"} type="text" value={state.username}  onChange={(e)=>dispatch({type:"username",payload:e.target.value})} name="username" className={`py-2  px-4 rounded w-9/12 text-neutral-900 ${state.userType=="business" ? "block" : "hidden"}`}/>
+            <input placeholder={"Username"} type="text" value={state.username}  onChange={(e)=>dispatch({type:"username",payload:e.target.value})} name="username" className={`py-2  px-4 rounded w-9/12 text-neutral-900 ${state.userType=="business" ? "block" : "hidden"}`}/>
             <input placeholder='Password' type="password" value={state.password} onChange={(e)=>dispatch({type:"password",payload:e.target.value})} name="password" className='py-2 rounded w-9/12 px-4  text-neutral-900'/>
             <input placeholder='Confirm Password' type="password" value={state.confirmPassword} onChange={(e)=>dispatch({type:"confirmPassword",payload:e.target.value})} name="confirmPassword" className={`py-2 rounded w-9/12 px-4 text-neutral-900 ${state.userType=="business" ? "block" : "hidden"}`}/>
             <input type="hidden" name="userType" value={state.userType} />
