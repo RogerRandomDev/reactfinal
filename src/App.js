@@ -26,8 +26,8 @@ const App = (props) => {
   return (
     <div className='App'>
       <Router>
-        {/* <NavBar /> */}
-        <ul className='flex gap-6'>
+        <NavBar />
+        {/* <ul className='flex gap-6'>
           <li>
             <Link to='/login'>Log In/Sign Up</Link>
           </li>
@@ -61,7 +61,7 @@ const App = (props) => {
           <li>
             <Link to='/products'>Products (Admin)</Link>
           </li>
-        </ul>
+        </ul> */}
         <Switch>
           <Route path='/' element={<TotalRevenue />} />
           <Route path='/home' element={<TotalRevenue />} />
