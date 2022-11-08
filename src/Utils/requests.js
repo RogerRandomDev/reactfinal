@@ -1,5 +1,5 @@
 const url = 'http://localhost:5000/';
-const local=require("../hooks/useLocalStorageAuth")
+const local = require('../hooks/useLocalStorageAuth');
 
 const buildHeader = (request, content) => {
   Object.keys(content).forEach((key) =>
@@ -9,21 +9,24 @@ const buildHeader = (request, content) => {
 };
 
 export const sendRequest = async (path, type, contents) => {
-  return new Promise(resolve=>
-    {
+  return new Promise((resolve) => {
     console.log('sending req');
     var xml = new XMLHttpRequest();
-    xml.open(type, url + path,true);
-    xml.onload = function () {resolve(xml.response);};
-
-    xml = buildHeader(xml, contents);
+    let xmlPath = url + path + buildQuery(contents.query);
+    xml.open(type, xmlPath, true);
+    xml.onload = function () {
+      resolve(xml.response);
+    };
+    if (contents.header) {
+      xml = buildHeader(xml, contents);
+    }
     xml.send('');
-  })
+  });
 };
 
-export const updateToken = async() => {
-  console.log("checking token validity")
-  var token=local.getLocal("token")
-  const newToken=await sendRequest("token","GET",{token})
-  local.storeLocal("token",JSON.parse(newToken).token)
-}
+export const updateToken = async () => {
+  console.log('checking token validity');
+  var token = local.getLocal('token');
+  const newToken = await sendRequest('token', 'GET', { token });
+  local.storeLocal('token', JSON.parse(newToken).token);
+};

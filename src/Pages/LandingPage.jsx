@@ -120,14 +120,24 @@ mover.current.classList.remove("translate-x-[0%]");
       alert("passwords dont match");
     }
   }else{
+    
     let data = await sendRequest("user/Login","GET",{
-    email:state.email,
-    password:state.password
+    header:{
+      email:state.email,
+      password:state.password
+    }
    });
    data = JSON.parse(data);
    if(data.success == false) return;
    console.log(data._id);
    await storeLocal("token", data.token);
+
+   let userData = await sendRequest("user/show","GET",{
+    query:{
+      "user":data._id
+    }
+   });
+   console.log(userData);
   }
  }
 
