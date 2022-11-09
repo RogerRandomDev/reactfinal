@@ -10,7 +10,7 @@ function Products() {
        
         <ResponsiveGridDisplay title={""}>
         {new Array(25).fill().map((_,idx)=>{
-            return <ProductCard type="admin" image={`https://picsum.photos/400?random=${idx+6}`} title={"Logitech Gaming Mouse"} price={75} location={"Las Vegas, NV"} link={"#"}/>
+            return <ProductCard key={idx} type="admin" image={`https://picsum.photos/400?random=${idx+6}`} title={"Logitech Gaming Mouse"} price={75} location={"Las Vegas, NV"} link={"#"}/>
         })}
     </ResponsiveGridDisplay>
     </div>

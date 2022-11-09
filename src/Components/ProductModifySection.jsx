@@ -109,7 +109,7 @@ function ProductModifySection({header, data}) {
                 </div>
             }else if(type=="dropdown"){
                 return <div>
-                    <form onSubmit={(e)=>handleAddSpecification(e)} className="flex items-end gap-4">
+                    <form onSubmit={(e)=>handleAddSpecification(e)} className="flex items-start gap-4 flex-col sm:flex-row sm:items-end">
                         <div className="">
                      <p className='text-base mb-2'>Name</p>
                     <input ref={specificationName} type="text" placeholder='e.g. Size' className='border-2 rounded p-4 text-sm'/>

@@ -12,11 +12,10 @@ export default function Navbar({ AccountName }) {
             <a className="h-full w-20 grid mr-2" href="/login">
                 <img src="https://picsum.photos/40/40" className="inline-block place-self-center" />
             </a>
-<<<<<<< HEAD
-            {!sideHidden && <div className="absolute md:hidden flex justify-start flex-col gap-y-3 p-2 w-3/4 h-3/4 bg-white translate-y-[3.75rem] translate-x-[-1.3rem] z-20">
-=======
+            {/* NEED THIS TO WORK */}
+            {/* {!sideHidden && <div className="absolute md:hidden flex justify-start flex-col gap-y-3 p-2 w-3/4 h-3/4 bg-white translate-y-[3.75rem] translate-x-[-1.3rem] z-20"> */}
             <div className={`text-white absolute md:hidden flex justify-start flex-col gap-y-7 py-3 p-2 pr-6 pb-4 "w-3/4" transition-transform bg-gray-700 translate-y-[3.75rem] ${sideHidden && "translate-x-[-15rem]" || "translate-x-[-1.3rem]"} z-20`}>
->>>>>>> b456d49564cbf8a5d0a642f39bba3d9ec156a6fb
+
                 <a href="/profile" className="w-full ml-2 text-2xl">
                     <BsPerson className="inline-block m-auto mr-1 mb-1" />
                     My Account
