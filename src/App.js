@@ -74,7 +74,10 @@ const App = () => {
         <Switch>
           <Route path='/' element={<TotalRevenue />} />
           <Route path='/home' element={<TotalRevenue />} />
-          <Route path='/login' element={<LandingPage />} />
+          <Route
+            path='/login'
+            element={<LandingPage updateContext={updateContext} />}
+          />
           <Route path='/about' element={<AboutPage />} />
           <Route path='/about/terms' element={<TermsofService />} />
           <Route path='/about/privacy' element={<PrivacyPolicy />} />
