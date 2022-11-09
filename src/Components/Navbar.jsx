@@ -7,12 +7,12 @@ import { useState } from "react"
 export default function Navbar({ AccountName }) {
     let [navHidden, setNavHidden] = useState(true)
     let [sideHidden, setSideHidden] = useState(true)
-    return <div className="bg-gray-700 flex items-center p-5 z-80 justify-between">
+    return <div className="bg-gray-700 flex items-center p-5 z-80 justify-between fixed">
         <div className="float-left flex align-middle h-full flex-1">
             <a className="h-full w-20 grid mr-2" href="/login">
                 <img src="https://picsum.photos/40/40" className="inline-block place-self-center" />
             </a>
-            {!sidehidden && <div className="absolute md:hidden flex justify-start flex-col gap-y-3 p-2 w-3/4 h-3/4 bg-white translate-y-[3.75rem] translate-x-[-1.3rem] z-20">
+            {!sideHidden && <div className="absolute md:hidden flex justify-start flex-col gap-y-3 p-2 w-3/4 h-3/4 bg-white translate-y-[3.75rem] translate-x-[-1.3rem] z-20">
                 <a href="/profile" className="w-full ml-2 text-2xl">
                     <BsPerson className="inline-block m-auto mr-1 mb-1" />
                     My Account

@@ -124,15 +124,6 @@ mover.current.classList.remove("translate-x-[0%]");
       Description:state.description
     })
   }
-    // businessLogo,
-    // city,
-    // state,
-    // type,
-    // range,
-    // description,
-    // agreement1,
-    // agreement2,
-    // agreement3
    });
    console.log(newUserData);
       }else{
