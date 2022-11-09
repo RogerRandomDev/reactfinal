@@ -30,11 +30,13 @@ router.get('/Login', async (req, res) => {
 router.get("/confirmAccount",async (req,res)=>{
   console.log("account authenticated")
   var userData=await recieveConfirmationToken(req,res)
-
+  
   if(!userData.success) return res.send("Authentication Failed")
   //creates the business account for the user
+  
   var _bus=await createBusiness(userData.tokenData)
   userData.decoded.myBusiness=_bus._id
+  userData.decoded.Location=userData.decoded.myBusiness.Location
   if(_bus._id==null){return res.send("Authentication failed")}
   const newUser=await createUser(userData.decoded)
   
