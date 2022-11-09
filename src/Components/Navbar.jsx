@@ -12,7 +12,7 @@ export default function Navbar({ AccountName }) {
             <a className="h-full w-20 grid mr-2" href="/login">
                 <img src="https://picsum.photos/40/40" className="inline-block place-self-center" />
             </a>
-            <div className={`text-white absolute md:hidden flex justify-start flex-col gap-y-7 py-3 p-2 pr-6 pb-4 "w-3/4" transition-transform bg-gray-700 translate-y-[3.75rem] ${sideHidden && "translate-x-[-1.3rem]" || "translate-x-[-15rem]"} z-20`}>
+            <div className={`text-white absolute md:hidden flex justify-start flex-col gap-y-7 py-3 p-2 pr-6 pb-4 "w-3/4" transition-transform bg-gray-700 translate-y-[3.75rem] ${sideHidden && "translate-x-[-15rem]" || "translate-x-[-1.3rem]"} z-20`}>
                 <a href="/profile" className="w-full ml-2 text-2xl">
                     <BsPerson className="inline-block m-auto mr-1 mb-1" />
                     My Account
@@ -45,7 +45,7 @@ export default function Navbar({ AccountName }) {
             </div>
         </div>
         <div className="h-full m-0 md:m-auto justify-self-start md:justify-self-center flex-5">
-            <button className="w-9 sm:block md:hidden mr-3" onClick={() => { setSideHidden(!sideHidden) }}>
+            <button className="w-9 inline-block md:hidden mr-3" onClick={() => { setSideHidden(!sideHidden) }}>
                 <GoThreeBars className="w-full h-full m-auto text-white" />
             </button>
             <a href="/test" className="hidden md:inline-block mr-5 bg-none text-gray-300 hover:text-gray-200 transition-colors">Dashboard</a>
@@ -57,7 +57,7 @@ export default function Navbar({ AccountName }) {
         {/* profile button with My account, settings, and logout */}
         {/* profile thing on right hidden on mobile and put on three dots instead */}
         <li className="hidden md:inline-block h-full ml-auto md:ml-0 list-none flex-1">
-            <button className="text-white block w-max ml-auto pl-4 mr-3 z-30 hover:cursor-pointer" onClick={() => { setNavHidden(!navHidden) }}>
+            <button className="text-white block w-max ml-auto pl-4 mr-3 z-30" onClick={() => { setNavHidden(!navHidden) }}>
                 <img src="https://picsum.photos/40/40" className="inline-block place-self-center rounded-full mr-2" />
                 <p className="inline-block mr-1">{AccountName || "LOSERMODE"}</p>
                 <IoMdArrowDropdown className={`inline-block ${navHidden && "rotate-180"} transition-transform`} />
