@@ -56,7 +56,7 @@ export default function Navbar({ AccountName }) {
         {/* dashboard, all products, add/edit product, customer list */}
         {/* profile button with My account, settings, and logout */}
         {/* profile thing on right hidden on mobile and put on three dots instead */}
-        <li className="hidden md:inline-block h-full ml-auto md:ml-0 list-none flex-1">
+        <ol className="hidden md:inline-block h-full ml-auto md:ml-0 list-none flex-1">
             <button className="text-white block w-max ml-auto pl-4 mr-3 z-30" onClick={() => { setNavHidden(!navHidden) }}>
                 <img src="https://picsum.photos/40/40" className="inline-block place-self-center rounded-full mr-2" />
                 <p className="inline-block mr-1">{AccountName || "LOSERMODE"}</p>
@@ -87,6 +87,6 @@ export default function Navbar({ AccountName }) {
                 </div>
 
             </button>
-        </li>
+        </ol>
     </div>
 }
