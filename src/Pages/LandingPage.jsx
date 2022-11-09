@@ -127,16 +127,6 @@ mover.current.classList.remove("translate-x-[0%]");
   body:{
     Banner:state.businessLogo
   }
-
-    // businessLogo,
-    // city,
-    // state,
-    // type,
-    // range,
-    // description,
-    // agreement1,
-    // agreement2,
-    // agreement3
    });
       }else{
       alert("passwords dont match");
