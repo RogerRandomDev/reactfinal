@@ -18,9 +18,9 @@ const getBusiness = async (businessEmail) => {
 //creates a business and adds it to the database
 const createBusiness = async (businessData) => {
   
-
   var _id=null;
   try {
+    
     if(businessData.BannerLink!=null){businessData.BannerLink=await storeImage(businessData.BannerLink)}
     
     await connectDB(process.env.MONGO_URI);
@@ -28,12 +28,14 @@ const createBusiness = async (businessData) => {
       return { success: false, msg: 'Business already exists with name' };
     }
     const newBusiness=new BusinessModel(businessData)
-    newBusiness.save()
-    _id=newBusiness._id
+    _id=(await newBusiness.save())._id.toString();
   } catch (err) {
     console.log(err);
+    return {success: false, msg:"failed to create business"}
+  } finally {
+
+    return { success: true, msg: 'Business Created successfully',_id};
   }
-  return { success: true, msg: 'Business Created successfully',_id};
 };
 
 module.exports = { getBusiness, createBusiness };
