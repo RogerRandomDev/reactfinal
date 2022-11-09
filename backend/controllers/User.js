@@ -31,11 +31,13 @@ const getUserByID = async (userID) => {
 };
 //creates a user and adds it to the database
 const createUser = async (userData) => {
+
   userData={
     email:userData.email,
     password:userData.password,
     username:userData.username,
     myBusiness:userData.myBusiness,
+    Location:userData.Location,
     joinDate:new Date().toDateString()
   };
   var _id=null;
@@ -62,7 +64,8 @@ const buildUserData = (req) => {
     password: req.get('password'),
     username: req.get('username'),
     myBusiness: req.get('mycompany'),
-    businessData: req.get('businessData')
+    businessData: req.get('businessData'),
+    Location: req.get("Location")
   };
 };
 

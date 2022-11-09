@@ -22,8 +22,12 @@ export const sendRequest = async (path, type, contents) => {
     xml.onload = function () {
       resolve(xml.response);
     };
-    xml = buildHeader(xml, contents.header);
-    xml.send('');
+    xml.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    buildHeader(xml, contents.header);
+    var _body=contents.body
+    if(_body!=undefined){_body=_body.Banner}
+    xml.send(_body);
+    
   });
 };
 

@@ -21,8 +21,7 @@ const createBusiness = async (businessData) => {
   var _id=null;
   try {
     
-    if(businessData.BannerLink!=null){businessData.BannerLink=await storeImage(businessData.BannerLink)}
-    
+    //if(businessData.BannerLink!=null){businessData.BannerLink=await storeImage(String(businessData.BannerLink))}
     await connectDB(process.env.MONGO_URI);
     if(await BusinessModel.findOne({email:businessData.email})){
       return { success: false, msg: 'Business already exists with name' };

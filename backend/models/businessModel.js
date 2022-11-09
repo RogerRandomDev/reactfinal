@@ -24,8 +24,7 @@ const BusinessSchema = new mongoose.Schema({
     default: 5
   },
   BannerLink: {
-    type: String,
-    required: true
+    type: String
   },
   chosenAgreements:{
     type:Array,

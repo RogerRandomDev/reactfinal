@@ -118,12 +118,16 @@ mover.current.classList.remove("translate-x-[0%]");
       chosenAgreement:state.agreements,
       email:state.email,
       Name:state.username,
-      BannerLink:state.businessLogo,
+      BannerLink:null,
       Range:state.range,
       Location:[state.city,state.state],
       Description:state.description
     })
+  },
+  body:{
+    Banner:state.businessLogo
   }
+
     // businessLogo,
     // city,
     // state,
@@ -134,7 +138,6 @@ mover.current.classList.remove("translate-x-[0%]");
     // agreement2,
     // agreement3
    });
-   console.log(newUserData);
       }else{
       alert("passwords dont match");
     }

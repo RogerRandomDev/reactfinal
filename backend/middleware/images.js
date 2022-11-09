@@ -1,9 +1,13 @@
 const { cloud } = require('../models/imageModel');
 const basePath="https://res.cloudinary.com/dztnsrrta/image/upload/"
 const storeImage = async(imageData,uploadTo="default")=>{
+  try{
   return (
     await cloud.v2.uploader.upload(imageData, { folder: uploadTo})
   ).secure_url.split(basePath)[1];
+  } catch(err){
+    console.log(err)
+  }
 }
 const removeImages = async(imageUrls,uploadedTo="default")=>{
   imageUrls=imageUrls.map((url)=>getImageName(url));

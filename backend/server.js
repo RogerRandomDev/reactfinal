@@ -8,11 +8,12 @@ const fs=require("fs")
 const userRouter=require("./Routes/user")
 //admin page
 const adminPage=fs.readFileSync(__dirname+"/interface/index.html",'utf-8')
-
+const bodyParser = require("body-parser");
 
 app.use(cors());
-
-
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 app.get("/token",async (req,res)=>{
   const userToken=req.get("token")
