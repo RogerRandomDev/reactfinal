@@ -17,10 +17,12 @@ const getBusiness = async (businessEmail) => {
 };
 //creates a business and adds it to the database
 const createBusiness = async (businessData) => {
-  if(businessData.BannerLink!=null){businessData.BannerLink=await storeImage(businessData.BannerLink)}
+  
 
   var _id=null;
   try {
+    if(businessData.BannerLink!=null){businessData.BannerLink=await storeImage(businessData.BannerLink)}
+    
     await connectDB(process.env.MONGO_URI);
     if(await BusinessModel.findOne({email:businessData.email})){
       return { success: false, msg: 'Business already exists with name' };

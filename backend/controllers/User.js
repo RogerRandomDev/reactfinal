@@ -47,7 +47,7 @@ const createUser = async (userData) => {
 
     userData.password = await hashString(userData.password);
     const newUser = new UserModel(userData);
-    newUser.save();
+    await newUser.save();
     _id=newUser._id;
   } catch (err) {
     console.log(err);
