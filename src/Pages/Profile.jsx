@@ -22,11 +22,11 @@ function Profile() {
   },[]);
   return (
     <div className="flex flex-col gap-12 py-8 px-20">
-    <div className="flex gap-12 items-center">
+    <div className="flex gap-12 items-center flex-col xl:flex-row">
     {/* <ProfileInfoCard image={"https://picsum.photos/400"} username={context.username} joinDate={context.joinDate} location={`${context.Location[0]}, ${context.Location[1]}`} rating={0} ratingCount={0} bought={0} sold={0}/> */}
     <ProfileInfoCard image={"https://picsum.photos/400"} username={"Trent Block"} joinDate={new Date().toDateString()} location="Salt Lake City, UT" rating={4.5} ratingCount={224} bought={50} sold={12}/>
     {/* Favorited items must come from database, so props are just placeholders for now */}
-    <div className="border-l pl-12">
+    <div className="xl:border-l xl:pl-12 w-[90vw] ml-4">
         <RowDisplay title={"Favorited Items"}>
     <ProductCard type="favorite" favoritePreset={true} image={"https://picsum.photos/400?random=1"} title={"Nike Dunk Low Olive"} price={200} location={"Phoenix, AZ"} link={"#"}/>
     <ProductCard type="favorite" favoritePreset={true} image={"https://picsum.photos/400?random=2"} title={"Nike High Top Jordans"} price={470} location={"Santa Barbara, CA"} link={"#"}/>
@@ -36,7 +36,7 @@ function Profile() {
     </RowDisplay>
     </div>
     </div>
-    <div className="px-20">
+    <div className="xl:px-20">
     <ResponsiveGridDisplay title={"Items From This Seller"}>
         {new Array(25).fill().map((_,idx)=>{
             return <ProductCard image={`https://picsum.photos/400?random=${idx+6}`} title={"Xbox Gaming Controller"} price={50} location={"Salt Lake City, UT"} link={"#"}/>

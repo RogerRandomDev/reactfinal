@@ -33,7 +33,7 @@ const App = () => {
   };
 
   return (
-    <div className='App pt-20'>
+    <div className='App mt-14'>
       <Router>
         <NavBar />
         {/* <ul className='flex gap-6'>
