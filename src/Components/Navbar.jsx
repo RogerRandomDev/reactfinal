@@ -14,34 +14,34 @@ export default function Navbar({ AccountName }) {
             </a>
             {/* NEED THIS TO WORK */}
             {/* {!sideHidden && <div className="absolute md:hidden flex justify-start flex-col gap-y-3 p-2 w-3/4 h-3/4 bg-white translate-y-[3.75rem] translate-x-[-1.3rem] z-20"> */}
-            <div className={`text-white absolute md:hidden flex justify-start flex-col gap-y-7 py-3 p-2 pr-6 pb-4 "w-3/4" transition-transform bg-gray-700 translate-y-[3.75rem] ${sideHidden && "translate-x-[-15rem]" || "translate-x-[-1.3rem]"} z-20`}>
+            <div className={`text-white absolute md:hidden flex justify-start flex-col gap-y-7 py-6 bg-gray-700 translate-y-[3.75rem] ${sideHidden && "translate-x-[-15rem]" || "translate-x-[-1.3rem]"} z-20`} style={{transition: "transform 0.6s cubic-bezier(0.75, 0, 0.25, 1)"}}>
 
-                <a href="/profile" className="w-full ml-2 text-2xl">
+                <a href="/profile" className="w-full text-2xl hover:bg-slate-400 p-6 transition">
                     <BsPerson className="inline-block m-auto mr-1 mb-1" />
                     My Account
                 </a>
-                <a href="/home" className="w-full ml-2 text-2xl">
+                <a href="/home" className="w-full hover:bg-slate-400 text-2xl p-6 transition">
                     <BsGearFill className="inline-block m-auto mr-1 mb-1" />
                     Settings
                 </a>
-                <a className="w-full ml-2 text-2xl" href="/DIE" >
+                <a className="w-full hover:bg-slate-400 text-2xl p-6 transition" href="/DIE" >
                     <AiOutlineUnlock className="inline-block m-auto mr-1 mb-1" />
                     Log Out
                 </a>
                 <div className="h-px bg-blue-400 w-full"></div>
-                <a href="/test" className="text-left ml-2 text-2xl bg-none hover:text-gray-200 transition-colors">
+                <a href="/test" className="text-left hover:bg-slate-400 text-2xl bg-none hover:text-gray-200 transition p-6">
                     <AiFillCalendar className="inline-block mr-1 mb-1" />
                     Dashboard
                 </a>
-                <a href="/test2" className="text-left ml-2 text-2xl bg-none hover:text-gray-200 transition-colors">
+                <a href="/test2" className="text-left hover:bg-slate-400 text-2xl bg-none hover:text-gray-200 transition p-6">
                     <AiFillWallet className="inline-block mr-1 mb-1" />
                     All Products
                 </a>
-                <a href="/test3" className="text-left ml-2 text-lg bg-none hover:text-gray-200 transition-colors">
+                <a href="/test3" className="text-left hover:bg-slate-400 text-lg bg-none hover:text-gray-200 transition p-6">
                     <FaWrench className="inline-block mr-1 mb-1" />
                     Add/Edit Products
                 </a>
-                <a href="/productdetail" className="text-left ml-2 text-2xl bg-none hover:text-gray-200 transition-colors">
+                <a href="/productdetail" className="text-left hover:bg-slate-400 text-2xl bg-none hover:text-gray-200 transition p-6">
                     <FaList className="inline-block mr-2 mb-1" />
                     Customer List
                 </a>
@@ -49,7 +49,12 @@ export default function Navbar({ AccountName }) {
         </div>
         <div className="h-full m-0 md:m-auto justify-self-start md:justify-self-center flex-5">
             <button className="w-9 inline-block md:hidden mr-3" onClick={() => { setSideHidden(!sideHidden) }}>
-                <GoThreeBars className="w-full h-full m-auto text-white" />
+                <div className="">
+                    <div className={`transition duration-500 w-full bg-white rounded-lg h-1 mb-1 ${!sideHidden && "rotate-45  translate-y-2"}`}></div>
+                    <div className={`transition duration-500 w-full bg-white rounded-lg h-1 mb-1 ${!sideHidden && "opacity-0"}`}></div>
+                    <div className={`transition duration-500 w-full bg-white rounded-lg h-1 ${!sideHidden && "-rotate-45  -translate-y-2"}`}></div>
+                </div>
+                {/* <GoThreeBars className="w-full h-full m-auto text-white" /> */}
             </button>
             <a href="/test" className="hidden md:inline-block mr-5 bg-none text-gray-300 hover:text-gray-200 transition-colors">Dashboard</a>
             <a href="/test2" className="hidden md:inline-block mr-5 bg-none text-gray-300 hover:text-gray-200 transition-colors">All Products</a>
@@ -59,15 +64,13 @@ export default function Navbar({ AccountName }) {
         {/* dashboard, all products, add/edit product, customer list */}
         {/* profile button with My account, settings, and logout */}
         {/* profile thing on right hidden on mobile and put on three dots instead */}
-        <ol className="hidden md:inline-block h-full ml-auto md:ml-0 list-none flex-1">
+        <ol className="relative hidden md:inline-block h-full ml-auto md:ml-0 list-none flex-1">
             <button className="text-white block w-max ml-auto pl-4 mr-3 z-30" onClick={() => { setNavHidden(!navHidden) }}>
                 <img src="https://picsum.photos/40/40" className="inline-block place-self-center rounded-full mr-2" />
-                <p className="inline-block mr-1">{AccountName || "LOSERMODE"}</p>
-                <IoMdArrowDropdown className={`inline-block ${navHidden && "rotate-180"} transition-transform`} />
-                <div className={`z-20 absolute bg-gray-700 w-40 ${navHidden && "h-0 p-0" || "h-[11.5rem]"} transition-all rounded-b translate-y-5 overflow-hidden flex flex-col gap-y-1 items-center`}>
-                    <div className="w-full">
-                        <p className="text-center px-4 mb-1 mt-2 w-full transition">RAVAGE</p>
-                    </div>
+                <p className="inline-block mr-1">{AccountName || "Guest"}</p>
+                <IoMdArrowDropdown className={`inline-block ${navHidden && "rotate-180"} transition-transform duration-[600ms]`} />
+                <div className={`z-20 absolute -right-5 bg-gray-700 w-40 ${navHidden && "h-0 p-0" || "h-[8.5rem]"} rounded-b translate-y-5 overflow-hidden flex flex-col gap-y-1 items-center -bottom-50`} style={{transition: "all 0.6s cubic-bezier(0.75, 0, 0.25, 1)"}}>
+
                     <div className="hover:bg-slate-400 w-full py-2 transition">
                         <a href="/profile" className="text-center px-4 w-full">
                             <BsPerson className="inline-block m-auto mr-1" />
@@ -80,7 +83,6 @@ export default function Navbar({ AccountName }) {
                             Settings
                         </a>
                     </div>
-                    <div className="px-4 h-px bg-blue-400 w-full"></div>
                     <div className="hover:bg-slate-400 w-full transition py-2">
                         <a className="px-4 w-full" href="/DIE" >
                             <AiOutlineUnlock className="inline-block m-auto mr-1" />
