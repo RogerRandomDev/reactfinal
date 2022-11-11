@@ -161,7 +161,7 @@ mover.current.classList.remove("translate-x-[0%]");
  
   return (
     <section ref={section} className="overflow-hidden">
-      <div className="flex h-screen relative transition delay-200 duration-[600ms] ease-in-out" ref={mover}>
+      <div className="flex h-screen -mt-14 relative transition delay-200 duration-[600ms] ease-in-out" ref={mover}>
    
         <div ref={hero} className="w-[70%] text-center flex flex-col justify-center">
           <img src={require("../assets/testingsvg.PNG")} className="max-w-full object-cover w-9/12 mx-auto mb-4"alt="" />
@@ -169,7 +169,7 @@ mover.current.classList.remove("translate-x-[0%]");
           <p className='text-slate-400'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, est. Lorem, ipsum. <br/>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
         </div>
         <div ref={landingSignup} className="relative landing__signup w-[30%] bg-blue-900 flex flex-col items-center justify-between py-24 px-12 text-center text-neutral-100 border-r border-blue-900">
-          <div ref={businessInfoSlider} className="absolute top-0 left-full h-screen w-[70vw] bg-blue-900 flex flex-col items-center justify-center gap-10">
+          <div ref={businessInfoSlider} className="absolute top-0 left-full h-screen w-[70.1vw] bg-blue-900 flex flex-col items-center justify-center gap-10">
           <div className="business-logo flex flex-col items-center justify-center">
           <h2 className='text-3xl font-semibold mb-8'>Business Logo</h2>
           <input type="file" name="Image Upload" id="" onChange={async (e)=>{
