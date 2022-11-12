@@ -30,8 +30,7 @@ let uploadFromBuffer = (req) => {
   const {folder} = req.params;
   if(folder==null){folder="default"}
   return new Promise((resolve, reject) => {
-
-    let cld_upload_stream = cloudinary.v2.uploader.upload_stream(
+    let cld_upload_stream = cloud.v2.uploader.upload_stream(
      {
        folder
      },
@@ -43,7 +42,7 @@ let uploadFromBuffer = (req) => {
          reject(error);
         }
       }
-    );
+    )//.secure_url.split(basePath)[1] add this once it isn't erroring and returns the right response data. also, after awaiting;
 
     streamifier.createReadStream(req.body).pipe(cld_upload_stream);
   });

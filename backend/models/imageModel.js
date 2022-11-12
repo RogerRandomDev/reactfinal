@@ -6,5 +6,4 @@ const cloudConfig = {
   api_secret: process.env.CLOUDINARY_API_SECRET,
 };
 cloud.config(cloudConfig);
-
 module.exports = { cloud, cloudConfig };
