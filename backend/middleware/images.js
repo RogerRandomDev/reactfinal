@@ -1,5 +1,10 @@
 const { cloud } = require('../models/imageModel');
+let streamifier = require('streamifier');
 const basePath="https://res.cloudinary.com/dztnsrrta/image/upload/"
+
+//try avoiding this one if it is NOT a low res image.
+//only really here still because it has it's use
+//just use uploadFromBuffer when possible
 const storeImage = async(imageData,uploadTo="default")=>{
   try{
   return (
@@ -20,4 +25,32 @@ const getImageName=(imageUrl)=>{
   return parts.replace(".jpg","")
 }
 
-module.exports = {storeImage,removeImages,getImageName};
+//testing this from online. thank you, google!
+let uploadFromBuffer = (req) => {
+  const {folder} = req.params;
+  if(folder==null){folder="default"}
+  return new Promise((resolve, reject) => {
+
+    let cld_upload_stream = cloudinary.v2.uploader.upload_stream(
+     {
+       folder
+     },
+     (error, result) => {
+
+       if (result) {
+         resolve(result);
+       } else {
+         reject(error);
+        }
+      }
+    );
+
+    streamifier.createReadStream(req.body).pipe(cld_upload_stream);
+  });
+
+};
+
+
+
+
+module.exports = {storeImage,removeImages,getImageName,uploadFromBuffer};
