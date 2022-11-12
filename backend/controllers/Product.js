@@ -56,7 +56,7 @@ const deleteProduct = async (productId) => {
 };
 //creates a product and adds it to the database
 const createProduct = async (productData,userToken) => {
-  if(!checkToken(userToken)){return {success:false,msg:"token invalid"}}
+  if(!checkToken(userToken)){return {success:false,msg:"token invalid",_id:null}}
   const userData=await decodeToken(userToken);
   productData.creatorID=userData.userID;
   try {
@@ -66,7 +66,7 @@ const createProduct = async (productData,userToken) => {
   } catch (err) {
     console.log(err);
   }
-  return { success: true, msg: 'Product Created successfully' };
+  return { success: true, msg: 'Product Created successfully',_id:productData._id};
 };
 
 

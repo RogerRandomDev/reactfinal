@@ -6,6 +6,7 @@ const cors = require('cors');
 const fs=require("fs")
 //routers
 const userRouter=require("./Routes/user")
+const productRouter=require("./Routes/product")
 //admin page
 const adminPage=fs.readFileSync(__dirname+"/interface/index.html",'utf-8')
 const bodyParser = require("body-parser");
@@ -22,7 +23,7 @@ app.get("/token",async (req,res)=>{
 })
 
 app.use("/user",userRouter)
-
+app.use("/product",productRouter)
 app.get("/",(req,res)=>{
   if(req.hostname!="localhost") return res.status(404).send({success:false,msg:"Access denied"})
   res.send(adminPage)
