@@ -5,7 +5,7 @@ function Customers() {
   return (
     <div className="p-4">
         <h2 className='text-2xl font-semibold my-4'>Customers</h2>
-    <Table search={true} type="Full" th={[,"Customer","Email","Member Since","Purchases","Last Purchase", "Status", "Action"]} data=
+    <Table search={true} type="Full" th={["Customer","Email","Member Since","Purchases","Last Purchase", "Status", "Action"]} data=
     {
         [
             {profile:"Rory Seekamp", email:"roryseekamp@gmail.com",memberSince:new Date().toDateString(), purchases:"25", lastOrder:new Date().toDateString(), status:"Blocked", action:"action"},

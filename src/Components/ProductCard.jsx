@@ -8,7 +8,7 @@ function ProductCard({type="favorite", favoritePreset=false, image, title, price
   return (
     <div onClick={(e)=>navigate("/productDetail")} className="flex flex-col justify-center gap-1 group cursor-pointer relative overflow-hidden">
           {
-          type=="favorite" ? 
+          type==="favorite" ? 
           <div className={`absolute top-4 left-4 text-2xl z-10 hover:scale-125 transition ${!favorited && "-translate-x-10"} group-hover:translate-x-0`}>
             <div onClick={(e)=>{setFavorited(!favorited); e.stopPropagation()}}>
               {favorited ? <AiFillHeart className="text-red-400"/> : <AiOutlineHeart className="text-red-400"/>}
@@ -27,7 +27,7 @@ function ProductCard({type="favorite", favoritePreset=false, image, title, price
                   }
         <a href={link} className="block relative">
             <div className="absolute inset-0 bg-[#121212] opacity-[0.2] hidden group-hover:block"></div>
-            <img src={image} alt={"Product Image"} className="rounded w-full"/>
+            <img src={image} alt={"Product"} className="rounded w-full"/>
         </a>
         <a className="font-semibold text-lg group-hover:underline hover:underline" href={link}>{title}</a>
         <h3 className="text-base">${price}</h3>

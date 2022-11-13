@@ -1,12 +1,12 @@
-import React, {useState, useRef, useReducer} from 'react'
+import React, {useRef, useReducer} from 'react'
 import { useNavigate } from 'react-router-dom';
 import {FaFacebookF, FaTwitter} from 'react-icons/fa';
 import { useContext } from 'react';
 import {AiOutlineGoogle} from 'react-icons/ai';
 import {sendRequest} from '../Utils/requests';
-import { storeLocal, getLocal } from '../hooks/useLocalStorageAuth';
+import { storeLocal} from '../hooks/useLocalStorageAuth';
 import userContext from '../Context/userContext';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 //https://coderthemes.com/ubold/layouts/default/index.html
 const initialState = {username:"",email:"",password:"",confirmPassword:"",userType:"user",isSignUp:true, businessLogo:"",city:"",state:"",range:"Local",description:"",agreements:[false,false,false]};
 function LandingPage({updateContext}) {
@@ -23,22 +23,22 @@ function LandingPage({updateContext}) {
   const businessInfoSlider = useRef(null);
 
   const formInputReducer = (state,action)=>{
-    if(action.type=="username"){
+    if(action.type==="username"){
       return {...state, username:action.payload}
     }
-    if(action.type=="email"){
+    if(action.type==="email"){
       return {...state, email:action.payload}
     }
-    if(action.type=="password"){
+    if(action.type==="password"){
       return {...state, password:action.payload}
     }
-    if(action.type=="confirmPassword"){
+    if(action.type==="confirmPassword"){
       return {...state, confirmPassword:action.payload}
     }
-    if(action.type=="userType"){
+    if(action.type==="userType"){
       return {...state, userType:action.payload}
     }
-    if(action.type=="changeToUserType"){
+    if(action.type==="changeToUserType"){
       indicator.current.style.transform="translateX(0%)"; 
       businessSelect.current.classList.add("opacity-60");
       userSelect.current.classList.remove("opacity-60"); 
@@ -48,7 +48,7 @@ function LandingPage({updateContext}) {
         }
       return {...state, userType:"user"}
     }
-    if(action.type=="changeToBusinessType"){
+    if(action.type==="changeToBusinessType"){
       indicator.current.style.transform="translateX(100%)";
       userSelect.current.classList.add("opacity-60"); 
       businessSelect.current.classList.remove("opacity-60");
@@ -58,11 +58,11 @@ function LandingPage({updateContext}) {
       }
 return {...state, userType:"business"}
     }
-    if(action.type=="isSignUp"){
+    if(action.type==="isSignUp"){
       return {...state, isSignUp:action.payload}
     }
-    if(action.type=="changeSignUp"){
-    if(!state.isSignUp && state.userType=="business"){
+    if(action.type==="changeSignUp"){
+    if(!state.isSignUp && state.userType==="business"){
       mover.current.classList.add("-translate-x-[70%]");
     mover.current.classList.remove("translate-x-[0%]");
     }else{
@@ -71,26 +71,26 @@ mover.current.classList.remove("translate-x-[0%]");
     }
       return {...state, isSignUp:!state.isSignUp}
     }
-    if(action.type=="businessLogo"){
+    if(action.type==="businessLogo"){
       console.log(action)
       return {...state, businessLogo:action.payload}
     }
-    if(action.type=="city"){
+    if(action.type==="city"){
       return {...state, city:action.payload}
     }
-    if(action.type=="state"){
+    if(action.type==="state"){
       return {...state, state:action.payload}
     }
-    if(action.type=="businessType"){
+    if(action.type==="businessType"){
       return {...state, businessType:action.payload}
     }
-    if(action.type=="range"){
+    if(action.type==="range"){
       return {...state, range:action.payload}
     }
-    if(action.type=="description"){
+    if(action.type==="description"){
       return {...state, description:action.payload}
     }
-    if(action.type=="agreements"){
+    if(action.type==="agreements"){
       let agreements = state.agreements;
       // action.payload = [0,true]
       agreements[action.payload[0]] = action.payload[1];
@@ -103,8 +103,8 @@ mover.current.classList.remove("translate-x-[0%]");
 
  const handleSubmit = async (e) =>{
    e.preventDefault();
-   console.log(state.userType=="business");
-   if(state.userType=="business"){
+   console.log(state.userType==="business");
+   if(state.userType==="business"){
      if(state.password === state.confirmPassword){
       console.log("front end req sent");
        let newUserData = await sendRequest("user/createAccount","POST",{
@@ -112,7 +112,7 @@ mover.current.classList.remove("translate-x-[0%]");
     email:state.email,
     password:state.password,
     username:state.username,
-    mycompany:state.userType=="user" ? "" : state.username,
+    mycompany:state.userType==="user" ? "" : state.username,
     Location:[state.city,state.state],
     businessData:JSON.stringify({
       chosenAgreement:state.agreements,
@@ -128,6 +128,7 @@ mover.current.classList.remove("translate-x-[0%]");
     Banner:state.businessLogo
   }
    });
+   console.log(newUserData);
       }else{
       alert("passwords dont match");
     }
@@ -140,7 +141,7 @@ mover.current.classList.remove("translate-x-[0%]");
     }
    });
    data = JSON.parse(data);
-   if(data.success == false) return;
+   if(data.success === false) return;
    console.log(data._id);
    await storeLocal("token", data.token);
 
@@ -229,16 +230,16 @@ mover.current.classList.remove("translate-x-[0%]");
             </div>
             {/* <h3 className='mb-6 text-neutral-100 text-lg font-light tracking-wide'>Sign Up</h3> */}
             <input placeholder='Email' type="text" value={state.email}  onChange={(e)=>dispatch({type:"email",payload:e.target.value})} name="email" className={`py-2  px-4 rounded w-9/12 text-neutral-900`}/>
-            <input placeholder={"Username"} type="text" value={state.username}  onChange={(e)=>dispatch({type:"username",payload:e.target.value})} name="username" className={`py-2  px-4 rounded w-9/12 text-neutral-900 ${state.userType=="business" ? "block" : "hidden"}`}/>
+            <input placeholder={"Username"} type="text" value={state.username}  onChange={(e)=>dispatch({type:"username",payload:e.target.value})} name="username" className={`py-2  px-4 rounded w-9/12 text-neutral-900 ${state.userType==="business" ? "block" : "hidden"}`}/>
             <input placeholder='Password' type="password" value={state.password} onChange={(e)=>dispatch({type:"password",payload:e.target.value})} name="password" className='py-2 rounded w-9/12 px-4  text-neutral-900'/>
-            <input placeholder='Confirm Password' type="password" value={state.confirmPassword} onChange={(e)=>dispatch({type:"confirmPassword",payload:e.target.value})} name="confirmPassword" className={`py-2 rounded w-9/12 px-4 text-neutral-900 ${state.userType=="business" ? "block" : "hidden"}`}/>
+            <input placeholder='Confirm Password' type="password" value={state.confirmPassword} onChange={(e)=>dispatch({type:"confirmPassword",payload:e.target.value})} name="confirmPassword" className={`py-2 rounded w-9/12 px-4 text-neutral-900 ${state.userType==="business" ? "block" : "hidden"}`}/>
             <input type="hidden" name="userType" value={state.userType} />
             
-            <button type="submit" className='btn-primary mt-4 w-9/12 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold' onClick={(e)=>handleSubmit(e)}>Sign {state.userType=="business" ? "Up" : "In"}</button>
+            <button type="submit" className='btn-primary mt-4 w-9/12 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold' onClick={(e)=>handleSubmit(e)}>Sign {state.userType==="business" ? "Up" : "In"}</button>
             
           </form>
           <div className="alternate-signup">
-            <h4>Or Sign {state.userType=="business" ? "Up" : "In"} With</h4>
+            <h4>Or Sign {state.userType==="business" ? "Up" : "In"} With</h4>
             <div className="signup-cards">
               <div className="flex gap-4 justify-center mt-4">
                 <div className="w-8 h-8 rounded-full bg-neutral-100 grid place-items-center cursor-pointer hover:-translate-y-1 transition"><FaFacebookF className='text-blue-900'></FaFacebookF></div>

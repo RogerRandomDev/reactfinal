@@ -1,10 +1,9 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import ReactDOM from 'react-dom/client';
+import React, { useState} from 'react';
+// useCallback, propType
 import {
   BrowserRouter as Router,
   Routes as Switch,
   Route,
-  Link,
 } from 'react-router-dom';
 import { FaRegHeart } from 'react-icons/fa';
 import DataOverview from './Components/DataOverview';
@@ -22,7 +21,7 @@ import Profile from './Pages/Profile';
 import Products from './Pages/Products';
 import NavBar from './Components/Navbar';
 
-import userContext from './Context/userContext';
+// import userContext from './Context/userContext';
 
 const App = () => {
   const [user, setUser] = useState('');
@@ -76,7 +75,7 @@ const App = () => {
           <Route path='/home' element={<TotalRevenue />} />
           <Route
             path='/login'
-            element={<LandingPage updateContext={updateContext} />}
+            element={<LandingPage updateContext={updateContext} user={user} />}
           />
           <Route path='/about' element={<AboutPage />} />
           <Route path='/about/terms' element={<TermsofService />} />
