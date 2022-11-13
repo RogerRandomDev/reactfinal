@@ -1,4 +1,3 @@
-import History from "./AboutPageCompanyHistory"
 export default function AboutPageTermsAndPrivacy() {
     return (
         <>

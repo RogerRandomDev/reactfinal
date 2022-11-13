@@ -34,7 +34,7 @@ export const sendRequest = async (path, type, contents) => {
     xml.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     buildHeader(xml, contents.header);
     var _body=contents.body
-    if(_body!=undefined){_body=_body.Banner}
+    if(_body!==undefined){_body=_body.Banner}
     xml.send(_body);
     
   });

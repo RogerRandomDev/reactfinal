@@ -1,5 +1,5 @@
 const { cloud } = require('../models/imageModel');
-let streamifier = require('streamifier');
+const streamifier = require('streamifier');
 const basePath="https://res.cloudinary.com/dztnsrrta/image/upload/"
 
 //try avoiding this one if it is NOT a low res image.

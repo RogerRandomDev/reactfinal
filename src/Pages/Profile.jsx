@@ -1,5 +1,5 @@
-import {useEffect, useContext} from 'react';
-import userContext from '../Context/userContext';
+import {useEffect} from 'react';
+// import userContext from '../Context/userContext';
 
 import ProductCard from "../Components/ProductCard";
 import ProfileInfoCard from "../Components/ProfileInfoCard";
@@ -9,7 +9,7 @@ import ResponsiveGridDisplay from "../Components/ResponsiveGridDisplay";
 import RowDisplay from "../Components/RowDisplay";
 
 function Profile() {
-  const context = useContext(userContext);
+  // const context = useContext(userContext);
   useEffect(()=>{
     (async () => {
     let userId = window.location.search.split("=")[1];

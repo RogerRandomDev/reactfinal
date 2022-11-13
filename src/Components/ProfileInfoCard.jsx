@@ -3,11 +3,11 @@ import {FiFlag} from 'react-icons/fi';
 
 // updated version will only pass in user id from database and this info will be fetched here
 function ProfileInfoCard({image, username, joinDate, location, rating, ratingCount, bought, sold}) {
-    {/*Remove width later */}
+    // {/*Remove width later */}
   return (
     <div className="flex flex-col gap-4 w-full xl:w-1/3">
         <div className="flex gap-8 items-center justify-center">
-            <img src={image} alt="Profile Image" className="rounded-full w-[40%] min-w-[8rem] object-cover aspect-square max-w-[6rem]"/>
+            <img src={image} alt="Profile" className="rounded-full w-[40%] min-w-[8rem] object-cover aspect-square max-w-[6rem]"/>
             <div className="flex flex-col gap-2 text-neutral-900">
                 <h3 className="font-semibold text-xl 2xl:text-2xl">{username}</h3>
                 <p>Joined {joinDate}</p>

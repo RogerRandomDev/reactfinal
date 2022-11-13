@@ -17,12 +17,12 @@ function ProductModifySection({header, data}) {
     const [specifications, setSpecifications] = useState([]);
     const removePro = (key) =>{
         let currentPros = pros;
-        currentPros = currentPros.filter(p=>p.id != key);
+        currentPros = currentPros.filter(p=>p.id !== key);
         setPros(currentPros);
     }
     const removeSpecification = (key) =>{
         let currentSpecifications = specifications;
-        currentSpecifications = currentSpecifications.filter(p=>p.id != key);
+        currentSpecifications = currentSpecifications.filter(p=>p.id !== key);
         setSpecifications(currentSpecifications);
     }
     const handleAddPro = (e) => {
@@ -56,22 +56,22 @@ function ProductModifySection({header, data}) {
         <h2 className='bg-slate-200 text-neutral-800 p-4 text-lg mb-6'>{header}</h2>
         <div className="flex flex-col justify-center gap-4">
         {data.map(({name, type, items=[]})=>{
-            if(type=="text" || type=="number"){
+            if(type==="text" || type==="number"){
             return <div className="text-base">
                 <p className='text-neutral-800 font-semibold mb-2 text-sm'>{name}</p>
                 <input type={type} className="border-2 rounded p-2"/>
             </div>
-            }else if(type=="textarea"){
+            }else if(type==="textarea"){
                 return <div className='text-base'>
                 <p className='text-neutral-800 font-semibold mb-2 text-sm'>{name}</p>
                 <textarea name="" id="" className="border-2 rounded w-3/4 p-2"></textarea>
                 </div>
-            }else if(type=="limitedNumber"){
+            }else if(type==="limitedNumber"){
                 return <div className="text-base">
                  <p className='text-neutral-800 font-semibold mb-2 text-sm'>{name} (%)</p>
                 <input type="number" min={0} max={99} className="border-2 rounded p-2"/>
                 </div>
-            }else if(type=="radio"){
+            }else if(type==="radio"){
                 return <div className="text-sm">
                     <p className='text-neutral-800 font-semibold mb-2'>{name}</p>
                     <div className="flex items-center gap-2">
@@ -80,7 +80,7 @@ function ProductModifySection({header, data}) {
                     <input type="radio" name="status" value="Unavailable" id="status-unavailable"/>
                     <label htmlFor="status-unavailable">Unavailable</label>
                 </div></div>
-            }else if(type=="image"){
+            }else if(type==="image"){
                 return <div className="text-base">
                 <label for="product-file" className='cursor-pointer flex flex-col justify-center items-center gap-2 border-2 border-dashed border-slate-300 py-10 hover:border-slate-500 transition'>
                     <BsCloudUpload className='text-slate-400 text-4xl'/>
@@ -92,7 +92,7 @@ function ProductModifySection({header, data}) {
                       return <FileDisplay name={image[0]} size={image[1]} image={image[2]}/>
                     })}
                 </div>
-            }else if(type == "customAdd"){
+            }else if(type === "customAdd"){
                 return <div>
                     <form onSubmit={(e)=>handleAddPro(e)} className="flex gap-4 items-end">
                         <div className="">
@@ -107,7 +107,7 @@ function ProductModifySection({header, data}) {
                 })}
                 </div>
                 </div>
-            }else if(type=="dropdown"){
+            }else if(type==="dropdown"){
                 return <div>
                     <form onSubmit={(e)=>handleAddSpecification(e)} className="flex items-start gap-4 flex-col sm:flex-row sm:items-end">
                         <div className="">

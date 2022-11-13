@@ -1,5 +1,5 @@
 // MOST CREDIT FOR THIS HTML AND CSS GOES TO https://github.com/sparksuite/simple-html-invoice-template/blob/master/invoice.html
-import {useState} from 'react';
+// import {useState} from 'react';
 function PurchaseReceipt({buyer, seller, logo, date, items, location, email}) {
     let totalPrice = 0;
   return (
@@ -73,7 +73,7 @@ function PurchaseReceipt({buyer, seller, logo, date, items, location, email}) {
     <div className="invoice-box w-[25rem] flex-shrink-0" >
 			<div className="flex justify-between items-center w-full mb-6">
 								<div className="">
-									<img src={logo} className="w-20 h-20 rounded-full"/>
+									<img src={logo} alt="Logo" className="w-20 h-20 rounded-full"/>
 								</div>
 
 								<div>
