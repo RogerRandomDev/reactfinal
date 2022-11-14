@@ -3,13 +3,16 @@ import { useReducer } from 'react';
 import ProductModifySection from '../Components/ProductModifySection'
 
 function AddEditProduct() {
-  const initialState = {name:"",price:"",description:"",status:"",images:"",pros:"",specifications:""};
+  const initialState = {name:"",price:"",discount:"",description:"",status:"",images:[],pros:[],specifications:[]};
   const formReducer = (state,action)=>{
     if(action.type=="name"){
       return {...state, name:action.payload}
     }
     if(action.type=="price"){
       return {...state, price:action.payload}
+    }
+    if(action.type=="discount"){
+      return {...state, discount:action.payload}
     }
     if(action.type=="description"){
       return {...state, description:action.payload}
@@ -24,13 +27,15 @@ function AddEditProduct() {
       return {...state, pros:action.payload}
     }
     if(action.type=="specifications"){
-      return {...state, productName:action.payload}
+      return {...state, specifications:action.payload}
     }
     throw new Error("No Matching Action Type");
   };
   const [state, dispatch] = useReducer(formReducer, initialState);
   const handleSubmit = (e)=>{
-    // e.preventDefault();
+    e.preventDefault();
+    dispatch({type:"name",value:state.name});
+    console.log(state);
     // let data = new FormData(formRef);
     // console.log(data);
   };

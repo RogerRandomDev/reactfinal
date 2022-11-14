@@ -13,28 +13,28 @@ function ProductModifySection({state, dispatch, header, data}) {
 
     const [imageFiles, setImageFiles] = useState([]);
     const [test,setTest] = useState(false);
-    const [pros, setPros] = useState([]);
-    const [specifications, setSpecifications] = useState([]);
     const removePro = (key) =>{
-        let currentPros = pros;
+        let currentPros = state.pros;
         currentPros = currentPros.filter(p=> p.id !== Number(key));
         console.log(currentPros);
-        setPros(currentPros);
+        dispatch({type:"pros",payload:currentPros});
     }
     const removeSpecification = (key) =>{
-        let currentSpecifications = specifications;
+        let currentSpecifications = state.specifications;
         currentSpecifications = currentSpecifications.filter(p=>p.id !== Number(key));
-        setSpecifications(currentSpecifications);
+        dispatch({type:"specifications", payload:currentSpecifications});
     }
     const handleAddPro = (e) => {
         console.log(e);
         e.preventDefault();
-        setPros([...pros, {val:pro.current.value, id:e.timeStamp}]);
+        // setPros([...pros, {val:pro.current.value, id:e.timeStamp}]);
+        dispatch({type:"pros",payload:[...state.pros, {val:pro.current.value, id:e.timeStamp}]});
         pro.current.value = "";
+        console.log(state);
     }
     const handleAddSpecification = (e) => {
         e.preventDefault();
-        setSpecifications([...specifications, {name:specificationValue.current.value, val:specificationName.current.value, id:e.timeStamp}]);
+        dispatch({type:"specifications",payload:[...state.specifications, {name:specificationValue.current.value, val:specificationName.current.value, id:e.timeStamp}]});
         specificationName.current.value = "";
         specificationValue.current.value = "";
     }
@@ -51,6 +51,7 @@ function ProductModifySection({state, dispatch, header, data}) {
         }
         setTimeout(() => {
             setTest(!test);
+            dispatch({type:"images",payload:imageFiles});
         }, 100);
     }
   return (
@@ -58,28 +59,33 @@ function ProductModifySection({state, dispatch, header, data}) {
         <h2 className='bg-slate-200 text-neutral-800 p-4 text-lg mb-6'>{header}</h2>
         <div className="flex flex-col justify-center gap-4">
         {data.map(({name, type, items=[]})=>{
-            if(type==="text" || type==="number"){
+            if(type==="text"){
             return <div className="text-base">
                 <p className='text-neutral-800 font-semibold mb-2 text-sm'>{name}</p>
-                <input value={state.name} onChange={()=>dispatch} type={type} className="border-2 rounded p-2"/>
+                <input value={state.name} onChange={(e)=>dispatch({type:"name",payload:e.target.value})} type='text' className="border-2 rounded p-2"/>
+            </div>
+            }else if(type==="number"){
+                    return <div className="text-base">
+                <p className='text-neutral-800 font-semibold mb-2 text-sm'>{name}</p>
+                <input value={state.price} onChange={(e)=>dispatch({type:"price",payload:e.target.value})} type='number' className="border-2 rounded p-2"/>
             </div>
             }else if(type==="textarea"){
                 return <div className='text-base'>
                 <p className='text-neutral-800 font-semibold mb-2 text-sm'>{name}</p>
-                <textarea name="" id="" className="border-2 rounded w-3/4 p-2"></textarea>
+                <textarea value={state.description} onChange={(e)=>dispatch({type:"description",payload:e.target.value})} name="" id="" className="border-2 rounded w-3/4 p-2"></textarea>
                 </div>
             }else if(type==="limitedNumber"){
                 return <div className="text-base">
                  <p className='text-neutral-800 font-semibold mb-2 text-sm'>{name} (%)</p>
-                <input type="number" min={0} max={99} className="border-2 rounded p-2"/>
+                <input value={state.discount} onChange={(e)=>dispatch({type:"discount",payload:e.target.value})} type="number" min={0} max={99} className="border-2 rounded p-2"/>
                 </div>
             }else if(type==="radio"){
                 return <div className="text-sm">
                     <p className='text-neutral-800 font-semibold mb-2'>{name}</p>
                     <div className="flex items-center gap-2">
-                    <input type="radio" name="status" value="Instock" id="status-instock"/>
+                    <input onChange={(e)=>dispatch({type:"status",payload:"Instock"})} type="radio" name="status" value="Instock" id="status-instock"/>
                     <label htmlFor="status-instock">Instock</label>
-                    <input type="radio" name="status" value="Unavailable" id="status-unavailable"/>
+                    <input onChange={(e)=>dispatch({type:"status",payload:"Unavailable"})} type="radio" name="status" value="Unavailable" id="status-unavailable"/>
                     <label htmlFor="status-unavailable">Unavailable</label>
                 </div></div>
             }else if(type==="image"){
@@ -102,7 +108,7 @@ function ProductModifySection({state, dispatch, header, data}) {
                     <button onClick={(e)=>handleAddPro(e)} className='btn-primary w-20 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold text-lg mb-2'>Add</button>
                     </div>
                 <div className="flex flex-wrap mt-4 gap-2">
-                {pros.map(({val, id})=>{
+                {state.pros.map(({val, id})=>{
                     return <p data-id={id} key={id} className='rounded px-4 py-2 bg-blue-500 text-neutral-100 font-semibold text-base w-max flex justify-between gap-8 items-center'><span>{val}</span><span><AiOutlineDelete onClick={(e)=>removePro(e.currentTarget.parentElement.parentElement.getAttribute("data-id"))} className="text-neutral-100 font-extrabold text-xl hover:text-red-400 transition cursor-pointer"/></span></p>
                 })}
                 </div>
@@ -121,7 +127,7 @@ function ProductModifySection({state, dispatch, header, data}) {
                     <button onClick={(e)=>handleAddSpecification(e)} className='btn-primary w-20 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold text-lg mb-2'>Add</button>
                 </div>
                 <div className="flex flex-wrap mt-4 gap-2">
-                {specifications.map(({name, val, id})=>{
+                {state.specifications.map(({name, val, id})=>{
                     return <div className="rounded px-4 py-2 bg-blue-500 text-neutral-100 font-semibold text-base w-max flex justify-between items-center flex-col gap-2">
                         <p className='text-lg'>{val}</p>
                         <p data-id={id} key={id} className='flex gap-4 text-sm'><span>{name}</span><span><AiOutlineDelete onClick={(e)=>removeSpecification(e.currentTarget.parentElement.parentElement.getAttribute("data-id"))} className="text-neutral-100 font-extrabold text-xl hover:text-red-400 transition cursor-pointer"/></span></p></div>

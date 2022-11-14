@@ -1,6 +1,6 @@
 import {CiCircleRemove} from 'react-icons/ci';
 function FileDisplay({name, size, image}) {
-    console.log(image);
+    // console.log(image);
   return (
     <div className="w-full rounded border p-2 flex justify-between items-center mt-4">
         <div className="flex gap-4 items-center">
