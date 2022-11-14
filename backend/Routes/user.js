@@ -7,6 +7,7 @@ const {
   buildUserData,
 } = require('../controllers/User');
 const { login, logout, updateToken } = require('../controllers/auth');
+const {storeImage, moveFromTemp} = require('../middleware/images')
 const {
   sendConfirmationEmail,
   recieveConfirmationToken,
@@ -17,11 +18,13 @@ const router = express.Router();
 router.options('*', cors());
 router.post('/createAccount', async (req, res) => {
   const userData = buildUserData(req);
-  const Banner=Object.keys(req.body)[0];
+  console.log((Object.keys(req.body)[0],"temp"))
+  const bod=JSON.parse(req.body)
+  const Banner=await storeImage(bod.Banner,"temp");
   if(Banner!=null){
   userData.businessData=JSON.parse(userData.businessData)
   userData.businessData.BannerLink=Banner;}
-
+  
   await sendConfirmationEmail(userData);
   return res
     .status(200)
@@ -38,15 +41,20 @@ router.post('/confirmAccount', async (req, res) => {
   console.log('account authenticated');
   var userData = await recieveConfirmationToken(req, res);
   // userData = JSON.parse(userData);
-  console.log(userData);
+  userData.decoded.businessData.BannerLink=await moveFromTemp(
+    userData.decoded.businessData.BannerLink,
+    "BusinessBanners"
+  )
   if(!userData.success) return res.send("Authentication Failed")
   // userData.decoded.businessData=JSON.parse(userData.decoded.businessData)
   //creates the business account for the user
   var _bus=await createBusiness(userData.decoded.businessData)
+  
   userData.decoded.myBusiness=_bus._id
   console.log("45", userData.decoded);
   console.log(_bus.msg)
   if(_bus._id==null){return res.send("Authentication failed")}
+  userData.icon=userData.decoded.businessData.BannerLink;
   const newUser=await createUser(userData.decoded)
   
   if(!newUser.success){return res.send(newUser)}

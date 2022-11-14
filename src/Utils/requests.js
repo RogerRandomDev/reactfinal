@@ -31,11 +31,8 @@ export const sendRequest = async (path, type, contents) => {
     xml.onload = function () {
       resolve(xml.response);
     };
-    xml.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    var _body=contents.body
-    if(_body!==undefined){
-      _body=_body.Banner;
-    }
+    
+    var _body=JSON.stringify(contents.body)
     xml.send(_body);
     
   });
