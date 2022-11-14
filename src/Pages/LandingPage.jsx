@@ -151,6 +151,9 @@ mover.current.classList.remove("translate-x-[0%]");
       "user":data._id
     }
    });
+   // send to localstorage
+   storeLocal("user", userData);
+   //
    userData = JSON.parse(userData);
    updateContext(userData);
    navigate("/profile");
