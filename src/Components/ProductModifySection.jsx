@@ -4,7 +4,7 @@ import { AiOutlineDelete } from 'react-icons/ai';
 import { BsCloudUpload } from 'react-icons/bs';
 import FileDisplay from './FileDisplay';
 
-function ProductModifySection({header, data}) {
+function ProductModifySection({state, dispatch, header, data}) {
     const uploadedFiles = useRef(null);
     const pro = useRef(null);
 
@@ -17,15 +17,17 @@ function ProductModifySection({header, data}) {
     const [specifications, setSpecifications] = useState([]);
     const removePro = (key) =>{
         let currentPros = pros;
-        currentPros = currentPros.filter(p=>p.id !== key);
+        currentPros = currentPros.filter(p=> p.id !== Number(key));
+        console.log(currentPros);
         setPros(currentPros);
     }
     const removeSpecification = (key) =>{
         let currentSpecifications = specifications;
-        currentSpecifications = currentSpecifications.filter(p=>p.id !== key);
+        currentSpecifications = currentSpecifications.filter(p=>p.id !== Number(key));
         setSpecifications(currentSpecifications);
     }
     const handleAddPro = (e) => {
+        console.log(e);
         e.preventDefault();
         setPros([...pros, {val:pro.current.value, id:e.timeStamp}]);
         pro.current.value = "";
@@ -59,7 +61,7 @@ function ProductModifySection({header, data}) {
             if(type==="text" || type==="number"){
             return <div className="text-base">
                 <p className='text-neutral-800 font-semibold mb-2 text-sm'>{name}</p>
-                <input type={type} className="border-2 rounded p-2"/>
+                <input value={state.name} onChange={()=>dispatch} type={type} className="border-2 rounded p-2"/>
             </div>
             }else if(type==="textarea"){
                 return <div className='text-base'>
@@ -94,13 +96,11 @@ function ProductModifySection({header, data}) {
                 </div>
             }else if(type === "customAdd"){
                 return <div>
-                    <form onSubmit={(e)=>handleAddPro(e)} className="flex gap-4 items-end">
-                        <div className="">
+                            <div className="flex gap-4 items-end">
                     <p className='text-base mb-2'>Name</p>
                     <input ref={pro} type="text" placeholder='e.g. High Quality' className='border-2 rounded p-4 text-sm'/>
+                    <button onClick={(e)=>handleAddPro(e)} className='btn-primary w-20 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold text-lg mb-2'>Add</button>
                     </div>
-                    <button type="submit" className='btn-primary w-20 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold text-lg mb-2'>Add</button>
-                </form>
                 <div className="flex flex-wrap mt-4 gap-2">
                 {pros.map(({val, id})=>{
                     return <p data-id={id} key={id} className='rounded px-4 py-2 bg-blue-500 text-neutral-100 font-semibold text-base w-max flex justify-between gap-8 items-center'><span>{val}</span><span><AiOutlineDelete onClick={(e)=>removePro(e.currentTarget.parentElement.parentElement.getAttribute("data-id"))} className="text-neutral-100 font-extrabold text-xl hover:text-red-400 transition cursor-pointer"/></span></p>
@@ -109,7 +109,7 @@ function ProductModifySection({header, data}) {
                 </div>
             }else if(type==="dropdown"){
                 return <div>
-                    <form onSubmit={(e)=>handleAddSpecification(e)} className="flex items-start gap-4 flex-col sm:flex-row sm:items-end">
+                    <div className="flex items-start gap-4 flex-col sm:flex-row sm:items-end">
                         <div className="">
                      <p className='text-base mb-2'>Name</p>
                     <input ref={specificationName} type="text" placeholder='e.g. Size' className='border-2 rounded p-4 text-sm'/>
@@ -118,8 +118,8 @@ function ProductModifySection({header, data}) {
                      <p className='text-base mb-2'>Values</p>
                     <input ref={specificationValue} type="text" placeholder='e.g. Small,Medium,Large' className='border-2 rounded p-4 text-sm'/>
                     </div>
-                    <button type="submit" className='btn-primary w-20 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold text-lg mb-2'>Add</button>
-                </form>
+                    <button onClick={(e)=>handleAddSpecification(e)} className='btn-primary w-20 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold text-lg mb-2'>Add</button>
+                </div>
                 <div className="flex flex-wrap mt-4 gap-2">
                 {specifications.map(({name, val, id})=>{
                     return <div className="rounded px-4 py-2 bg-blue-500 text-neutral-100 font-semibold text-base w-max flex justify-between items-center flex-col gap-2">
