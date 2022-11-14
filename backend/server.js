@@ -3,7 +3,7 @@ const dotenv = require('dotenv')
 dotenv.config();
 //
 const express = require('express');
-const {updateToken} = require('./controllers/auth');
+const {updateToken,checkToken} = require('./controllers/auth');
 const app = express();
 const cors = require('cors');
 const fs=require("fs")
@@ -32,6 +32,12 @@ app.get("/token",async (req,res)=>{
 })
 
 app.use("/user",userRouter)
+//these require authentication at the given time
+app.use("/",async (req,res,next)=>{
+  if(!await checkToken(req.get("token"))||req.get("token")==undefined){return res.send("")}
+  
+  next()
+})
 app.use("/product",productRouter)
 app.get("/",(req,res)=>{
   if(req.hostname!="localhost") return res.status(404).send({success:false,msg:"Access denied"})

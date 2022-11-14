@@ -6,15 +6,18 @@ const {
   createUser,
   buildUserData,
 } = require('../controllers/User');
-const { login, logout, updateToken } = require('../controllers/auth');
+
+const { login, logout, updateToken, checkToken} = require('../controllers/auth');
 const {storeImage, moveFromTemp} = require('../middleware/images')
 const {
   sendConfirmationEmail,
   recieveConfirmationToken,
 } = require('../middleware/accountConfirmation');
 const { createBusiness } = require('../controllers/Business');
+const { ImNext } = require('react-icons/im');
 const router = express.Router();
 // router.use(express.urlencoded({extended:true}));
+//these do not require authentication since they relate to giving the user an auth token
 router.options('*', cors());
 router.post('/createAccount', async (req, res) => {
   const userData = buildUserData(req);
@@ -30,13 +33,12 @@ router.post('/createAccount', async (req, res) => {
     .status(200)
     .send({ success: true, msg: 'Sent confirmation email successfully' });
 });
-
 router.get('/Login', async (req, res) => {
   const userData = buildUserData(req);
   var log = await login(userData);
   return await res.status(200).send(log);
 });
-// ! PROBLEM!!!!!!! -> NEVER RUNS
+
 router.post('/confirmAccount', async (req, res) => {
   console.log('account authenticated');
   var userData = await recieveConfirmationToken(req, res);
@@ -67,6 +69,13 @@ router.post('/confirmAccount', async (req, res) => {
   var ID = newUser._id;
   res.send({ success: true, msg: 'account authenticated', _id: ID });
 });
+//these require authentication at the given time
+router.all("/",async (req,res)=>{
+  if(!checkToken(req.get("token"))||req.get("token")==undefined){return res.send("")}
+  
+  next(req,res)
+})
+
 router.post('/logout', async (req, res) => {
   await logout(req, res);
   console.log('account logged out');
