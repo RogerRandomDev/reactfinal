@@ -4,8 +4,12 @@
 <div style="margin:auto;width:max-content;height: max-content;display:grid;grid-auto-flow: row;">
     <h1 style="text-align:center">Authenticate account</h1><br>
     <p style="text-align:center;">Click the button below to finish account authentication</p><br>
-    <a href="http://localhost:5000/user/confirmAccount/?token=${AUTH_TOKEN}" style="margin: 0 auto;text-align:center;top:5rem;color:black;border-style: solid;border-width: 0.125rem;text-decoration: none; width:max-content;">
-        Authenticate Account
-    </a>
+    <form action="http://localhost:5000/user/confirmAccount/" method="POST">
+        <input type="hidden" id='name' name='token' value='{FORM_REPLACE}'>
+    <button type="submit">Authenticate Account</button>
+    </form>
+    <!-- <input type="hidden" value="${AUTH_TOKEN}">
+    <button type="submit">Authenticate Account</button> -->
+    <!-- margin: 0 auto;text-align:center;top:5rem;color:black;border-style: solid;border-width: 0.125rem;text-decoration: none; width:max-content; -->
 </div>
 </div>

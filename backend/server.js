@@ -1,4 +1,7 @@
-require('dotenv').config();
+const dotenv = require('dotenv')
+//
+dotenv.config();
+//
 const express = require('express');
 const {updateToken} = require('./controllers/auth');
 const app = express();
@@ -9,10 +12,12 @@ const userRouter=require("./Routes/user")
 const productRouter=require("./Routes/product")
 //admin page
 const adminPage=fs.readFileSync(__dirname+"/interface/index.html",'utf-8')
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
 
 app.use(cors());
-app.use(bodyParser.urlencoded({
+app.options('*', cors());
+app.use(express.json());
+app.use(express.urlencoded({
   extended: true
 }));
 
@@ -29,7 +34,7 @@ app.get("/",(req,res)=>{
   res.send(adminPage)
   
 })
-
+console.log(process.env.PORT);
 app.listen(process.env.PORT, () => {
-  console.log('server is running on port 5000');
+  console.log(`server is running on port ${process.env.PORT}`);
 });

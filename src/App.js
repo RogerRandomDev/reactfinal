@@ -21,7 +21,7 @@ import Profile from './Pages/Profile';
 import Products from './Pages/Products';
 import NavBar from './Components/Navbar';
 
-// import userContext from './Context/userContext';
+import userContext from './Context/userContext';
 
 const App = () => {
   const [user, setUser] = useState('');
@@ -32,9 +32,10 @@ const App = () => {
   };
 
   return (
+    <userContext.Provider value={user}>
     <div className='App mt-14'>
       <Router>
-        <NavBar />
+        <NavBar/>
         {/* <ul className='flex gap-6'>
           <li>
             <Link to='/login'>Log In/Sign Up</Link>
@@ -185,7 +186,7 @@ const App = () => {
         <DataOverview fadedAccentColor="rgba(102, 88, 221, 0.25)" accentColor="rgb(102, 88, 221)" Icon={FaRegHeart} data="$58,947" description="Total Revenue"/>
       </div> */}
     </div>
-    // </userContext.Provider>
+    </userContext.Provider>
   );
 };
 

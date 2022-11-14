@@ -113,7 +113,7 @@ mover.current.classList.remove("translate-x-[0%]");
     password:state.password,
     username:state.username,
     mycompany:state.userType==="user" ? "" : state.username,
-    Location:[state.city,state.state],
+    Location:[state.city," "+state.state],
     businessData:JSON.stringify({
       chosenAgreement:state.agreements,
       email:state.email,
@@ -133,7 +133,7 @@ mover.current.classList.remove("translate-x-[0%]");
       alert("passwords dont match");
     }
   }else{
-    
+    console.log("Sending Login from frontend");
     let data = await sendRequest("user/Login","GET",{
     header:{
       email:state.email,
@@ -141,6 +141,7 @@ mover.current.classList.remove("translate-x-[0%]");
     }
    });
    data = JSON.parse(data);
+   console.log("🚀 ~ file: LandingPage.jsx ~ line 144 ~ handleSubmit ~ data", data)
    if(data.success === false) return;
    console.log(data._id);
    await storeLocal("token", data.token);

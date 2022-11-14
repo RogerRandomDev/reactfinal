@@ -1,5 +1,5 @@
 const express = require('express');
-
+const cors = require('cors');
 const {
   getUser,
   getUserByID,
@@ -13,7 +13,8 @@ const {
 } = require('../middleware/accountConfirmation');
 const { createBusiness } = require('../controllers/Business');
 const router = express.Router();
-
+// router.use(express.urlencoded({extended:true}));
+router.options('*', cors());
 router.post('/createAccount', async (req, res) => {
   const userData = buildUserData(req);
   const Banner=Object.keys(req.body)[0];
@@ -32,16 +33,18 @@ router.get('/Login', async (req, res) => {
   var log = await login(userData);
   return await res.status(200).send(log);
 });
-
-router.get('/confirmAccount', async (req, res) => {
+// ! PROBLEM!!!!!!! -> NEVER RUNS
+router.post('/confirmAccount', async (req, res) => {
   console.log('account authenticated');
   var userData = await recieveConfirmationToken(req, res);
-  
+  // userData = JSON.parse(userData);
+  console.log(userData);
   if(!userData.success) return res.send("Authentication Failed")
-  userData.decoded.businessData=JSON.parse(userData.decoded.businessData)
+  // userData.decoded.businessData=JSON.parse(userData.decoded.businessData)
   //creates the business account for the user
   var _bus=await createBusiness(userData.decoded.businessData)
   userData.decoded.myBusiness=_bus._id
+  console.log("45", userData.decoded);
   console.log(_bus.msg)
   if(_bus._id==null){return res.send("Authentication failed")}
   const newUser=await createUser(userData.decoded)
