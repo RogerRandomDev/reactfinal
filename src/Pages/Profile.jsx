@@ -1,5 +1,5 @@
-import {useEffect} from 'react';
-// import userContext from '../Context/userContext';
+import {useContext} from 'react';
+import userContext from '../Context/userContext';
 
 import ProductCard from "../Components/ProductCard";
 import ProfileInfoCard from "../Components/ProfileInfoCard";
@@ -9,22 +9,13 @@ import ResponsiveGridDisplay from "../Components/ResponsiveGridDisplay";
 import RowDisplay from "../Components/RowDisplay";
 
 function Profile() {
-  // const context = useContext(userContext);
-  useEffect(()=>{
-    (async () => {
-    let userId = window.location.search.split("=")[1];
-    if(userId){
-      let req = await fetch(`http://localhost:5000/user/show?user=${userId}`);
-      let userData = await req.json();
-      console.log(userData);
-    }
-    })();
-  },[]);
+  const context = useContext(userContext);
+  console.log(context);
   return (
     <div className="flex flex-col gap-12 py-8 px-20">
     <div className="flex gap-12 items-center flex-col xl:flex-row">
     {/* <ProfileInfoCard image={"https://picsum.photos/400"} username={context.username} joinDate={context.joinDate} location={`${context.Location[0]}, ${context.Location[1]}`} rating={0} ratingCount={0} bought={0} sold={0}/> */}
-    <ProfileInfoCard image={"https://picsum.photos/400"} username={"Trent Block"} joinDate={new Date().toDateString()} location="Salt Lake City, UT" rating={4.5} ratingCount={224} bought={50} sold={12}/>
+    <ProfileInfoCard image={"https://picsum.photos/400"} username={context.username} joinDate={context.joinDate} location={context.Location[0]} rating={5} ratingCount={0} bought={0} sold={0}/>
     {/* Favorited items must come from database, so props are just placeholders for now */}
     <div className="xl:border-l xl:pl-12 w-[90vw] ml-4">
         <RowDisplay title={"Favorited Items"}>

@@ -1,10 +1,12 @@
-const express = require('express')
+const express = require('express');
+const cors = require('cors');
 const router = express.Router();
 const {storeImage,removeImages,getImageName,uploadFromBuffer} = require('../middleware/images')
 //can't test this cause npm doesn't let me use npm i on my pc
 //because screw me i guess.
 const {fileUpload} = require("express-fileupload")
 
+router.options('*', cors());
 router.use(fileUpload({
     limits: {
         files: 1

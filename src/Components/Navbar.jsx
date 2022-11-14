@@ -2,10 +2,12 @@ import { IoMdArrowDropdown } from "react-icons/io"
 import { BsPerson, BsGearFill } from "react-icons/bs"
 import { AiOutlineUnlock, AiFillCalendar, AiFillWallet } from "react-icons/ai"
 import { FaWrench, FaList } from "react-icons/fa"
-import { useState } from "react"
-export default function Navbar({ AccountName }) {
-    let [navHidden, setNavHidden] = useState(true)
-    let [sideHidden, setSideHidden] = useState(true)
+import { useState, useContext } from "react"
+import userContext from "../Context/userContext"
+export default function Navbar() {
+    let [navHidden, setNavHidden] = useState(true);
+    let [sideHidden, setSideHidden] = useState(true);
+    const context = useContext(userContext);
     return <div className="bg-gray-700 flex items-center px-5 py-2 z-50 justify-between w-full fixed top-0 left-0 right-0">
         <div className="float-left flex align-middle h-full flex-1">
             <a className="h-full w-20 grid mr-2" href="/login">
@@ -66,7 +68,7 @@ export default function Navbar({ AccountName }) {
         <ol className="relative hidden md:inline-block h-full ml-auto md:ml-0 list-none flex-1">
             <button className="text-white block w-max ml-auto pl-4 mr-3 z-30" onClick={() => { setNavHidden(!navHidden) }}>
                 <img src="https://picsum.photos/40/40" alt="Profile" className="inline-block place-self-center rounded-full mr-2" />
-                <p className="inline-block mr-1">{AccountName || "Guest"}</p>
+                <p className="inline-block mr-1">{context.username.split(" ")[0]}</p>
                 <IoMdArrowDropdown className={`inline-block ${navHidden && "rotate-180"} transition-transform duration-[600ms]`} />
                 <div className={`z-20 absolute top-[1.75rem] -right-5 bg-gray-700 w-40 ${navHidden ? "h-0 p-0" : "h-[8.5rem]"} rounded-b translate-y-5 overflow-hidden flex flex-col gap-y-1 items-center -bottom-50`} style={{transition: "all 0.6s cubic-bezier(0.75, 0, 0.25, 1)"}}>
 

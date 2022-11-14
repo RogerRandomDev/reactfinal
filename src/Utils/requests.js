@@ -24,17 +24,18 @@ const buildQuery = (query) => {
 };
 export const sendRequest = async (path, type, contents) => {
   return new Promise((resolve) => {
-    console.log('sending req');
     var xml = new XMLHttpRequest();
     let xmlPath = url + path + buildQuery(contents.query);
     xml.open(type, xmlPath, true);
+    buildHeader(xml, contents.header);
     xml.onload = function () {
       resolve(xml.response);
     };
     xml.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    buildHeader(xml, contents.header);
     var _body=contents.body
-    if(_body!==undefined){_body=_body.Banner}
+    if(_body!==undefined){
+      _body=_body.Banner;
+    }
     xml.send(_body);
     
   });

@@ -9,10 +9,10 @@ require('dotenv').config();
 
 //returns the user database content
 const getUser = async (userEmail) => {
-  var output = null;
+  let output = null;
   try {
     await connectDB(process.env.MONGO_URI);
-    await (output = await UserModel.findOne({ email: userEmail }));
+    output = await UserModel.findOne({ email: userEmail });
   } catch (err) {
     console.log(err);
   }
@@ -48,6 +48,8 @@ const createUser = async (userData) => {
     }
 
     userData.password = await hashString(userData.password);
+    console.log("🚀 ~ file: User.js ~ line 51 ~ createUser ~ userData", userData)
+
     const newUser = new UserModel(userData);
     await newUser.save();
     _id=newUser._id;

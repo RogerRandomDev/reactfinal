@@ -1,7 +1,8 @@
 const express = require('express')
+const cors = require('cors');
 const {getProduct, getUserProducts, createProduct, updateProduct, deleteProduct} = require("../controllers/Product")
 const router = express.Router();
-
+router.options('*', cors());
 router.use((req,res,next)=>{  
     next();
 })
