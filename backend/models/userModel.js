@@ -5,6 +5,10 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  icon:{
+    type:String,
+    required:true
+  },
   username:{
     type: String,
     required: true

@@ -26,6 +26,7 @@ const createBusiness = async (businessData) => {
     if(await BusinessModel.findOne({email:businessData.email})){
       return { success: false, msg: 'Business already exists with name' };
     }
+    
     const newBusiness=new BusinessModel(businessData)
     _id=(await newBusiness.save())._id.toString();
   } catch (err) {

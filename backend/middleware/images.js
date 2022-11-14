@@ -6,10 +6,11 @@ const basePath="https://res.cloudinary.com/dztnsrrta/image/upload/"
 //only really here still because it has it's use
 //just use uploadFromBuffer when possible
 const storeImage = async(imageData,uploadTo="default")=>{
+  
   try{
   return (
-    await cloud.v2.uploader.upload(imageData, { folder: uploadTo})
-  ).secure_url.split(basePath)[1];
+    await uploadFromBuffer(imageData,uploadTo)
+  );
   } catch(err){
     console.log(err)
   }
@@ -24,11 +25,14 @@ const getImageName=(imageUrl)=>{
   parts=parts[parts.length-1]
   return parts.replace(".jpg","")
 }
-
+//moves files from the temp location to the final location
+const moveFromTemp=async(imageUrl,moveTo)=>{
+  const output=(await cloud.v2.uploader.upload(basePath+imageUrl,{folder:moveTo})).secure_url.split(basePath)[1]
+  await cloud.v2.uploader.destroy(imageUrl)
+  return output
+}
 //testing this from online. thank you, google!
-let uploadFromBuffer = (req) => {
-  const {folder} = req.params;
-  if(folder==null){folder="default"}
+let uploadFromBuffer = (imageData,folder) => {
   return new Promise((resolve, reject) => {
     let cld_upload_stream = cloud.v2.uploader.upload_stream(
      {
@@ -37,14 +41,14 @@ let uploadFromBuffer = (req) => {
      (error, result) => {
 
        if (result) {
-         resolve(result);
+         resolve(result.secure_url.split(basePath)[1]);
        } else {
          reject(error);
         }
       }
-    )//.secure_url.split(basePath)[1] add this once it isn't erroring and returns the right response data. also, after awaiting;
+    )
 
-    streamifier.createReadStream(req.body).pipe(cld_upload_stream);
+    streamifier.createReadStream(imageData).pipe(cld_upload_stream);
   });
 
 };
@@ -52,4 +56,4 @@ let uploadFromBuffer = (req) => {
 
 
 
-module.exports = {storeImage,removeImages,getImageName,uploadFromBuffer};
+module.exports = {storeImage,removeImages,getImageName,uploadFromBuffer,moveFromTemp};
