@@ -7,10 +7,9 @@ import PurchaseReceipt from "../Components/PurchaseReceipt";
 import RecentPurchases from "../Components/RecentPurchases";
 import ResponsiveGridDisplay from "../Components/ResponsiveGridDisplay";
 import RowDisplay from "../Components/RowDisplay";
-
+import {sendRequest} from "../Utils/requests"
 function Profile() {
   const context = useContext(userContext);
-  console.log(context);
   return (
     <div className="flex flex-col gap-12 py-8 px-20">
     <div className="flex gap-12 items-center flex-col xl:flex-row">

@@ -16,14 +16,8 @@ const adminPage=fs.readFileSync(__dirname+"/interface/index.html",'utf-8')
 
 app.use(cors());
 app.options('*', cors());
-app.use(express.text({
-  limit:'26mb'
-}))
 app.use(express.json({limit:'26mb'}));
-app.use(express.urlencoded({
-  extended: true,
-  limit:'26mb'
-})); 
+
 
 app.get("/token",async (req,res)=>{
   const userToken=req.get("token")

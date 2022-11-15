@@ -7,6 +7,7 @@ const buildHeader = (request, content) => {
     return request;
   }
   content.token=getLocal('token')
+  
   Object.keys(content).forEach((key) =>
     request.setRequestHeader(key, content[key])
   );
@@ -32,21 +33,19 @@ export const sendRequest = async (path, type, contents) => {
     xml.open(type, xmlPath, true);
     buildHeader(xml, contents.header);
     xml.onload = function () {
-      if(path!="token"){updateToken()}
       resolve(xml.response);
     };
-    
-    var _body=JSON.stringify(contents.body)
-    xml.send(_body);
+    var _body=JSON.stringify(contents.body);
+    xml.send(_body)
     
   });
 };
-
+//updates the current token
 export const updateToken = async () => {
   console.log('checking token validity');
   var token = local.getLocal('token');
   if(token==null){return true}
-  const newToken = await sendRequest('token', 'GET', { token });
+  const newToken = await sendRequest('token', 'POST', {body:{token }});
   console.log(JSON.parse(newToken).token)
   local.storeLocal('token', JSON.parse(newToken).token);
 };

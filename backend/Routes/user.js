@@ -21,8 +21,7 @@ const router = express.Router();
 router.options('*', cors());
 router.post('/createAccount', async (req, res) => {
   const userData = buildUserData(req);
-  console.log((Object.keys(req.body)[0],"temp"))
-  const bod=JSON.parse(req.body)
+  const bod=req.body
   const Banner=await storeImage(bod.Banner,"temp");
   if(Banner!=null){
   userData.businessData=JSON.parse(userData.businessData)
@@ -80,8 +79,10 @@ router.post('/logout', async (req, res) => {
   await logout(req, res);
   console.log('account logged out');
 });
-router.get('/show', async (req, res) => {
-  const { user } = req.query;
+router.use(express.text())
+router.post('/show', async (req, res) => {
+  console.log(req.body)
+  const { user } = JSON.parse(req.body);
   const userData = await getUserByID(user);
   userData.password = null;
   res.status(200).send(userData);
