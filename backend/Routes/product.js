@@ -7,13 +7,13 @@ router.use((req,res,next)=>{
     next();
 })
 
-router.post('/createProduct/:productData', async (req,res) => {
-    const {productData,userToken} = req.params;
+router.post('/createProduct', async (req,res) => {
+    const {productData,userToken} = JSON.parse(req.body);
     const creationResponse = await createProduct(productData,userToken);
     res.status(200).send(creationResponse);
 })
 router.post('updateProduct/:productData', async (req,res)=> {
-    const {productData,senderToken,productID} = req.params
+    const {productData,senderToken,productID} = JSON.parse(req.body)
     const updateResponse = await updateProduct(productID,productData,senderToken);
     res.status(200).send(updateResponse)
 })
