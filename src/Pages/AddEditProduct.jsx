@@ -38,11 +38,11 @@ function AddEditProduct() {
   const [formState, formDispatch] = useReducer(formReducer, initialState);
   const {state, dispatch} = useContext(userContext);
   // console.log(state);
-  const handleSubmit = (e)=>{
+  const handleSubmit = async (e)=>{
     e.preventDefault();
     formDispatch({type:"name",value:formState.name});
     console.log(state);
-    sendRequest("product/createProduct","POST",{
+    await sendRequest("product/createProduct","POST",{
       body:{
         productData:formState,
         userID:state.user._id

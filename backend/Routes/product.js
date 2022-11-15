@@ -8,6 +8,7 @@ router.use((req,res,next)=>{
 })
 
 router.post('/createProduct', async (req,res) => {
+    
     const {productData,userToken} = JSON.parse(req.body);
     const creationResponse = await createProduct(productData,userToken);
     res.status(200).send(creationResponse);
