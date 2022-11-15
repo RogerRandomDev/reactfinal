@@ -1,6 +1,8 @@
-import React from 'react'
-import { useReducer } from 'react';
+import { useReducer, useContext } from 'react';
 import ProductModifySection from '../Components/ProductModifySection'
+import { sendRequest } from '../Utils/requests';
+import { userContext } from '../Context/userContext';
+
 
 function AddEditProduct() {
   const initialState = {name:"",price:"",discount:"",description:"",status:"",images:[],pros:[],specifications:[]};
@@ -21,7 +23,9 @@ function AddEditProduct() {
       return {...state, status:action.payload}
     }
     if(action.type=="images"){
-      return {...state, images:action.payload}
+      let data = [...state.images];
+      data.push(action.payload);
+      return {...state, images:data}
     }
     if(action.type=="pros"){
       return {...state, pros:action.payload}
@@ -31,11 +35,19 @@ function AddEditProduct() {
     }
     throw new Error("No Matching Action Type");
   };
-  const [state, dispatch] = useReducer(formReducer, initialState);
+  const [formState, formDispatch] = useReducer(formReducer, initialState);
+  const {state, dispatch} = useContext(userContext);
+  // console.log(state);
   const handleSubmit = (e)=>{
     e.preventDefault();
-    dispatch({type:"name",value:state.name});
+    formDispatch({type:"name",value:formState.name});
     console.log(state);
+    sendRequest("product/createProduct","POST",{
+      body:{
+        productData:formState,
+        userID:state.user._id
+      }
+    })
     // let data = new FormData(formRef);
     // console.log(data);
   };
@@ -44,14 +56,14 @@ function AddEditProduct() {
     <h2 className='text-neutral-800 mb-8'>Add / Edit Product</h2>
     <form onSubmit={(e)=>handleSubmit(e)} className="grid gap-8 justify-center grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 3xl:grid-cols-3">
         <div className="">
-        <ProductModifySection state={state} dispatch={dispatch} header="General" data={[{name:"Product Name", type:"text"}, {name:"Price", type:"number"},{name:"Product Description", type:"textarea"}, {name:"Discount", type:"limitedNumber"},{name:"Status", type:"radio"}]}/>
+        <ProductModifySection state={formState} dispatch={formDispatch} header="General" data={[{name:"Product Name", type:"text"}, {name:"Price", type:"number"},{name:"Product Description", type:"textarea"}, {name:"Discount", type:"limitedNumber"},{name:"Status", type:"radio"}]}/>
         </div>
         <div className="">
-            <ProductModifySection state={state} dispatch={dispatch} header="Product Images" data={[{name:"Image",type:"image"}]}/>
+            <ProductModifySection state={formState} dispatch={formDispatch} header="Product Images" data={[{name:"Image",type:"image"}]}/>
         </div>
         <div className="">
-            <ProductModifySection state={state} dispatch={dispatch} header="Pros" data={[{name:"Pros", type:"customAdd"}]}/>
-            <ProductModifySection state={state} dispatch={dispatch} header="Specifications" data={[{name:"Size",type:"dropdown", items:["Small","Medium","Large"]}]}/>
+            <ProductModifySection state={formState} dispatch={formDispatch} header="Pros" data={[{name:"Pros", type:"customAdd"}]}/>
+            <ProductModifySection state={formState} dispatch={formDispatch} header="Specifications" data={[{name:"Size",type:"dropdown", items:["Small","Medium","Large"]}]}/>
         </div>
         <button type="submit" className='btn-primary w-1/2 mx-auto py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold text-lg mb-2 lg:row-start-3 lg:col-span-2 3xl:col-start-2 3xl:row-auto 3xl:col-span-1'>Submit</button>
     </form>

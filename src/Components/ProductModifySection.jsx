@@ -11,8 +11,6 @@ function ProductModifySection({state, dispatch, header, data}) {
     const specificationName = useRef(null);
     const specificationValue = useRef(null);
 
-    const [imageFiles, setImageFiles] = useState([]);
-    const [test,setTest] = useState(false);
     const removePro = (key) =>{
         let currentPros = state.pros;
         currentPros = currentPros.filter(p=> p.id !== Number(key));
@@ -40,19 +38,21 @@ function ProductModifySection({state, dispatch, header, data}) {
     }
     const handleFileSubmit = (fileInput) =>{
         const files = fileInput.files;
-        const data = (imageFiles.length > 0 ? imageFiles : []);
+        // const data = (state.images.length > 0 ? state.images : []);
         for(let i =0; i < files.length; i++){
             let reader = new FileReader();
             reader.readAsDataURL(files[i]);
             reader.addEventListener("load", () => {
-                data.push([files[i].name, files[i].size, reader.result]);
-                setImageFiles(()=>data);
+                dispatch({type:"images", payload:[files[i].name, files[i].size, reader.result]});
+                console.log(state.images);
+                // data.push([files[i].name, files[i].size, reader.result]);
+                // setImageFiles(()=>data);
   }, {once:true});
         }
-        setTimeout(() => {
-            setTest(!test);
-            dispatch({type:"images",payload:imageFiles});
-        }, 100);
+        // setTimeout(() => {
+        //     setTest(!test);
+        //     // dispatch({type:"images",payload:state.images});
+        // }, 100);
     }
   return (
     <div className="bg-white rounded p-8 ">
@@ -83,9 +83,9 @@ function ProductModifySection({state, dispatch, header, data}) {
                 return <div className="text-sm">
                     <p className='text-neutral-800 font-semibold mb-2'>{name}</p>
                     <div className="flex items-center gap-2">
-                    <input onChange={(e)=>dispatch({type:"status",payload:"Instock"})} type="radio" name="status" value="Instock" id="status-instock"/>
+                    <input onChange={(e)=>dispatch({type:"status",payload:"Instock"})} type="radio" name="status" value={state.status} id="status-instock"/>
                     <label htmlFor="status-instock">Instock</label>
-                    <input onChange={(e)=>dispatch({type:"status",payload:"Unavailable"})} type="radio" name="status" value="Unavailable" id="status-unavailable"/>
+                    <input onChange={(e)=>dispatch({type:"status",payload:"Unavailable"})} type="radio" name="status" value={state.status} id="status-unavailable"/>
                     <label htmlFor="status-unavailable">Unavailable</label>
                 </div></div>
             }else if(type==="image"){
@@ -96,7 +96,7 @@ function ProductModifySection({state, dispatch, header, data}) {
                     </label>
                     <input className='hidden' type="file" accept="image/*" name="file" id="product-file" multiple onChange={(e)=>handleFileSubmit(e.currentTarget)}/>
                     <div className="uploadedFiles" ref={uploadedFiles}></div>
-                    {imageFiles.map(image=>{
+                    {state.images.map(image=>{
                       return <FileDisplay name={image[0]} size={image[1]} image={image[2]}/>
                     })}
                 </div>

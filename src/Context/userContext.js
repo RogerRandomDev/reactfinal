@@ -1,4 +1,5 @@
 import { useReducer, useEffect, createContext } from 'react';
+import { reloadToken } from '../Utils/requests';
 
 const userContext = createContext('');
 
@@ -12,6 +13,7 @@ function Provider({ children }) {
   const [state, dispatch] = useReducer(userReducer, initialState);
   useEffect(() => {
     console.log('Running User Context Use Effect');
+    reloadToken();
     dispatch({
       type: 'REFRESH_DATA',
       payload: JSON.parse(localStorage.getItem('user')),
