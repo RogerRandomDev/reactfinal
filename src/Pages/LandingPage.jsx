@@ -5,13 +5,12 @@ import { useContext } from 'react';
 import {AiOutlineGoogle} from 'react-icons/ai';
 import {sendRequest} from '../Utils/requests';
 import { storeLocal} from '../hooks/useLocalStorageAuth';
-import userContext from '../Context/userContext';
+// import {userContext} from '../Context/userContext';
 // import { Link } from 'react-router-dom';
 //https://coderthemes.com/ubold/layouts/default/index.html
 const initialState = {username:"",email:"",password:"",confirmPassword:"",userType:"user",isSignUp:true, businessLogo:"",city:"",state:"",range:"Local",description:"",agreements:[false,false,false]};
 function LandingPage({updateContext}) {
   const navigate = useNavigate();
-   const context = useContext(userContext);
   
   const indicator = useRef(null);
   const userSelect = useRef(null);
@@ -154,12 +153,13 @@ mover.current.classList.remove("translate-x-[0%]");
    // send to localstorage
    storeLocal("user", userData);
    //
-   userData = JSON.parse(userData);
-   updateContext(userData);
+  //  userData = JSON.parse(userData);
+   dispatch({type:"REFRESH_DATA",payload:userData});
+  //  updateContext(userData);
    navigate("/profile");
   //  navigate(`/profile?user=${context._id}`);
   //  useNavigate(`/profile/${context._id}`)
-   console.log(context._id);
+  //  console.log(context._id);
   }
  }
 

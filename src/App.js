@@ -21,39 +21,34 @@ import Profile from './Pages/Profile';
 import Products from './Pages/Products';
 import NavBar from './Components/Navbar';
 
-import userContext from './Context/userContext';
+import { Provider } from './Context/userContext';
 import { useEffect } from 'react';
 
 const App = () => {
-  const [user, setUser] = useState('');
+  // const [user, setUser] = useState('');
 
-  useEffect(() => {
-    // let storedUser = localStorage.getItem('user');
-    // if (storedUser) {
-    //   setUser(JSON.parse(storedUser));
-    //   console.log('34', user);
-    // }
-  }, []);
+  // useEffect(() => {
+  //   // let storedUser = localStorage.getItem('user');
+  //   // if (storedUser) {
+  //   //   setUser(JSON.parse(storedUser));
+  //   //   console.log('34', user);
+  //   // }
+  // }, []);
 
-  const updateContext = (data) => {
-    console.log(data);
-    setUser(data);
-  };
+  // const updateContext = (data) => {
+  //   console.log(data);
+  //   setUser(data);
+  // };
 
   return (
-    <userContext.Provider value={user}>
+    <Provider>
       <div className='App mt-14'>
         <Router>
           <NavBar />
           <Switch>
             <Route path='/' element={<TotalRevenue />} />
             <Route path='/home' element={<TotalRevenue />} />
-            <Route
-              path='/login'
-              element={
-                <LandingPage updateContext={updateContext} user={user} />
-              }
-            />
+            <Route path='/login' element={<LandingPage />} />
             <Route path='/about' element={<AboutPage />} />
             <Route path='/about/terms' element={<TermsofService />} />
             <Route path='/about/privacy' element={<PrivacyPolicy />} />
@@ -162,7 +157,7 @@ const App = () => {
         <DataOverview fadedAccentColor="rgba(102, 88, 221, 0.25)" accentColor="rgb(102, 88, 221)" Icon={FaRegHeart} data="$58,947" description="Total Revenue"/>
       </div> */}
       </div>
-    </userContext.Provider>
+    </Provider>
   );
 };
 
