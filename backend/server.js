@@ -28,7 +28,7 @@ app.get("/token",async (req,res)=>{
 app.use("/user",userRouter)
 //these require authentication at the given time
 app.use("/",async (req,res,next)=>{
-  if(!await checkToken(req.get("token"))||req.get("token")==undefined){return res.send("")}
+  if(false&&(!await checkToken(req.get("token"))||req.get("token")==undefined)){return res.send("")}
   
   next()
 })
