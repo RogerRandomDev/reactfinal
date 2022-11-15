@@ -19,13 +19,13 @@ router.post('updateProduct/:productData', async (req,res)=> {
 })
 
 //shows products created by user with the matching id
-router.get('/showUser/:userID', async (req,res) => {
+router.get('/showUser', async (req,res) => {
     const {userID} = req.params;
     const userProducts = await getUserProducts(userID);
     res.status(200).send(userProducts)
 })
 //shows product with the matching id
-router.get('/show/:productID', async (req, res) => {
+router.get('/show', async (req, res) => {
     const {productID} = req.params;
     const productData = await getProduct(productID);
     res.status(200).send(productData);

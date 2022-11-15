@@ -145,8 +145,8 @@ mover.current.classList.remove("translate-x-[0%]");
    console.log(data._id);
    await storeLocal("token", data.token);
 
-   let userData = await sendRequest("user/show","GET",{
-    query:{
+   let userData = await sendRequest("user/show","POST",{
+    body:{
       "user":data._id
     }
    });

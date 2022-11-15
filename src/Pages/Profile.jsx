@@ -7,7 +7,7 @@ import PurchaseReceipt from "../Components/PurchaseReceipt";
 import RecentPurchases from "../Components/RecentPurchases";
 import ResponsiveGridDisplay from "../Components/ResponsiveGridDisplay";
 import RowDisplay from "../Components/RowDisplay";
-
+import {sendRequest} from "../Utils/requests"
 function Profile() {
   const {state, dispatch} = useContext(userContext);
   console.log(state);
