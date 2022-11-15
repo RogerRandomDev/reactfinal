@@ -43,16 +43,14 @@ function ProductModifySection({state, dispatch, header, data}) {
             let reader = new FileReader();
             reader.readAsDataURL(files[i]);
             reader.addEventListener("load", () => {
-                dispatch({type:"images", payload:[files[i].name, files[i].size, reader.result]});
+                dispatch({type:"addImages", payload:[files[i].name, files[i].size, reader.result]});
                 console.log(state.images);
-                // data.push([files[i].name, files[i].size, reader.result]);
-                // setImageFiles(()=>data);
   }, {once:true});
         }
-        // setTimeout(() => {
-        //     setTest(!test);
-        //     // dispatch({type:"images",payload:state.images});
-        // }, 100);
+    }
+    const handleRemoveFile = (fileName) =>{
+        console.log(fileName);
+        dispatch({type:"removeImages", payload:fileName});
     }
   return (
     <div className="bg-white rounded p-8 ">
@@ -97,7 +95,7 @@ function ProductModifySection({state, dispatch, header, data}) {
                     <input className='hidden' type="file" accept="image/*" name="file" id="product-file" multiple onChange={(e)=>handleFileSubmit(e.currentTarget)}/>
                     <div className="uploadedFiles" ref={uploadedFiles}></div>
                     {state.images.map(image=>{
-                      return <FileDisplay name={image[0]} size={image[1]} image={image[2]}/>
+                      return <FileDisplay handleRemoveFile={handleRemoveFile} name={image[0]} size={image[1]} image={image[2]}/>
                     })}
                 </div>
             }else if(type === "customAdd"){

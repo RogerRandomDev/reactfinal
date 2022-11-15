@@ -1,5 +1,5 @@
 import {CiCircleRemove} from 'react-icons/ci';
-function FileDisplay({name, size, image}) {
+function FileDisplay({handleRemoveFile, name, size, image}) {
     // console.log(image);
   return (
     <div className="w-full rounded border p-2 flex justify-between items-center mt-4">
@@ -10,7 +10,7 @@ function FileDisplay({name, size, image}) {
         <p>{(size/1000000).toFixed(2)} MB</p>
         </div>
         </div>
-<CiCircleRemove className='text-2xl cursor-pointer text-slate-400 hover:text-red-400 transition'/>
+<CiCircleRemove onClick={()=>handleRemoveFile(name)} className='text-2xl cursor-pointer text-slate-400 hover:text-red-400 transition'/>
     </div>
   )
 }

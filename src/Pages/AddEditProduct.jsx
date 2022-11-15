@@ -22,9 +22,14 @@ function AddEditProduct() {
     if(action.type=="status"){
       return {...state, status:action.payload}
     }
-    if(action.type=="images"){
+    if(action.type=="addImages"){
       let data = [...state.images];
       data.push(action.payload);
+      return {...state, images:data}
+    }
+    if(action.type=="removeImages"){
+      let data = [...state.images];
+      data = data.filter(d=>d[0]!==action.payload);
       return {...state, images:data}
     }
     if(action.type=="pros"){
