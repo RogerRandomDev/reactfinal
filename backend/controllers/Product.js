@@ -1,5 +1,6 @@
 const { connectDB } = require('../db/connect');
 const {decodeToken,checkToken} = require("./auth");
+const {storeImage} = require('../middleware/images')
 const ProductModel = require('../models/productModel');
 const userModel = require('../models/userModel');
 require('dotenv').config();
@@ -28,7 +29,6 @@ const getProduct = async (productId) => {
   }
   return output;
 };
-
 const updateProduct = async (productID,productData,senderToken) => {
   var output={success:false,msg:"default output"};
   if(!checkToken(senderToken)){return {success:false,msg:"invalid sender token"}}
@@ -55,14 +55,24 @@ const deleteProduct = async (productId) => {
   return output;
 };
 //creates a product and adds it to the database
-const createProduct = async (productData,userToken) => {
+const createProduct = async (productData,userToken,userID) => {
   if(!checkToken(userToken)){return {success:false,msg:"token invalid",_id:null}}
   const userData=await decodeToken(userToken);
-  productData.creatorID=userData.userID;
+  if(userID!=userData.userID){return {success:false,msg:"user token does not match id",_id:null}}
+  productData.creatorID=userID;
+  productData.date=new Date().toDateString()
+  var imgUrls=[]
+  for(const image of productData.images){
+    imgUrls.push(await storeImage(image[2],"productImages"))
+  }
+  productData.images=imgUrls
+  productData.name=productData.specifications[0].name
+  console.log(productData)
   try {
     await connectDB(process.env.MONGO_URI);
     const newProduct=new ProductModel(productData)
     newProduct.save()
+    productData._id=newProduct._id
   } catch (err) {
     console.log(err);
   }
