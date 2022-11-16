@@ -113,6 +113,7 @@ mover.current.classList.remove("translate-x-[0%]");
     username:state.username,
     mycompany:state.userType==="user" ? "" : state.username,
     Location:[state.city," "+state.state],
+    Banner: state.businessLogo,
     businessData:JSON.stringify({
       chosenAgreement:state.agreements,
       email:state.email,
@@ -121,7 +122,6 @@ mover.current.classList.remove("translate-x-[0%]");
       Range:state.range,
       Location:[state.city,state.state],
       Description:state.description,
-      Banner: state.businessLogo
     })
   }
    });
