@@ -6,7 +6,7 @@ async function useGetUserProducts(userID) {
       userID,
     },
   });
-  console.log(userProducts);
+  return userProducts;
 }
 
 export default useGetUserProducts;

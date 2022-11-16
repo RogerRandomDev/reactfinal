@@ -66,6 +66,7 @@ const deleteProduct = async (productId) => {
 };
 //creates a product and adds it to the database
 const createProduct = async (productData, userToken, userID) => {
+  console.log('69');
   if (!checkToken(userToken)) {
     return { success: false, msg: 'token invalid', _id: null };
   }

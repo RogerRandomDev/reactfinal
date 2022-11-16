@@ -1,4 +1,4 @@
-import {useContext} from 'react';
+import {useContext, useEffect,useState} from 'react';
 import {userContext} from '../Context/userContext';
 
 import ProductCard from "../Components/ProductCard";
@@ -7,11 +7,22 @@ import PurchaseReceipt from "../Components/PurchaseReceipt";
 import RecentPurchases from "../Components/RecentPurchases";
 import ResponsiveGridDisplay from "../Components/ResponsiveGridDisplay";
 import RowDisplay from "../Components/RowDisplay";
+import { sendRequest } from '../Utils/requests';
 import useGetUserProducts from '../hooks/useGetUserProducts';
 function Profile() {
   const {state, dispatch} = useContext(userContext);
+  const [userProducts,setUserProducts] = useState([]);
+  const basePath="https://res.cloudinary.com/dztnsrrta/image/upload/"
 
-  const userProducts = useGetUserProducts(state.user._id);
+  // const userProducts = useGetUserProducts(state.user._id);
+  useEffect(()=>{
+      sendRequest('product/showUser', 'POST', {
+      body: {
+        userID:state.user._id,
+      },
+    }).then(products=>{
+    setUserProducts(JSON.parse(String(products)).products)});
+  },[]);
 
   return (
     <div className="flex flex-col gap-12 py-8 px-20">
@@ -31,9 +42,23 @@ function Profile() {
     </div>
     <div className="xl:px-20">
     <ResponsiveGridDisplay title={"Items From This Seller"}>
-        {new Array(25).fill().map((_,idx)=>{
+        {/* {new Array(25).fill().map((_,idx)=>{
             return <ProductCard key={idx} image={`https://picsum.photos/400?random=${idx+6}`} title={"Xbox Gaming Controller"} price={50} location={"Salt Lake City, UT"} link={"#"}/>
-        })}
+        })} */
+        (userProducts.length
+          ? 
+          (userProducts.map((data,idx)=>{
+          return <ProductCard key={idx} image={basePath+data.images[0]} title={data.name} price={data.price} location={data.Location} link={"#"}/>}))
+          :
+          <div>No Products</div>)
+        // if(userProducts){
+          
+        // }
+        // (userProducts &&
+        
+        // }))
+        
+        }
     </ResponsiveGridDisplay>
 </div>
 <RecentPurchases>
