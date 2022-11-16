@@ -1,15 +1,16 @@
-const { connectDB } = require('../db/connect');
+const {connectDB} = require('../db/connect');
 const {decodeToken,checkToken} = require("./auth");
 const {storeImage} = require('../middleware/images')
 const ProductModel = require('../models/productModel');
 const userModel = require('../models/userModel');
-const productsPerPage=50;
 require('dotenv').config();
+const productsPerPage=50;
+
 //returns products from given business/user
 const getUserProducts = async(creatorID,viewPage=0)=>{
   var output = null;
   try {
-    await connectDB(process.env.MONGO_URI)
+    await connectDB(process.env.MONGO_URI);
     (output = await ProductModel.find({creatorID},null,{limit:productsPerPage,skip:(viewPage*productsPerPage)}))
   }
   catch(err){
