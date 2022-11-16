@@ -10,9 +10,8 @@ import RowDisplay from "../Components/RowDisplay";
 import useGetUserProducts from '../hooks/useGetUserProducts';
 function Profile() {
   const {state, dispatch} = useContext(userContext);
-  console.log(state);
 
-  const userProducts = useGetUserProducts(state._id);
+  const userProducts = useGetUserProducts(state.user._id);
 
   return (
     <div className="flex flex-col gap-12 py-8 px-20">

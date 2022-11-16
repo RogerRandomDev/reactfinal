@@ -36,7 +36,7 @@ export const sendRequest = async (path, type, contents) => {
       resolve(xml.response);
     };
     var _body = JSON.stringify(contents.body);
-    console.log(_body);
+    // console.log(_body);
     xml.send(_body);
   });
 };
