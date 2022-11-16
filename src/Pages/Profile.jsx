@@ -1,4 +1,4 @@
-import {useContext} from 'react';
+import {useContext, useEffect} from 'react';
 import {userContext} from '../Context/userContext';
 
 import ProductCard from "../Components/ProductCard";
@@ -8,9 +8,13 @@ import RecentPurchases from "../Components/RecentPurchases";
 import ResponsiveGridDisplay from "../Components/ResponsiveGridDisplay";
 import RowDisplay from "../Components/RowDisplay";
 import {sendRequest} from "../Utils/requests"
+import useGetUserProducts from '../hooks/useGetUserProducts';
 function Profile() {
   const {state, dispatch} = useContext(userContext);
   console.log(state);
+
+  const userProducts = useGetUserProducts(state._id);
+
   return (
     <div className="flex flex-col gap-12 py-8 px-20">
     <div className="flex gap-12 items-center flex-col xl:flex-row">
