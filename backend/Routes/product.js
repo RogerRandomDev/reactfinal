@@ -22,7 +22,9 @@ router.post('updateProduct/:productData', async (req,res)=> {
 router.post('/showUser', async (req,res) => {
     const {userID} = JSON.parse(req.body);
     const userProducts = await getUserProducts(userID);
-    res.status(200).send(userProducts)
+    console.log(userID)
+    console.log(userProducts)
+    res.status(200).send({success:true,products:userProducts,msg:"returned products successfully"});
 })
 //shows product with the matching id
 router.post('/show', async (req, res) => {
