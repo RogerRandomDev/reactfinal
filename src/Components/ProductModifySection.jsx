@@ -88,7 +88,7 @@ function ProductModifySection({state, dispatch, header, data}) {
                 </div></div>
             }else if(type==="image"){
                 return <div className="text-base">
-                <label for="product-file" className='cursor-pointer flex flex-col justify-center items-center gap-2 border-2 border-dashed border-slate-300 py-10 hover:border-slate-500 transition'>
+                <label htmlFor="product-file" className='cursor-pointer flex flex-col justify-center items-center gap-2 border-2 border-dashed border-slate-300 py-10 hover:border-slate-500 transition'>
                     <BsCloudUpload className='text-slate-400 text-4xl'/>
                     <p className='text-2xl text-neutral-800'>Click Here to Add Files</p>   
                     </label>

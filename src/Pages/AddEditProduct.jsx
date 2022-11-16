@@ -2,6 +2,7 @@ import { useReducer, useContext } from 'react';
 import ProductModifySection from '../Components/ProductModifySection'
 import { sendRequest } from '../Utils/requests';
 import { userContext } from '../Context/userContext';
+import { getLocal } from '../hooks/useLocalStorageAuth';
 
 
 function AddEditProduct() {
@@ -45,12 +46,13 @@ function AddEditProduct() {
   // console.log(state);
   const handleSubmit = async (e)=>{
     e.preventDefault();
-    formDispatch({type:"name",value:formState.name});
+    // formDispatch({type:"name",value:formState.name});
     console.log(state);
     await sendRequest("product/createProduct","POST",{
       body:{
         productData:formState,
-        userID:state.user._id
+        userID:state.user._id,
+        token:getLocal("token")
       }
     })
     // let data = new FormData(formRef);
