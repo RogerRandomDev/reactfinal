@@ -4,7 +4,7 @@ import {FaFacebookF, FaTwitter} from 'react-icons/fa';
 import { useContext } from 'react';
 import {AiOutlineGoogle} from 'react-icons/ai';
 import {sendRequest} from '../Utils/requests';
-import { storeLocal} from '../hooks/useLocalStorageAuth';
+import { storeLocal} from '../Utils/useLocalStorageAuth';
 // import {userContext} from '../Context/userContext';
 // import { Link } from 'react-router-dom';
 //https://coderthemes.com/ubold/layouts/default/index.html
@@ -150,14 +150,9 @@ mover.current.classList.remove("translate-x-[0%]");
    });
    // send to localstorage
    storeLocal("user", userData);
-   //
-  //  userData = JSON.parse(userData);
+   
    dispatch({type:"REFRESH_DATA",payload:userData});
-  //  updateContext(userData);
    navigate("/profile");
-  //  navigate(`/profile?user=${context._id}`);
-  //  useNavigate(`/profile/${context._id}`)
-  //  console.log(context._id);
   }
  }
 
