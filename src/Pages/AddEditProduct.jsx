@@ -2,7 +2,7 @@ import { useReducer, useContext } from 'react';
 import ProductModifySection from '../Components/ProductModifySection'
 import { sendRequest } from '../Utils/requests';
 import { userContext } from '../Context/userContext';
-import { getLocal } from '../hooks/useLocalStorageAuth';
+import { getLocal } from '../Utils/useLocalStorageAuth';
 
 
 function AddEditProduct() {

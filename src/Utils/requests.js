@@ -1,6 +1,6 @@
 const url = 'http://localhost:5000/';
-const local = require('../hooks/useLocalStorageAuth');
-const { storeLocal, getLocal } = require('../hooks/useLocalStorageAuth');
+// const local = require('./useLocalStorageAuth');
+const { storeLocal, getLocal } = require('./useLocalStorageAuth');
 const buildHeader = (request, content) => {
   if (content == null) {
     return request;
