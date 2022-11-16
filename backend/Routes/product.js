@@ -8,8 +8,8 @@ router.use((req,res,next)=>{
 })
 
 router.post('/createProduct', async (req,res) => {
-    const {productData,userID} = JSON.parse(req.body);
-    const creationResponse = await createProduct(productData,req.get("token"),userID);
+    const {productData,userID,token} = JSON.parse(req.body);
+    const creationResponse = await createProduct(productData,token,userID);
     res.status(200).send(creationResponse);
 })
 router.post('updateProduct/:productData', async (req,res)=> {

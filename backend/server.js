@@ -19,8 +19,9 @@ app.options('*', cors());
 
 app.use(express.text({limit:'26mb'}));
 
-app.get("/token",async (req,res)=>{
+app.post("/token",async (req,res)=>{
   const userToken=req.get("token")
+  if(userToken==undefined){return res.status(202).send({success:false,msg:"invalid"})}
   var updatedToken=await updateToken(userToken);
   res.status(200).send({success:true,token:updatedToken});
 })
@@ -28,7 +29,7 @@ app.get("/token",async (req,res)=>{
 app.use("/user",userRouter)
 //these require authentication at the given time
 app.use("/",async (req,res,next)=>{
-  if(false&&(!await checkToken(req.get("token"))||req.get("token")==undefined)){return res.send("")}
+  if(false&&(!await checkToken(req.get("token"))||req.get("token")==undefined)){return res.send({success:false,msg:"invalid/no token"})}
   
   next()
 })

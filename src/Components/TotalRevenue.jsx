@@ -1,7 +1,6 @@
 import React from 'react';
 import ApexRadialChart from './ApexRadialChart';
 import LabeledComparison from './LabeledComparison';
-// import { updateToken } from '../Utils/requests';
 function TotalRevenue() {
 
 

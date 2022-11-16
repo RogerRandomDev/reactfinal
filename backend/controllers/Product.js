@@ -3,13 +3,14 @@ const {decodeToken,checkToken} = require("./auth");
 const {storeImage} = require('../middleware/images')
 const ProductModel = require('../models/productModel');
 const userModel = require('../models/userModel');
+const productsPerPage=50;
 require('dotenv').config();
 //returns products from given business/user
-const getUserProducts = async(creatorID)=>{
+const getUserProducts = async(creatorID,viewPage=0)=>{
   var output = null;
   try {
     await connectDB(process.env.MONGO_URI)
-    (output = await ProductModel.find({creatorID}))
+    (output = await ProductModel.find({creatorID},null,{limit:productsPerPage,skip:(viewPage*productsPerPage)}))
   }
   catch(err){
     console.log(err)
@@ -58,7 +59,8 @@ const deleteProduct = async (productId) => {
 const createProduct = async (productData,userToken,userID) => {
   if(!checkToken(userToken)){return {success:false,msg:"token invalid",_id:null}}
   const userData=await decodeToken(userToken);
-  if(userID!=userData.userID){return {success:false,msg:"user token does not match id",_id:null}}
+  //if(userID!=userData.userID){return {success:false,msg:"user token does not match id",_id:null}}
+  
   productData.creatorID=userID;
   productData.date=new Date().toDateString()
   var imgUrls=[]
@@ -66,8 +68,7 @@ const createProduct = async (productData,userToken,userID) => {
     imgUrls.push(await storeImage(image[2],"productImages"))
   }
   productData.images=imgUrls
-  productData.name=productData.specifications[0].name
-  console.log(productData)
+  
   try {
     await connectDB(process.env.MONGO_URI);
     const newProduct=new ProductModel(productData)

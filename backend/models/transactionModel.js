@@ -22,10 +22,6 @@ const TransactionSchema = mongoose.Schema({
     type:Number,
     required:true
   },
-  sellerDigits:{
-    type:Number,
-    required:true
-  },
   purchasePrice:{
     type:Number,
     required:true

@@ -70,7 +70,7 @@ router.post('/confirmAccount', async (req, res) => {
 });
 //these require authentication at the given time
 router.all("/",async (req,res)=>{
-  if(!checkToken(req.get("token"))||req.get("token")==undefined){return res.send("")}
+  if(!checkToken(req.get("token"))||req.get("token")==undefined){return res.send({success:false,msg:"invalid/no token"})}
   
   next(req,res)
 })
