@@ -1,9 +1,9 @@
 import { sendRequest } from '../Utils/requests';
 
-async function useGetUserProducts(id) {
+async function useGetUserProducts(userID) {
   const userProducts = await sendRequest('product/showUser', 'POST', {
     body: {
-      id,
+      userID,
     },
   });
   console.log(userProducts);
