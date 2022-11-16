@@ -23,8 +23,8 @@ router.use(express.text({limit:'12mb'}))
 
 router.post('/createAccount', async (req, res) => {
   const userData = buildUserData(req);
-  const bod=req.body
-  const Banner=await storeImage(bod.Banner,"temp");
+  const Banner=await storeImage(JSON.parse(req.body).Banner,"temp");
+  
   if(Banner!=null){
   userData.businessData=JSON.parse(userData.businessData)
   userData.businessData.BannerLink=Banner;}
@@ -54,7 +54,6 @@ router.post('/confirmAccount', async (req, res) => {
   var _bus=await createBusiness(userData.decoded.businessData)
   
   userData.decoded.myBusiness=_bus._id
-  console.log("45", userData.decoded);
   console.log(_bus.msg)
   if(_bus._id==null){return res.send("Authentication failed")}
   userData.decoded.icon=userData.decoded.businessData.BannerLink;
