@@ -107,7 +107,7 @@ mover.current.classList.remove("translate-x-[0%]");
      if(state.password === state.confirmPassword){
       console.log("front end req sent");
        let newUserData = await sendRequest("user/createAccount","POST",{
-        header:{
+        body:{
     email:state.email,
     password:state.password,
     username:state.username,
@@ -120,11 +120,9 @@ mover.current.classList.remove("translate-x-[0%]");
       BannerLink:null,
       Range:state.range,
       Location:[state.city,state.state],
-      Description:state.description
+      Description:state.description,
+      Banner: state.businessLogo
     })
-  },
-  body:{
-    Banner:state.businessLogo
   }
    });
    console.log(newUserData);
