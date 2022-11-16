@@ -73,7 +73,7 @@ const createProduct = async (productData, userToken, userID) => {
   //if(userID!=userData.userID){return {success:false,msg:"user token does not match id",_id:null}}
 
   productData.creatorID = userID;
-  productData.date = new Date().now();
+  productData.date = new Date.now();
   var imgUrls = [];
   for (const image of productData.images) {
     imgUrls.push(await storeImage(image[2], 'productImages'));
