@@ -48,7 +48,7 @@ function Profile() {
         (userProducts.length
           ? 
           (userProducts.map((data,idx)=>{
-          return <ProductCard key={idx} image={basePath+data.images[0]} title={data.name} price={data.price} location={data.Location} link={"#"}/>}))
+          return <ProductCard key={idx} image={basePath+data.images[0]} title={data.name} price={data.price} location={data.Location} link={`/productDetail?id=${data._id}`}/>}))
           :
           <div>No Products</div>)
         // if(userProducts){

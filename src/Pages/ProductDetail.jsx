@@ -1,7 +1,20 @@
+import { useEffect } from "react";
+import { useState } from "react"
 import ProductDetailImageDisplay from "../Components/ProductDetailImageDisplay"
 import ProductDetailInformation from "../Components/ProductDetailInformation"
-
+import { sendRequest } from "../Utils/requests";
 function ProductDetail({alternateImages}) {
+  const [productData, setProductData] = useState({});
+  useEffect(()=>{
+    const productID = window.location.search.substring(4);
+      sendRequest('product/show', 'POST', {
+      body: {
+        productID:productID
+      },
+    }).then(product=>{
+    setProductData(JSON.parse(String(product)))});
+  },[]);
+  console.log(productData)
   return (
     <div className="rounded p-8 grid bg-neutral-100 w-full grid-cols-1 md:gap-12 md:grid-cols-[auto_1fr] xl:grid-cols-[auto_auto] xl:justify-center lg:gap-48 items-start justify-items-center">
           <a href="/" className="text-sm font-normal no-underline text-purple-800 hover:text-purple-900 block md:hidden">Jack & Jill</a>
