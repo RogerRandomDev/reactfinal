@@ -4,4 +4,4 @@ const connectDB = (uri) => {
     .connect(uri)
     .catch((err) => console.log(err));
 };
-module.exports = { connectDB, process };
+module.exports = {connectDB, process};

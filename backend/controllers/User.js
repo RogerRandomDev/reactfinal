@@ -1,5 +1,3 @@
-//TODO Update this and make it work with my routes
-
 const { connectDB, process } = require('../db/connect');
 const UserModel = require('../models/userModel');
 const { hashString } = require('../middleware/hash');
