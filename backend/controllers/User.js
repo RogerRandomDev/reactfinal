@@ -61,6 +61,7 @@ const createUser = async (userData) => {
 
 
 const buildUserData = (req) => {
+  
   const {email,password,username,myBusiness,businessData,Location}=JSON.parse(req.body)
   return {
     email,

@@ -19,6 +19,8 @@ const router = express.Router();
 // router.use(express.urlencoded({extended:true}));
 //these do not require authentication since they relate to giving the user an auth token
 router.options('*', cors());
+router.use(express.text({limit:'12mb'}))
+
 router.post('/createAccount', async (req, res) => {
   const userData = buildUserData(req);
   const bod=req.body
@@ -32,7 +34,7 @@ router.post('/createAccount', async (req, res) => {
     .status(200)
     .send({ success: true, msg: 'Sent confirmation email successfully' });
 });
-router.get('/Login', async (req, res) => {
+router.post('/Login', async (req, res) => {
   const userData = buildUserData(req);
   var log = await login(userData);
   return await res.status(200).send(log);
@@ -79,7 +81,7 @@ router.post('/logout', async (req, res) => {
   await logout(req, res);
   console.log('account logged out');
 });
-router.use(express.text())
+
 router.post('/show', async (req, res) => {
   console.log(req.body)
   const { user } = JSON.parse(req.body);

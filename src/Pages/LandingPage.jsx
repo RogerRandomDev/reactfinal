@@ -131,8 +131,8 @@ mover.current.classList.remove("translate-x-[0%]");
     }
   }else{
     console.log("Sending Login from frontend");
-    let data = await sendRequest("user/Login","GET",{
-    header:{
+    let data = await sendRequest("user/Login","POST",{
+    body:{
       email:state.email,
       password:state.password
     }
