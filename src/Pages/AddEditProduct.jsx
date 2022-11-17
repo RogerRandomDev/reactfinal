@@ -6,7 +6,8 @@ import { getLocal } from '../Utils/useLocalStorageAuth';
 
 
 function AddEditProduct() {
-  const initialState = {name:"",price:"",discount:"",description:"",status:"",images:[],pros:[],specifications:[]};
+  const {state, dispatch} = useContext(userContext);
+  const initialState = {name:"",price:"",discount:"",description:"",status:"",images:[],pros:[],specifications:[], Location:state.user.Location[0]};
   const formReducer = (state,action)=>{
     if(action.type=="name"){
       return {...state, name:action.payload}
@@ -42,7 +43,7 @@ function AddEditProduct() {
     throw new Error("No Matching Action Type");
   };
   const [formState, formDispatch] = useReducer(formReducer, initialState);
-  const {state, dispatch} = useContext(userContext);
+  
   // console.log(state);
   const handleSubmit = async (e)=>{
     e.preventDefault();

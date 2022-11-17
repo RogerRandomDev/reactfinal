@@ -9,6 +9,7 @@ import ResponsiveGridDisplay from "../Components/ResponsiveGridDisplay";
 import RowDisplay from "../Components/RowDisplay";
 import { sendRequest } from '../Utils/requests';
 import useGetUserProducts from '../hooks/useGetUserProducts';
+import ProductCardSkeleton from '../Components/Skeletons/ProductCardSkeleton';
 function Profile() {
   const {state, dispatch} = useContext(userContext);
   const [userProducts,setUserProducts] = useState([]);
@@ -48,9 +49,9 @@ function Profile() {
         (userProducts.length
           ? 
           (userProducts.map((data,idx)=>{
-          return <ProductCard key={idx} image={basePath+data.images[0]} title={data.name} price={data.price} location={data.Location} link={`/productDetail?id=${data._id}`}/>}))
+          return <ProductCard type="edit" key={idx} image={basePath+data.images[0]} title={data.name} price={data.price} location={data.Location} link={`/productDetail?id=${data._id}`}/>}))
           :
-          <div>No Products</div>)
+          <ProductCardSkeleton amount={5}/>)
         // if(userProducts){
           
         // }

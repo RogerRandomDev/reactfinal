@@ -4,6 +4,7 @@ import {
   BrowserRouter as Router,
   Routes as Switch,
   Route,
+  Navigate,
 } from 'react-router-dom';
 import { FaRegHeart } from 'react-icons/fa';
 import DataOverview from './Components/DataOverview';
@@ -131,19 +132,8 @@ const App = () => {
                 />
               }
             />
-            <Route
-              path='/productDetail'
-              element={
-                <ProductDetail
-                  alternateImages={[
-                    'https://picsum.photos/500/800?random=1',
-                    'https://picsum.photos/500/800?random=2',
-                    'https://picsum.photos/500/800?random=3',
-                    'https://picsum.photos/500/800?random=4',
-                  ]}
-                />
-              }
-            />
+            <Route exact path='/productDetail' element={<ProductDetail/>}/>
+
             <Route path='/addEdit' element={<AddEditProduct />} />
             <Route path='/customers' element={<Customers />}></Route>
             <Route path='/profile' element={<Profile />}></Route>

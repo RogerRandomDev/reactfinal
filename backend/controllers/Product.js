@@ -3,6 +3,7 @@ const { decodeToken, checkToken } = require('./auth');
 const { storeImage } = require('../middleware/images');
 const ProductModel = require('../models/productModel');
 const userModel = require('../models/userModel');
+const mongoose = require("mongoose");
 require('dotenv').config();
 const productsPerPage = 50;
 
@@ -27,6 +28,8 @@ const getProduct = async (productId) => {
   var output = null;
   try {
     await connectDB(process.env.MONGO_URI);
+    // console.log(productId);
+    // let id = mongoose.Types.ObjectId(productId);
     output = await ProductModel.findById(productId);
   } catch (err) {
     console.log(err);
