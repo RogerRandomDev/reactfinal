@@ -53,7 +53,7 @@ function Profile() {
             (!loading
               ?
               (userProducts.length > 0 ? (userProducts.map((data, idx) => {
-                return <ProductCard type="edit" key={idx} image={basePath + data.images[0]} title={data.name} price={data.price} location={data.Location} link={`/productDetail?id=${data._id}`} />
+                return <ProductCard type="edit" key={idx} image={basePath + data.images[0]} title={data.name} price={data.price} location={data.Location} id={data._id} link={`/productDetail?id=${data._id}`} />
               })) : <div>No Products!</div>)
               :
               <ProductCardSkeleton amount={5} />)

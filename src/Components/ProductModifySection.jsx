@@ -81,9 +81,9 @@ function ProductModifySection({state, dispatch, header, data}) {
                 return <div className="text-sm" key={id}>
                     <p className='text-neutral-800 font-semibold mb-2'>{name}</p>
                     <div className="flex items-center gap-2">
-                    <input onChange={(e)=>dispatch({type:"status",payload:"Instock"})} type="radio" name="status" value={state.status} id="status-instock"/>
+                    <input onChange={(e)=>dispatch({type:"status",payload:"Instock"})} type="radio" name="status" value={state.status} id="status-instock" checked={state.status==="Instock"}/>
                     <label htmlFor="status-instock">Instock</label>
-                    <input onChange={(e)=>dispatch({type:"status",payload:"Unavailable"})} type="radio" name="status" value={state.status} id="status-unavailable"/>
+                    <input onChange={(e)=>dispatch({type:"status",payload:"Unavailable"})} type="radio" name="status" value={state.status} id="status-unavailable" checked={state.status!=="Instock"}/>
                     <label htmlFor="status-unavailable">Unavailable</label>
                 </div></div>
             }else if(type==="image"){
@@ -106,7 +106,7 @@ function ProductModifySection({state, dispatch, header, data}) {
                     <button onClick={(e)=>handleAddPro(e)} className='btn-primary w-20 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold text-lg mb-2'>Add</button>
                     </div>
                 <div className="flex flex-wrap mt-4 gap-2">
-                {state.pros.map(({val, id})=>{
+                {state.pros && state.pros.map(({val, id})=>{
                     return <p data-id={id} key={id} className='rounded px-4 py-2 bg-blue-500 text-neutral-100 font-semibold text-base w-max flex justify-between gap-8 items-center'><span>{val}</span><span><AiOutlineDelete onClick={(e)=>removePro(e.currentTarget.parentElement.parentElement.getAttribute("data-id"))} className="text-neutral-100 font-extrabold text-xl hover:text-red-400 transition cursor-pointer"/></span></p>
                 })}
                 </div>
