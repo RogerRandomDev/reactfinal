@@ -1,5 +1,5 @@
-import {useContext, useEffect,useState} from 'react';
-import {userContext} from '../Context/userContext';
+import { useContext, useEffect, useState } from 'react';
+import { userContext } from '../Context/userContext';
 
 import ProductCard from "../Components/ProductCard";
 import ProfileInfoCard from "../Components/ProfileInfoCard";
@@ -11,62 +11,64 @@ import { sendRequest } from '../Utils/requests';
 import useGetUserProducts from '../hooks/useGetUserProducts';
 import ProductCardSkeleton from '../Components/Skeletons/ProductCardSkeleton';
 function Profile() {
-  const {state, dispatch} = useContext(userContext);
-  const [userProducts,setUserProducts] = useState([]);
-  const basePath="https://res.cloudinary.com/dztnsrrta/image/upload/"
+  const { state, dispatch } = useContext(userContext);
+  const [userProducts, setUserProducts] = useState([]);
+  const basePath = "https://res.cloudinary.com/dztnsrrta/image/upload/"
 
   // const userProducts = useGetUserProducts(state.user._id);
-  useEffect(()=>{
-      sendRequest('product/showUser', 'POST', {
+  useEffect(() => {
+    sendRequest('product/showUser', 'POST', {
       body: {
-        userID:state.user._id,
+        userID: state.user._id,
       },
-    }).then(products=>{
-    setUserProducts(JSON.parse(String(products)).products)});
-  },[]);
+    }).then(products => {
+      setUserProducts(JSON.parse(String(products)).products)
+    });
+  }, []);
 
   return (
     <div className="flex flex-col gap-12 py-8 px-20">
-    <div className="flex gap-12 items-center flex-col xl:flex-row">
-    {/* <ProfileInfoCard image={"https://picsum.photos/400"} username={context.username} joinDate={context.joinDate} location={`${context.Location[0]}, ${context.Location[1]}`} rating={0} ratingCount={0} bought={0} sold={0}/> */}
-    <ProfileInfoCard image={"https://picsum.photos/400"} username={state.user.username} joinDate={state.user.joinDate} location={state.user.Location[0]} rating={5} ratingCount={0} bought={0} sold={0}/>
-    {/* Favorited items must come from database, so props are just placeholders for now */}
-    <div className="xl:border-l xl:pl-12 w-[90vw] ml-4">
-        <RowDisplay title={"Favorited Items"}>
-    <ProductCard type="favorite" favoritePreset={true} image={"https://picsum.photos/400?random=1"} title={"Nike Dunk Low Olive"} price={200} location={"Phoenix, AZ"} link={"#"}/>
-    <ProductCard type="favorite" favoritePreset={true} image={"https://picsum.photos/400?random=2"} title={"Nike High Top Jordans"} price={470} location={"Santa Barbara, CA"} link={"#"}/>
-    <ProductCard type="favorite" favoritePreset={true} image={"https://picsum.photos/400?random=3"} title={"Adidas Predator Cleats"} price={125} location={"Berkeley, CA"} link={"#"}/>
-    <ProductCard type="favorite" favoritePreset={true} image={"https://picsum.photos/400?random=4"} title={"Louis Vuitton Nike Lows"} price={775} location={"Raeleigh, NC"} link={"#"}/>
-    <ProductCard type="favorite" favoritePreset={true} image={"https://picsum.photos/400?random=5"} title={"Xbox Gaming Controller"} price={50} location={"Salt Lake City, UT"} link={"#"}/>
-    </RowDisplay>
-    </div>
-    </div>
-    <div className="xl:px-20">
-    <ResponsiveGridDisplay title={"Items From This Seller"}>
-        {/* {new Array(25).fill().map((_,idx)=>{
+      <div className="flex gap-12 items-center flex-col xl:flex-row">
+        {/* <ProfileInfoCard image={"https://picsum.photos/400"} username={context.username} joinDate={context.joinDate} location={`${context.Location[0]}, ${context.Location[1]}`} rating={0} ratingCount={0} bought={0} sold={0}/> */}
+        <ProfileInfoCard image={"https://picsum.photos/400"} username={state.user.username} joinDate={state.user.joinDate} location={state.user.Location[0]} rating={5} ratingCount={0} bought={0} sold={0} />
+        {/* Favorited items must come from database, so props are just placeholders for now */}
+        <div className="xl:border-l xl:pl-12 w-[90vw] ml-4">
+          <RowDisplay title={"Favorited Items"}>
+            <ProductCard type="favorite" favoritePreset={true} image={"https://picsum.photos/400?random=1"} title={"Nike Dunk Low Olive"} price={200} location={"Phoenix, AZ"} link={"#"} />
+            <ProductCard type="favorite" favoritePreset={true} image={"https://picsum.photos/400?random=2"} title={"Nike High Top Jordans"} price={470} location={"Santa Barbara, CA"} link={"#"} />
+            <ProductCard type="favorite" favoritePreset={true} image={"https://picsum.photos/400?random=3"} title={"Adidas Predator Cleats"} price={125} location={"Berkeley, CA"} link={"#"} />
+            <ProductCard type="favorite" favoritePreset={true} image={"https://picsum.photos/400?random=4"} title={"Louis Vuitton Nike Lows"} price={775} location={"Raeleigh, NC"} link={"#"} />
+            <ProductCard type="favorite" favoritePreset={true} image={"https://picsum.photos/400?random=5"} title={"Xbox Gaming Controller"} price={50} location={"Salt Lake City, UT"} link={"#"} />
+          </RowDisplay>
+        </div>
+      </div>
+      <div className="xl:px-20">
+        <ResponsiveGridDisplay title={"Items From This Seller"}>
+          {/* {new Array(25).fill().map((_,idx)=>{
             return <ProductCard key={idx} image={`https://picsum.photos/400?random=${idx+6}`} title={"Xbox Gaming Controller"} price={50} location={"Salt Lake City, UT"} link={"#"}/>
         })} */
-        (userProducts.length
-          ? 
-          (userProducts.map((data,idx)=>{
-          return <ProductCard type="edit" key={idx} image={basePath+data.images[0]} title={data.name} price={data.price} location={data.Location} link={`/productDetail?id=${data._id}`}/>}))
-          :
-          <ProductCardSkeleton amount={5}/>)
-        // if(userProducts){
-          
-        // }
-        // (userProducts &&
-        
-        // }))
-        
-        }
-    </ResponsiveGridDisplay>
-</div>
-<RecentPurchases>
-  {new Array(7).fill().map((_,idx)=>{
-    return <PurchaseReceipt key={idx} location={"Los Angeles, CA"} email="tb123@gmail.com" buyer="Trent Block" seller="Microsoft" logo="https://picsum.photos/400?random=0" date={new Date().toDateString()} items={[{"name":"Gaming Laptop", "quantity":"1", "cost":"375", "description":"A cool laptop!"}]}/>
-  })}
-  </RecentPurchases>
+            (userProducts.length
+              ?
+              (userProducts.map((data, idx) => {
+                return <ProductCard type="edit" key={idx} image={basePath + data.images[0]} title={data.name} price={data.price} location={data.Location} link={`/productDetail?id=${data._id}`} />
+              }))
+              :
+              <ProductCardSkeleton amount={5} />)
+            // if(userProducts){
+
+            // }
+            // (userProducts &&
+
+            // }))
+
+          }
+        </ResponsiveGridDisplay>
+      </div>
+      <RecentPurchases>
+        {new Array(7).fill().map((_, idx) => {
+          return <PurchaseReceipt key={idx} location={"Los Angeles, CA"} email="tb123@gmail.com" buyer="Trent Block" seller="Microsoft" logo="https://picsum.photos/400?random=0" date={new Date().toDateString()} items={[{ "name": "Gaming Laptop", "quantity": "1", "cost": "375", "description": "A cool laptop!" }]} />
+        })}
+      </RecentPurchases>
     </div>
   )
 }
