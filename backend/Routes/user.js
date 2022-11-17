@@ -37,7 +37,8 @@ router.post('/createAccount', async (req, res) => {
 });
 router.post('/Login', async (req, res) => {
   const userData = buildUserData(req);
-  var checkUser=await getUser(email);
+
+  var checkUser=await getUser(userData.email);
   var log = await login(userData,checkUser);
   return await res.status(200).send(log);
 });
