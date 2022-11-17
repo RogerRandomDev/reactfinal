@@ -6,7 +6,7 @@ const {
   createUser,
   buildUserData,
 } = require('../controllers/User');
-
+const {getLocation} = require('../middleware/geo')
 const { login, logout, updateToken, checkToken} = require('../controllers/auth');
 const {storeImage, moveFromTemp} = require('../middleware/images')
 const {
@@ -28,7 +28,8 @@ router.post('/createAccount', async (req, res) => {
   if(Banner!=null){
   userData.businessData=JSON.parse(userData.businessData)
   userData.businessData.BannerLink=Banner;}
-  
+  const ipLocation=getLocation(req.ip)
+  userData.Location=[ipLocation.country,ipLocation.region,ipLocation.city];
   await sendConfirmationEmail(userData);
   return res
     .status(200)
@@ -36,7 +37,8 @@ router.post('/createAccount', async (req, res) => {
 });
 router.post('/Login', async (req, res) => {
   const userData = buildUserData(req);
-  var log = await login(userData);
+  var checkUser=await getUser(email);
+  var log = await login(userData,checkUser);
   return await res.status(200).send(log);
 });
 
