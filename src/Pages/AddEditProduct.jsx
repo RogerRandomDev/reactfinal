@@ -50,7 +50,6 @@ function AddEditProduct() {
     // formDispatch({type:"name",value:formState.name});
     console.log(state);
     var productData=formState;
-    productData.pros=JSON.stringify(productData.pros);
     await sendRequest("product/createProduct","POST",{
       body:{
         productData,
