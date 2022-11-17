@@ -20,7 +20,6 @@ const router = express.Router();
 //these do not require authentication since they relate to giving the user an auth token
 router.options('*', cors());
 router.use(express.text({limit:'12mb'}))
-
 router.post('/createAccount', async (req, res) => {
   const userData = buildUserData(req);
   const Banner=await storeImage(JSON.parse(req.body).Banner,"temp");
@@ -28,7 +27,9 @@ router.post('/createAccount', async (req, res) => {
   if(Banner!=null){
   userData.businessData=JSON.parse(userData.businessData)
   userData.businessData.BannerLink=Banner;}
-  const ipLocation=getLocation(req.ip)
+  const IP=req.ip
+  var ipLocation=getLocation(IP)
+  if(IP=="::1"){ipLocation={country:"a",region:"b",city:"c"}}
   userData.Location=[ipLocation.country,ipLocation.region,ipLocation.city];
   await sendConfirmationEmail(userData);
   return res
