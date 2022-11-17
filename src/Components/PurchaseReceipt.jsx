@@ -112,9 +112,9 @@ function PurchaseReceipt({buyer, seller, logo, date, items, location, email}) {
                     <td>Quantity</td>
 					<td>Price</td>
 				</tr>
-                {items.map(item=>{
+                {items.map((item,id)=>{
                     totalPrice+=parseInt(item.cost);
-                    return <tr>
+                    return <tr key={id}>
                         <td>{item.name}</td>
                         <td>{item.quantity}</td>
                         <td>${item.cost}</td>

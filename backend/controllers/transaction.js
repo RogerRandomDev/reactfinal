@@ -13,15 +13,14 @@ const createReceipt = async(transactionData)=>{
     return {success:true,msg:"stored receipt"}
 }
 
-const getReceiptsFor = async(userEmail)=>{
+const getReceiptsFor = async(userID,viewPage=0)=>{
     var output={success:false,msg:"default output"}
     await connectDB(process.env.MONGO_URI)
     .then(()=>{
-        var bought=await TransactionModel.find({buyer:userEmail})
-        var sold=await TransactionModel.find({seller:userEmail})
+        var bought=await TransactionModel.find({buyer:userID},null,{limit:10,skip:10*viewPage})
         output={
             success:true,
-            receipts:[...bought,...sold].sort((a,b)=>a.timeStamp>b.timeStamp),
+            receipts:bought.sort((a,b)=>a.timeStamp>b.timeStamp),
             msg:"returned user receipts"}
     })
     return output

@@ -3,7 +3,7 @@ const dotenv = require('dotenv')
 dotenv.config();
 //
 const express = require('express');
-const {updateToken} = require('./controllers/auth');
+const {updateToken,checkToken} = require('./controllers/auth');
 const app = express();
 const cors = require('cors');
 const fs=require("fs")
@@ -16,18 +16,23 @@ const adminPage=fs.readFileSync(__dirname+"/interface/index.html",'utf-8')
 
 app.use(cors());
 app.options('*', cors());
-app.use(express.json());
-app.use(express.urlencoded({
-  extended: true
-}));
 
-app.get("/token",async (req,res)=>{
+app.use(express.text({limit:'26mb'}));
+
+app.post("/token",async (req,res)=>{
   const userToken=req.get("token")
+  if(userToken==undefined){return res.status(202).send({success:false,msg:"invalid"})}
   var updatedToken=await updateToken(userToken);
   res.status(200).send({success:true,token:updatedToken});
 })
 
 app.use("/user",userRouter)
+//these require authentication at the given time
+app.use("/",async (req,res,next)=>{
+  if(false&&(!await checkToken(req.get("token"))||req.get("token")==undefined)){return res.send({success:false,msg:"invalid/no token"})}
+  
+  next()
+})
 app.use("/product",productRouter)
 app.get("/",(req,res)=>{
   if(req.hostname!="localhost") return res.status(404).send({success:false,msg:"Access denied"})

@@ -8,15 +8,15 @@ const { info } = require('console');
 
 
 
-var tokens=[]
+var tokens={}
 
 const login = async (userData) => {
     const { email, password } = userData;
     console.log(`${email} is trying to login ..`);
     var checkUser=await getUser(email);
     if(checkUser!=null&&compareHash(password,checkUser.password)) {
-        var tokenData=jsonwebtoken.sign({user:checkUser.email,userID:checkUser._id}, process.env.JWT_SECRET,{expiresIn: '20m'})
-        tokens.push(tokenData)
+        var tokenData=jsonwebtoken.sign({user:checkUser.email,userID:checkUser._id}, process.env.JWT_SECRET)
+        startExpireToken(tokenData)
         return {success:true,token:tokenData,msg:"Login Token Generated",_id:checkUser._id}
     }
   
@@ -24,33 +24,25 @@ const login = async (userData) => {
   };
 
   const logout = async(req,res) =>{
-    const {token} = req.header;
-    tokens=tokens.filter((myToken)=>myToken.token!=token)
+    const {token} = req.get("token");
+    removerExpiredToken(token);
     return {success:true,msg:"removed login token"}
   }
 
 
 //checks if it should change the token or not yet
 const updateToken=async (oldToken)=>{
-  if(isTokenExpired(oldToken)) return {success:false,msg:"token expired"};
+  if(checkToken(oldToken)) return {success:false,msg:"token expired"};
   return await reloadToken(oldToken)
 }
 
 //reloads user token if the user has not logged out
 const reloadToken=async (oldToken)=>{
-  tokens=tokens.filter((myToken)=>myToken.token!=oldToken)
   const decoded=JSON.parse(decodeToken(oldToken))
-  var tokenData=jsonwebtoken.sign({email:decoded.email,userID:decoded._id}, process.env.JWT_SECRET,{expiresIn: '20m'})
+  var tokenData=jsonwebtoken.sign({email:decoded.email,userID:decoded.userID}, process.env.JWT_SECRET)
   return tokenData
 }
-//checks if token is expired
-const isTokenExpired=(token)=>{
-  const jsonPayload=decodeToken(token)
-  if(jsonPayload==null){return true}
-  const { exp } = JSON.parse(jsonPayload);
-  const expired = Date.now() >= exp*1000
-  return expired
-}
+
 
 //decodes the token
 const decodeToken=(token)=>{
@@ -68,15 +60,18 @@ const decodeToken=(token)=>{
   );
 }
 //checks if token is valid
-const checkToken=(token)=>{return tokens.includes(token)}
-
-//updates tokens every so often to ensure no excess ram usage for authenticating users
-
-const checkAllTokens=()=>{
-  Object.keys(tokens).forEach((token)=>{
-    if(isTokenExpired(token)){delete tokens[token]}
-  })
+const checkToken=(token)=>{return token in tokens}
+//starts the timer to expire the given token
+const startExpireToken = (token)=>{
+  tokens[token]=timers.setTimeout(()=>{removeExpiredToken(token)},2400000)
 }
-timers.setTimeout(checkAllTokens,1920000)
+const resetExpirationTimer = (token)=>{
+  timers.clearTimeout(tokens[token])
+  startExpireToken(token)
+}
+//removes token once expired
+const removeExpiredToken=(token)=>{
+  delete tokens[token]
+}
 
-  module.exports = {login,logout,reloadToken,updateToken,decodeToken,checkToken}
+module.exports = {login,logout,reloadToken,updateToken,decodeToken,checkToken}

@@ -1,5 +1,3 @@
-//TODO Update this and make it work with my routes
-
 const { connectDB, process } = require('../db/connect');
 const UserModel = require('../models/userModel');
 const { hashString } = require('../middleware/hash');
@@ -61,13 +59,15 @@ const createUser = async (userData) => {
 
 
 const buildUserData = (req) => {
+  
+  const {email,password,username,myBusiness,businessData,Location}=JSON.parse(req.body)
   return {
-    email: req.get('email'),
-    password: req.get('password'),
-    username: req.get('username'),
-    myBusiness: req.get('mycompany'),
-    businessData: req.get('businessData'),
-    Location: req.get("Location")
+    email,
+    password,
+    username,
+    myBusiness,
+    businessData,
+    Location
   };
 };
 

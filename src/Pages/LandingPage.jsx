@@ -4,8 +4,8 @@ import { FaFacebookF, FaTwitter } from 'react-icons/fa';
 import { useContext } from 'react';
 import { AiOutlineGoogle } from 'react-icons/ai';
 import { sendRequest } from '../Utils/requests';
-import { storeLocal } from '../hooks/useLocalStorageAuth';
-import userContext from '../Context/userContext';
+import { storeLocal } from '../Utils/useLocalStorageAuth';
+import { userContext } from '../Context/userContext';
 import { ReactComponent as Desktopsvg } from '../assets/item.svg';
 // import { Link } from 'react-router-dom';
 //https://coderthemes.com/ubold/layouts/default/index.html
@@ -84,12 +84,13 @@ function LandingPage({ updateContext }) {
       if (state.password === state.confirmPassword) {
         console.log("front end req sent");
         let newUserData = await sendRequest("user/createAccount", "POST", {
-          header: {
+          body: {
             email: state.email,
             password: state.password,
             username: state.username,
             mycompany: state.userType === "user" ? "" : state.username,
             Location: [state.city, " " + state.state],
+            Banner: state.businessLogo,
             businessData: JSON.stringify({
               chosenAgreement: state.agreements,
               email: state.email,
@@ -97,11 +98,8 @@ function LandingPage({ updateContext }) {
               BannerLink: null,
               Range: state.range,
               Location: [state.city, state.state],
-              Description: state.description
+              Description: state.description,
             })
-          },
-          body: {
-            Banner: state.businessLogo
           }
         });
         console.log(newUserData);
@@ -110,8 +108,8 @@ function LandingPage({ updateContext }) {
       }
     } else {
       console.log("Sending Login from frontend");
-      let data = await sendRequest("user/Login", "GET", {
-        header: {
+      let data = await sendRequest("user/Login", "POST", {
+        body: {
           email: state.email,
           password: state.password
         }
@@ -122,17 +120,16 @@ function LandingPage({ updateContext }) {
       console.log(data._id);
       await storeLocal("token", data.token);
 
-      let userData = await sendRequest("user/show", "GET", {
-        query: {
+      let userData = await sendRequest("user/show", "POST", {
+        body: {
           "user": data._id
         }
       });
-      userData = JSON.parse(userData);
-      updateContext(userData);
+      // send to localstorage
+      storeLocal("user", userData);
+
+      dispatch({ type: "REFRESH_DATA", payload: userData });
       navigate("/profile");
-      //  navigate(`/profile?user=${context._id}`);
-      //  useNavigate(`/profile/${context._id}`)
-      console.log(context._id);
     }
   }
 

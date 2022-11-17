@@ -7,11 +7,6 @@ const {storeImage,removeImages,getImageName,uploadFromBuffer} = require('../midd
 const {fileUpload} = require("express-fileupload")
 
 router.options('*', cors());
-router.use(fileUpload({
-    limits: {
-        files: 1
-    }
-}))
 router.use((req,res,next)=>{  
     next();
 })

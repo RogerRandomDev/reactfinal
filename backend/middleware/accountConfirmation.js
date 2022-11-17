@@ -19,7 +19,7 @@ const sendConfirmationEmail =async(userData)=> {
   // let replaceValue = `<input type='hidden' value='${String(confirmationToken)}' name='token'>
   // <button type='submit'>Authenticate Account</button>`
 emailForm = emailForm.replace("{FORM_REPLACE}",String(confirmationToken));
-  console.log("🚀 ~ file: accountConfirmation.js ~ line 20 ~ sendConfirmationEmail ~ emailForm", emailForm)
+
   sendEmail(userData.email,"Account Confirmation",emailForm);
   
   return {success:true,msg:"Sent account authentication email"}
@@ -37,6 +37,7 @@ const recieveConfirmationToken = async(req,res)=>{
     if(!confirmationTokens.includes(token)){return {success:false,msg:"invalid token"}}
     var decoded=await jsonwebtoken.decode(token)
     if(Date.now()>=decoded.exp*1000){return {success:false,msg:"token expired"}}
+    
     var tokenData=decoded.businessData
     delete confirmationTokens[token]
     return {success:true,decoded,msg:"account authenticated",tokenData}
