@@ -1,14 +1,14 @@
 import React, { useRef, useReducer } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { FaFacebookF, FaTwitter } from 'react-icons/fa';
-import { useContext } from 'react';
+// import { useContext } from 'react';
 import {AiOutlineGoogle} from 'react-icons/ai';
 import {sendRequest} from '../Utils/requests';
 import { storeLocal} from '../Utils/useLocalStorageAuth';
 import swal from 'sweetalert';
 import { ThreeDots } from 'react-loader-spinner';
 import { useState } from 'react';
-import { userContext } from '../Context/userContext';
+// import { userContext } from '../Context/userContext';
 import { ReactComponent as Desktopsvg } from '../assets/item.svg';
 // import {userContext} from '../Context/userContext';
 // import { Link } from 'react-router-dom';
@@ -16,7 +16,7 @@ import { ReactComponent as Desktopsvg } from '../assets/item.svg';
 const initialState = { username: "", email: "", password: "", confirmPassword: "", userType: "user", isSignUp: true, businessLogo: "", city: "", state: "", range: "Local", description: "", agreements: [false, false, false] };
 function LandingPage({ updateContext }) {
   const navigate = useNavigate();
-  const context = useContext(userContext);
+  // const context = useContext(userContext);
 
   const indicator = useRef(null);
   const userSelect = useRef(null);
@@ -74,10 +74,10 @@ function LandingPage({ updateContext }) {
       agreements[action.payload[0]] = action.payload[1];
       return { ...state, agreements }
     }
-    if (action.type && action.payload) {
+    // if (action.type && action.payload) {
       return { ...state, [action.type]: action.payload }
-    }
-    throw new Error("No Matching Action Type");
+    // }
+    // throw new Error("No Matching Action Type");
 
   }
   const [state, dispatch] = useReducer(formInputReducer, initialState);
@@ -90,16 +90,16 @@ function LandingPage({ updateContext }) {
 
  const handleSubmit = async (e) =>{
    e.preventDefault();
-   if(!verifyInputs()){
-    swal({
-        title:`Account Sign Up Failed`,
-        text:"Please Ensure all Fields are Completed",
-        icon:"error",
-        button:"Okay"
-      })
-    return;
-   }
    if(state.userType==="business"){
+     if(!verifyInputs()){
+      swal({
+          title:`Account Sign Up Failed`,
+          text:"Please Ensure all Fields are Completed",
+          icon:"error",
+          button:"Okay"
+        })
+      return;
+     }
      if(state.password === state.confirmPassword){
       // console.log("front end req sent");
       swal({
@@ -134,15 +134,26 @@ function LandingPage({ updateContext }) {
   }else{
     // console.log("Sending Login from frontend");
     setLoggingIn(true);
+    console.log(state.email,state.password);
     let data = await sendRequest("user/Login","POST",{
     body:{
       email:state.email,
       password:state.password
     }
    });
+   console.log(data,"144");
    data = JSON.parse(data);
   //  console.log("🚀 ~ file: LandingPage.jsx ~ line 144 ~ handleSubmit ~ data", data)
-   if(data.success === false) return;
+  //  if(data.success === false) {
+  //   setLoggingIn(false);
+  //   swal({
+  //         title:`Incorrect Login Information`,
+  //         text:"Please Ensure Email and Password are Correct",
+  //         icon:"error",
+  //         button:"Okay"
+  //       })
+  //   return;
+  //  };
    console.log(data._id);
    await storeLocal("token", data.token);
 
