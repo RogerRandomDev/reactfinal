@@ -5,6 +5,9 @@ import { useContext } from 'react';
 import {AiOutlineGoogle} from 'react-icons/ai';
 import {sendRequest} from '../Utils/requests';
 import { storeLocal} from '../Utils/useLocalStorageAuth';
+import swal from 'sweetalert';
+import { ThreeDots } from 'react-loader-spinner';
+import { useState } from 'react';
 // import {userContext} from '../Context/userContext';
 // import { Link } from 'react-router-dom';
 //https://coderthemes.com/ubold/layouts/default/index.html
@@ -20,7 +23,7 @@ function LandingPage({updateContext}) {
   const hero = useRef(null);
   const section = useRef(null);
   const businessInfoSlider = useRef(null);
-
+  const [loggingIn, setLoggingIn] = useState(false);
   const formInputReducer = (state,action)=>{
     if(action.type==="username"){
       return {...state, username:action.payload}
@@ -100,12 +103,32 @@ mover.current.classList.remove("translate-x-[0%]");
   }
   const [state, dispatch] = useReducer(formInputReducer, initialState);
 
+  const verifyInputs = () =>{
+    return Object.keys(state).every(item=>{
+      return state[item];
+    })
+  }
+
  const handleSubmit = async (e) =>{
    e.preventDefault();
-   console.log(state.userType==="business");
+   if(!verifyInputs()){
+    swal({
+        title:`Account Sign Up Failed`,
+        text:"Please Ensure all Fields are Completed",
+        icon:"error",
+        button:"Okay"
+      })
+    return;
+   }
    if(state.userType==="business"){
      if(state.password === state.confirmPassword){
-      console.log("front end req sent");
+      // console.log("front end req sent");
+      swal({
+        title:`Email Confirmation Sent to ${state.email}`,
+        text:"Please Sign in after Account Confirmation",
+        icon:"success",
+        button:"Cool!"
+      })
        let newUserData = await sendRequest("user/createAccount","POST",{
         body:{
     email:state.email,
@@ -130,7 +153,8 @@ mover.current.classList.remove("translate-x-[0%]");
       alert("passwords dont match");
     }
   }else{
-    console.log("Sending Login from frontend");
+    // console.log("Sending Login from frontend");
+    setLoggingIn(true);
     let data = await sendRequest("user/Login","POST",{
     body:{
       email:state.email,
@@ -138,7 +162,7 @@ mover.current.classList.remove("translate-x-[0%]");
     }
    });
    data = JSON.parse(data);
-   console.log("🚀 ~ file: LandingPage.jsx ~ line 144 ~ handleSubmit ~ data", data)
+  //  console.log("🚀 ~ file: LandingPage.jsx ~ line 144 ~ handleSubmit ~ data", data)
    if(data.success === false) return;
    console.log(data._id);
    await storeLocal("token", data.token);
@@ -150,7 +174,7 @@ mover.current.classList.remove("translate-x-[0%]");
    });
    // send to localstorage
    storeLocal("user", userData);
-   
+   setLoggingIn(false);
    dispatch({type:"REFRESH_DATA",payload:userData});
    navigate("/profile");
   }
@@ -293,8 +317,26 @@ mover.current.classList.remove("translate-x-[0%]");
             <input placeholder='Password' type="password" value={state.password} onChange={(e)=>dispatch({type:"password",payload:e.target.value})} name="password" className='py-2 rounded w-9/12 px-4  text-neutral-900'/>
             <input placeholder='Confirm Password' type="password" value={state.confirmPassword} onChange={(e)=>dispatch({type:"confirmPassword",payload:e.target.value})} name="confirmPassword" className={`py-2 rounded w-9/12 px-4 text-neutral-900 ${state.userType==="business" ? "block" : "hidden"}`}/>
             <input type="hidden" name="userType" value={state.userType} />
+            {!loggingIn 
+            ? 
+            <button type="submit" className='btn-primary mt-4 w-9/12 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold'
+             onClick={(e)=>handleSubmit(e)}>
+              Sign {state.userType==="business" ? "Up" : "In"}
+            </button>
+            :
+             <ThreeDots 
+height="80" 
+width="80" 
+radius="9"
+color="#fff" 
+ariaLabel="three-dots-loading"
+wrapperStyle={{}}
+wrapperClassName=""
+visible={true}
+ />
+            }
             
-            <button type="submit" className='btn-primary mt-4 w-9/12 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold' onClick={(e)=>handleSubmit(e)}>Sign {state.userType==="business" ? "Up" : "In"}</button>
+            
             
           </form>
           <div className="alternate-signup">
