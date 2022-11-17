@@ -12,17 +12,20 @@ import useGetUserProducts from '../hooks/useGetUserProducts';
 import ProductCardSkeleton from '../Components/Skeletons/ProductCardSkeleton';
 function Profile() {
   const { state, dispatch } = useContext(userContext);
+  const [loading, setLoading] = useState(false);
   const [userProducts, setUserProducts] = useState([]);
   const basePath = "https://res.cloudinary.com/dztnsrrta/image/upload/"
 
   // const userProducts = useGetUserProducts(state.user._id);
   useEffect(() => {
+    setLoading(true);
     sendRequest('product/showUser', 'POST', {
       body: {
         userID: state.user._id,
       },
     }).then(products => {
-      setUserProducts(JSON.parse(String(products)).products)
+      setUserProducts(JSON.parse(String(products)).products);
+      setLoading(false);
     });
   }, []);
 
@@ -47,11 +50,11 @@ function Profile() {
           {/* {new Array(25).fill().map((_,idx)=>{
             return <ProductCard key={idx} image={`https://picsum.photos/400?random=${idx+6}`} title={"Xbox Gaming Controller"} price={50} location={"Salt Lake City, UT"} link={"#"}/>
         })} */
-            (userProducts.length
+            (!loading
               ?
-              (userProducts.map((data, idx) => {
+              (userProducts.length > 0 ? (userProducts.map((data, idx) => {
                 return <ProductCard type="edit" key={idx} image={basePath + data.images[0]} title={data.name} price={data.price} location={data.Location} link={`/productDetail?id=${data._id}`} />
-              }))
+              })) : <div>No Products!</div>)
               :
               <ProductCardSkeleton amount={5} />)
             // if(userProducts){

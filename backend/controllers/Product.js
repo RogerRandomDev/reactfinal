@@ -1,9 +1,9 @@
 const { connectDB } = require('../db/connect');
 const { storeImage } = require('../middleware/images');
-const {checkToken, decodeToken } = require('./auth.js');
+const { checkToken, decodeToken } = require('./auth.js');
 const ProductModel = require('../models/productModel');
 const userModel = require('../models/userModel');
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 require('dotenv').config();
 const productsPerPage = 50;
 
@@ -38,7 +38,7 @@ const getProduct = async (productId) => {
 };
 const updateProduct = async (productID, productData, senderToken) => {
   var output = { success: false, msg: 'default output' };
-  
+
   if (!checkToken(senderToken)) {
     return { success: false, msg: 'invalid sender token' };
   }
@@ -71,7 +71,7 @@ const deleteProduct = async (productId) => {
 //creates a product and adds it to the database
 const createProduct = async (productData, userToken, userID) => {
   // console.log('69');
-  
+
   if (!checkToken(userToken)) {
     return { success: false, msg: 'token invalid', _id: null };
   }
