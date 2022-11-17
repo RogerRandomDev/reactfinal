@@ -41,9 +41,9 @@ router.post('/Login', async (req, res) => {
 });
 
 router.post('/confirmAccount', async (req, res) => {
-  console.log('account authenticated');
+  
   var userData = await recieveConfirmationToken(req, res);
-  // userData = JSON.parse(userData);
+  if(!userData.success){return res.status(202).send({success:false,msg:'Authentication failed'})}
   userData.decoded.businessData.BannerLink=await moveFromTemp(
     userData.decoded.businessData.BannerLink,
     "BusinessBanners"
@@ -52,11 +52,10 @@ router.post('/confirmAccount', async (req, res) => {
   // userData.decoded.businessData=JSON.parse(userData.decoded.businessData)
   //creates the business account for the user
   var _bus=await createBusiness(userData.decoded.businessData)
-  
+  userData.decoded.icon=userData.decoded.businessData.BannerLink
   userData.decoded.myBusiness=_bus._id
   console.log(_bus.msg)
   if(_bus._id==null){return res.send("Authentication failed")}
-  userData.decoded.icon=userData.decoded.businessData.BannerLink;
   const newUser=await createUser(userData.decoded)
   
   if(!newUser.success){return res.send(newUser)}

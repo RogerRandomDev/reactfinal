@@ -83,7 +83,6 @@ const createProduct = async (productData, userToken, userID) => {
     imgUrls.push(await storeImage(image[2], 'productImages'));
   }
   productData.images = imgUrls;
-
   try {
     await connectDB(process.env.MONGO_URI);
     const newProduct = new ProductModel(productData);

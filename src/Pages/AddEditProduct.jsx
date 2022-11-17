@@ -49,9 +49,11 @@ function AddEditProduct() {
     e.preventDefault();
     // formDispatch({type:"name",value:formState.name});
     console.log(state);
+    var productData=formState;
+    productData.pros=JSON.stringify(productData.pros);
     await sendRequest("product/createProduct","POST",{
       body:{
-        productData:formState,
+        productData,
         userID:state.user._id,
         token:getLocal("token")
       }
