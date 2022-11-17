@@ -63,7 +63,7 @@ const decodeToken=(token)=>{
 const checkToken=(token)=>{return token in tokens}
 //starts the timer to expire the given token
 const startExpireToken = (token)=>{
-  tokens[token]=timers.setTimeout(()=>{removeExpiredToken(token)},1200000)
+  tokens[token]=timers.setTimeout(()=>{removeExpiredToken(token)},2400000)
 }
 const resetExpirationTimer = (token)=>{
   timers.clearTimeout(tokens[token])
