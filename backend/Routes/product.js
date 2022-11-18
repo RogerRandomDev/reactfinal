@@ -18,7 +18,7 @@ router.post('/createProduct', async (req, res) => {
   const creationResponse = await createProduct(productData, token, userID);
   res.status(200).send(creationResponse);
 });
-router.post('updateProduct', async (req, res) => {
+router.post('/updateProduct', async (req, res) => {
   const { productData, senderToken, productID } = JSON.parse(req.body);
   const updateResponse = await updateProduct(
     productID,
