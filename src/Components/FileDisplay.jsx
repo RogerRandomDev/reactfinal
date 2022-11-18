@@ -1,4 +1,4 @@
-import {CiCircleRemove} from 'react-icons/ci';
+import { MdOutlineCancel} from "react-icons/md"
 function FileDisplay({handleRemoveFile, name, size, image}) {
     // console.log(image);
   return (
@@ -10,7 +10,7 @@ function FileDisplay({handleRemoveFile, name, size, image}) {
         <p>{(size/1000000).toFixed(2)} MB</p>
         </div>
         </div>
-<CiCircleRemove onClick={()=>handleRemoveFile(name)} className='text-2xl cursor-pointer text-slate-400 hover:text-red-400 transition'/>
+<MdOutlineCancel onClick={()=>handleRemoveFile(name)} className='text-2xl cursor-pointer text-slate-400 hover:text-red-400 transition'/>
     </div>
   )
 }
