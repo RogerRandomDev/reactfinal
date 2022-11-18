@@ -10,9 +10,8 @@ function AddEditProduct() {
   const [productData, setProductData] = useState({});
   const [loading, setLoading] = useState(true);
   const [isAdding,setIsAdding] = useState(true);
-  let productID = "";
   useEffect(()=>{
-    productID = window.location.search.substring(4);
+   let productID = window.location.search.substring(4);
     if(productID.length > 10){
       setIsAdding(false);
       sendRequest('product/show', 'POST', {
@@ -92,7 +91,7 @@ function AddEditProduct() {
       await sendRequest("product/updateProduct","POST",{
         body:{
           productData,
-          productID,
+          productID: window.location.search.substring(4),
           senderToken:getLocal("token")
         }
       })

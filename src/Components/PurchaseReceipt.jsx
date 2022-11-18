@@ -70,7 +70,7 @@ function PurchaseReceipt({buyer, seller, logo, date, items, location, email}) {
 			}
 
 		`}</style>
-    <div className="invoice-box w-[25rem] flex-shrink-0" >
+    <div className="invoice-box w-[25rem] flex-shrink-0 bg-[#eee] rounded-lg" >
 			<div className="flex justify-between items-center w-full mb-6">
 								<div className="">
 									<img src={logo} alt="Logo" className="w-20 h-20 rounded-full"/>

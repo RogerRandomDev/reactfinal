@@ -12,25 +12,40 @@ import useGetUserProducts from '../hooks/useGetUserProducts';
 import ProductCardSkeleton from '../Components/Skeletons/ProductCardSkeleton';
 function Profile() {
   const { state, dispatch } = useContext(userContext);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [userProducts, setUserProducts] = useState([]);
   const basePath = "https://res.cloudinary.com/dztnsrrta/image/upload/"
 
   // const userProducts = useGetUserProducts(state.user._id);
   useEffect(() => {
     setLoading(true);
+    let userID = window.location.search.substring(4);
+    if(userID.length > 10){
+      sendRequest("user/show","POST",{
+    body:{
+      "user":userID
+    }
+   }).then(res=>{
+    console.log(JSON.parse(res));
+     dispatch({type:"REFRESH_DATA",payload:JSON.parse(res)});
+   })
+    }
     sendRequest('product/showUser', 'POST', {
       body: {
-        userID: state.user._id,
+        userID: (userID.length < 10 ? state.user._id : userID),
       },
     }).then(products => {
       setUserProducts(JSON.parse(String(products)).products);
       setLoading(false);
     });
+  
+    
+
   }, []);
 
   return (
-    <div className="flex flex-col gap-12 py-8 px-20">
+    !loading && 
+    <div className="flex flex-col gap-12 py-8 px-20 bg-[#404959] text-[#eee]">
       <div className="flex gap-12 items-center flex-col xl:flex-row">
         {/* <ProfileInfoCard image={"https://picsum.photos/400"} username={context.username} joinDate={context.joinDate} location={`${context.Location[0]}, ${context.Location[1]}`} rating={0} ratingCount={0} bought={0} sold={0}/> */}
         <ProfileInfoCard image={"https://picsum.photos/400"} username={state.user.username} joinDate={state.user.joinDate} location={state.user.Location[0]} rating={5} ratingCount={0} bought={0} sold={0} />

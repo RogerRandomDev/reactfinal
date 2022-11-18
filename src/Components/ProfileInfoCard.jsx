@@ -8,7 +8,7 @@ function ProfileInfoCard({image, username, joinDate, location, rating, ratingCou
     <div className="flex flex-col gap-4 w-full xl:w-1/3">
         <div className="flex gap-8 items-center justify-center">
             <img src={image} alt="Profile" className="rounded-full w-[40%] min-w-[8rem] object-cover aspect-square max-w-[6rem]"/>
-            <div className="flex flex-col gap-2 text-neutral-900">
+            <div className="flex flex-col gap-2 text-[#eee]">
                 <h3 className="font-semibold text-xl 2xl:text-2xl">{username}</h3>
                 <p>Joined {joinDate}</p>
                 <p>{location}</p>
