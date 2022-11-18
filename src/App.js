@@ -132,7 +132,7 @@ const App = () => {
                 />
               }
             />
-            <Route exact path='/productDetail' element={<ProductDetail/>}/>
+            <Route exact path='/productDetail' element={<ProductDetail />} />
 
             <Route path='/addEdit' element={<AddEditProduct />} />
             <Route path='/customers' element={<Customers />}></Route>
