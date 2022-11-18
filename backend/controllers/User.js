@@ -1,7 +1,10 @@
 const { connectDB, process } = require('../db/connect');
 const UserModel = require('../models/userModel');
+const productModel = require('../models/productModel');
+const businessModel= require('../models/businessModel');
 const { hashString } = require('../middleware/hash');
-const {sendConfirmationEmail} = require("../middleware/accountConfirmation")
+const {sendConfirmationEmail} = require("../middleware/accountConfirmation");
+const { checkToken } = require('./auth');
 
 require('dotenv').config();
 
@@ -57,7 +60,19 @@ const createUser = async (userData) => {
   }
   return { success: true, msg: 'User Created successfully',_id};
 };
-
+const deleteUser = async(req,res)=>{
+  const {token}=JSON.parse(req.body);
+  const {userID,email}=decodeToken(token);
+  if(!checkToken(token)){return res.status(202).send({success:false,msg:'invalid user token'})}
+  try{
+    await connectDB(process.env.MONGO_URI)
+    await UserModel.findByIdAndDelete(userID)
+    await businessModel.findOneAndDelete({email})
+    await productModel.deleteMany({creatorID:userID})
+    return res.status(200).send({success:true,msg:"User deleted successfully"})
+  }catch(e){}
+  res.send({success:false,msg:"failed to delete user"})
+}
 
 const buildUserData = (req) => {
   
