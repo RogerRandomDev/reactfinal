@@ -18,6 +18,7 @@ const storeImage = async(imageData,uploadTo="default")=>{
 const removeImages = async(imageUrls,uploadedTo="default")=>{
   await imageUrls.map((url)=>{
     url=getImageName(url)
+    if(url==null){return}
     cloud.v2.uploader.destroy(url)})
   return {success:true,msg:"removed images from database"};
 }
@@ -26,6 +27,7 @@ const removeImagesFromURL = async(imageUrls)=>{
   //imageUrls.map((url)=>{if(url!=null){cloud.v2.uploader.destroy(url[2].split(basePath)[1])}})
 }
 const getImageName=(imageUrl)=>{
+  if(imageUrl==null){return null}
   var parts=imageUrl.split("/")
   parts.shift()
   
