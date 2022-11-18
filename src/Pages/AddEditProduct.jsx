@@ -1,13 +1,35 @@
-import { useReducer, useContext } from 'react';
+import { useReducer, useContext, useEffect } from 'react';
 import ProductModifySection from '../Components/ProductModifySection'
 import { sendRequest } from '../Utils/requests';
 import { userContext } from '../Context/userContext';
 import { getLocal } from '../Utils/useLocalStorageAuth';
+import { useState } from 'react';
 
 
 function AddEditProduct() {
+  const [productData, setProductData] = useState({});
+  const [loading, setLoading] = useState(true);
+  useEffect(()=>{
+    const productID = window.location.search.substring(4);
+      sendRequest('product/show', 'POST', {
+      body: {
+        productID:productID
+      },
+    }).then(product=>{
+      setProductData(JSON.parse(String(product)));
+    setLoading(false);
+    formDispatch({type:"name", payload:productData.name});
+    formDispatch({type:"price", payload:productData.price});
+    formDispatch({type:"discount", payload:0});
+    formDispatch({type:"description", payload:productData.description});
+    formDispatch({type:"status", payload:productData.status});
+    //images
+    formDispatch({type:"pros",payload:productData.pros});
+    //specifications
+    });
+  },[loading]);
   const {state, dispatch} = useContext(userContext);
-  const initialState = {name:"",price:"",discount:"",description:"",status:"",images:[],pros:[],specifications:[], Location:state.user.Location[0]};
+  const initialState = {name:"",price:"",discount:"",description:"",status:"",images:[],pros:[],specifications:[]};
   const formReducer = (state,action)=>{
     if(action.type=="name"){
       return {...state, name:action.payload}
