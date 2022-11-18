@@ -101,7 +101,9 @@ router.post('/show', async (req, res) => {
   console.log(req.body);
   const { user } = JSON.parse(req.body);
   const userData = await getUserByID(user);
+  if(userData==null){return res.status(202).send({success:false})}
   userData.password = null;
+  userData.card=null;
   res.status(200).send(userData);
 });
 

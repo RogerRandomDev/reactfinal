@@ -44,6 +44,11 @@ const ProductSchema = new mongoose.Schema({
   creatorID:{
     type:String,
     required:true
+  },
+  discount:{
+    type:Number,
+    required:true,
+    default: 0
   }
 });
 
