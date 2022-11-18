@@ -1,5 +1,5 @@
 const { connectDB } = require('../db/connect');
-const { storeImage } = require('../middleware/images');
+const { storeImage, removeImages} = require('../middleware/images');
 const { checkToken, decodeToken } = require('./auth.js');
 const ProductModel = require('../models/productModel');
 const userModel = require('../models/userModel');
@@ -38,14 +38,17 @@ const getProduct = async (productId) => {
 };
 const updateProduct = async (productID, productData, senderToken) => {
   var output = { success: false, msg: 'default output' };
-
+  console.log(productData)
   if (!checkToken(senderToken)) {
     return { success: false, msg: 'invalid sender token' };
   }
+  
   const senderData = decodeToken(senderToken);
   try {
     await connectDB(process.env.MONGO_URI);
-    const creator = await userModel.findOne({ email: senderData.email })(
+    const creator = await userModel.findOne({ email: senderData.email });
+    (
+      removeImages(await ProductModel.findOne({_id:productID,creatorID:creator._id}).images)
       (output = await ProductModel.updateOne(
         { _id: productID, creatorID: creator._id },
         productData
