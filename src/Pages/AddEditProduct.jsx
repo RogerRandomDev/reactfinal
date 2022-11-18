@@ -92,7 +92,7 @@ function AddEditProduct() {
       await sendRequest("product/updateProduct","POST",{
         body:{
           productData,
-          productID,
+          productID:window.location.search.substring(4),
           senderToken:getLocal("token")
         }
       })
