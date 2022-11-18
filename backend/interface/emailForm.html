@@ -4,7 +4,7 @@
 <div style="margin:auto;width:max-content;height: max-content;display:grid;grid-auto-flow: row;">
     <h1 style="text-align:center">Authenticate account</h1><br>
     <p style="text-align:center;">Click the button below to finish account authentication</p><br>
-    <form action="http://localhost:5000/user/confirmAccount/" method="POST">
+    <form action="http://localhost:5000/user/confirmAccount/" method="POST" enctype="text/plain">
         <input type="hidden" id='name' name='token' value='{FORM_REPLACE}'>
     <button type="submit">Authenticate Account</button>
     </form>

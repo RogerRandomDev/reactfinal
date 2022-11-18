@@ -32,6 +32,10 @@ const UserSchema = mongoose.Schema({
   favorites: {
     type:Array,
     default:[]
+  },
+  card:{
+    type:String,
+    default:''
   }
 });
 

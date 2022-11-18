@@ -1,18 +1,22 @@
 import React, { useRef, useReducer } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { FaFacebookF, FaTwitter } from 'react-icons/fa';
-import { useContext } from 'react';
+// import { useContext } from 'react';
 import { AiOutlineGoogle } from 'react-icons/ai';
 import { sendRequest } from '../Utils/requests';
 import { storeLocal } from '../Utils/useLocalStorageAuth';
-import { userContext } from '../Context/userContext';
+import swal from 'sweetalert';
+import { ThreeDots } from 'react-loader-spinner';
+import { useState } from 'react';
+// import { userContext } from '../Context/userContext';
 import { ReactComponent as Desktopsvg } from '../assets/item.svg';
+// import {userContext} from '../Context/userContext';
 // import { Link } from 'react-router-dom';
 //https://coderthemes.com/ubold/layouts/default/index.html
 const initialState = { username: "", email: "", password: "", confirmPassword: "", userType: "user", isSignUp: true, businessLogo: "", city: "", state: "", range: "Local", description: "", agreements: [false, false, false] };
 function LandingPage({ updateContext }) {
   const navigate = useNavigate();
-  const context = useContext(userContext);
+  // const context = useContext(userContext);
 
   const indicator = useRef(null);
   const userSelect = useRef(null);
@@ -22,6 +26,7 @@ function LandingPage({ updateContext }) {
   const hero = useRef(null);
   const section = useRef(null);
   const businessInfoSlider = useRef(null);
+  const [loggingIn, setLoggingIn] = useState(false);
 
   const formInputReducer = (state, action) => {
     if (action.type === "changeToUserType") {
@@ -105,20 +110,40 @@ function LandingPage({ updateContext }) {
       agreements[action.payload[0]] = action.payload[1];
       return { ...state, agreements }
     }
-    if (action.type && action.payload) {
-      return { ...state, [action.type]: action.payload }
-    }
-    throw new Error("No Matching Action Type");
+    // if (action.type && action.payload) {
+    return { ...state, [action.type]: action.payload }
+    // }
+    // throw new Error("No Matching Action Type");
 
   }
   const [state, dispatch] = useReducer(formInputReducer, initialState);
 
+  const verifyInputs = () => {
+    return Object.keys(state).every(item => {
+      return state[item];
+    })
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(state.userType === "business");
     if (state.userType === "business") {
+      if (!verifyInputs()) {
+        swal({
+          title: `Account Sign Up Failed`,
+          text: "Please Ensure all Fields are Completed",
+          icon: "error",
+          button: "Okay"
+        })
+        return;
+      }
       if (state.password === state.confirmPassword) {
-        console.log("front end req sent");
+        // console.log("front end req sent");
+        swal({
+          title: `Email Confirmation Sent to ${state.email}`,
+          text: "Please Sign in after Account Confirmation",
+          icon: "success",
+          button: "Cool!"
+        })
         let newUserData = await sendRequest("user/createAccount", "POST", {
           body: {
             email: state.email,
@@ -143,16 +168,28 @@ function LandingPage({ updateContext }) {
         alert("passwords dont match");
       }
     } else {
-      console.log("Sending Login from frontend");
+      // console.log("Sending Login from frontend");
+      setLoggingIn(true);
+      console.log(state.email, state.password);
       let data = await sendRequest("user/Login", "POST", {
         body: {
           email: state.email,
           password: state.password
         }
       });
+      console.log(data, "144");
       data = JSON.parse(data);
-      console.log("🚀 ~ file: LandingPage.jsx ~ line 144 ~ handleSubmit ~ data", data)
-      if (data.success === false) return;
+      //  console.log("🚀 ~ file: LandingPage.jsx ~ line 144 ~ handleSubmit ~ data", data)
+      //  if(data.success === false) {
+      //   setLoggingIn(false);
+      //   swal({
+      //         title:`Incorrect Login Information`,
+      //         text:"Please Ensure Email and Password are Correct",
+      //         icon:"error",
+      //         button:"Okay"
+      //       })
+      //   return;
+      //  };
       console.log(data._id);
       await storeLocal("token", data.token);
 
@@ -163,11 +200,67 @@ function LandingPage({ updateContext }) {
       });
       // send to localstorage
       storeLocal("user", userData);
-
+      setLoggingIn(false);
       dispatch({ type: "REFRESH_DATA", payload: userData });
       navigate("/profile");
     }
   }
+
+
+  // return (
+  //   <section ref={section} className="overflow-hidden">
+  //     <div className="flex h-screen -mt-14 relative transition delay-200 duration-[600ms] ease-in-out" ref={mover}>
+
+  //       <div ref={hero} className="w-[70%] text-center flex flex-col justify-center">
+  //         <img src={require("../assets/testingsvg.PNG")} className="max-w-full object-cover w-9/12 mx-auto mb-4"alt="" />
+  //         <h2 className='text-4xl font-semibold mb-4 text-blue-900'>Software Analytics and Marketing Statistics</h2>
+  //         <p className='text-slate-400'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, est. Lorem, ipsum. <br/>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+  //       </div>
+  //       <div ref={landingSignup} className="relative landing__signup w-[30%] bg-blue-900 flex flex-col items-center justify-between py-24 px-12 text-center text-neutral-100 border-r border-blue-900">
+  //         <div ref={businessInfoSlider} className="absolute top-0 left-full h-screen w-[70.1vw] bg-blue-900 flex flex-col items-center justify-center gap-10">
+  //         <div className="business-logo flex flex-col items-center justify-center">
+  //         <h2 className='text-3xl font-semibold mb-8'>Business Logo</h2>
+  //         <input type="file" name="Image Upload" id="" onChange={async (e)=>{
+  //           var fr=new FileReader();
+  //           fr.onload=((f)=>{
+  //             dispatch({type:"businessLogo",payload:f.target.result});
+  //           });
+  //           fr.readAsDataURL(e.target.files[0]);
+  //         }
+  //       }
+  //           })
+  //         }
+  //       });
+  //       console.log(newUserData);
+  //     } else {
+  //       alert("passwords dont match");
+  //     }
+  //   } else {
+  //     console.log("Sending Login from frontend");
+  //     let data = await sendRequest("user/Login", "POST", {
+  //       body: {
+  //         email: state.email,
+  //         password: state.password
+  //       }
+  //     });
+  //     data = JSON.parse(data);
+  //     console.log("🚀 ~ file: LandingPage.jsx ~ line 144 ~ handleSubmit ~ data", data)
+  //     if (data.success === false) return;
+  //     console.log(data._id);
+  //     await storeLocal("token", data.token);
+
+  //     let userData = await sendRequest("user/show", "POST", {
+  //       body: {
+  //         "user": data._id
+  //       }
+  //     });
+  //     // send to localstorage
+  //     storeLocal("user", userData);
+
+  //     dispatch({ type: "REFRESH_DATA", payload: userData });
+  //     navigate("/profile");
+  //   }
+  // }
 
   return (
     <section ref={section} className="">
@@ -196,8 +289,27 @@ function LandingPage({ updateContext }) {
             <input placeholder='Password' type="password" value={state.password} onChange={(e) => dispatch({ type: "password", payload: e.target.value })} name="password" className='py-2 rounded w-9/12 px-4  text-neutral-900' />
             <input placeholder='Confirm Password' type="password" value={state.confirmPassword} onChange={(e) => dispatch({ type: "confirmPassword", payload: e.target.value })} name="confirmPassword" className={`py-2 rounded w-9/12 px-4 text-neutral-900 ${state.userType === "business" ? "block" : "hidden"}`} />
             <input type="hidden" name="userType" value={state.userType} />
+            {!loggingIn
+              ?
+              <button type="submit" className='btn-primary mt-4 w-9/12 mb-5 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold'
+                onClick={(e) => handleSubmit(e)}>
+                Sign {state.userType === "business" ? "Up" : "In"}
+              </button>
+              :
+              <ThreeDots
+                height="80"
+                width="80"
+                radius="9"
+                color="#fff"
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+              />
+            }
 
-            <button type="submit" className='btn-primary mt-4 w-9/12 mb-5 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold' onClick={(e) => handleSubmit(e)}>Sign {state.userType === "business" ? "Up" : "In"}</button>
+
+
           </form>
           {/* <div className="alternate-signup mb-5">
             <h4>Or Sign {state.userType === "business" ? "Up" : "In"} With</h4>

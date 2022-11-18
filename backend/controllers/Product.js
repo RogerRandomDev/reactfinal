@@ -1,9 +1,9 @@
 const { connectDB } = require('../db/connect');
-const { decodeToken, checkToken } = require('./auth');
-const { storeImage } = require('../middleware/images');
+const { storeImage, removeImages} = require('../middleware/images');
+const { checkToken, decodeToken } = require('./auth.js');
 const ProductModel = require('../models/productModel');
 const userModel = require('../models/userModel');
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 require('dotenv').config();
 const productsPerPage = 50;
 
@@ -41,16 +41,25 @@ const updateProduct = async (productID, productData, senderToken) => {
   if (!checkToken(senderToken)) {
     return { success: false, msg: 'invalid sender token' };
   }
+  console.log(productData)
   const senderData = decodeToken(senderToken);
   try {
     await connectDB(process.env.MONGO_URI);
-    const creator = await userModel.findOne({ email: senderData.email })(
-      (output = await ProductModel.updateOne(
-        { _id: productID, creatorID: creator._id },
-        productData
-      ))
-    );
-    console.log(output);
+    const creator = await userModel.findOne({ email: senderData.email });
+    var imgUrls = []
+    for (const image of productData.images) {
+      imgUrls.push((image.includes('.jpg')?image:await storeImage(image[2], 'productImages')));
+  }
+      productData.images = imgUrls;
+      (output = await ProductModel.findById(
+        productID
+      ));
+    //if(output.creatorID!=senderData.userID){return {success:false,msg:"user ID does not match product creator"}}
+    removeImages(output.images)
+    await ProductModel.findByIdAndUpdate(
+      productID,
+      productData
+    )
   } catch (err) {
     console.log(err);
   }
@@ -70,6 +79,7 @@ const deleteProduct = async (productId) => {
 //creates a product and adds it to the database
 const createProduct = async (productData, userToken, userID) => {
   // console.log('69');
+
   if (!checkToken(userToken)) {
     return { success: false, msg: 'token invalid', _id: null };
   }

@@ -36,7 +36,8 @@ const createUser = async (userData) => {
     username:userData.username,
     myBusiness:userData.myBusiness,
     Location:userData.Location,
-    joinDate:new Date().toDateString()
+    joinDate:new Date().toDateString(),
+    icon:userData.icon
   };
   var _id=null;
   try {
