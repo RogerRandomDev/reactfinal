@@ -16,19 +16,28 @@ const storeImage = async(imageData,uploadTo="default")=>{
   }
 }
 const removeImages = async(imageUrls,uploadedTo="default")=>{
-  imageUrls=imageUrls.map((url)=>getImageName(url));
-  await imageUrls.map((url)=>{cloud.v2.uploader.destroy(uploadedTo+"/"+url)})
+  await imageUrls.map((url)=>{
+    url=getImageName(url)
+    if(url==null){return}
+    cloud.v2.uploader.destroy(url)})
   return {success:true,msg:"removed images from database"};
 }
+const removeImagesFromURL = async(imageUrls)=>{
+  console.log(imageUrls)
+  //imageUrls.map((url)=>{if(url!=null){cloud.v2.uploader.destroy(url[2].split(basePath)[1])}})
+}
 const getImageName=(imageUrl)=>{
+  if(imageUrl==null){return null}
   var parts=imageUrl.split("/")
-  parts=parts[parts.length-1]
-  return parts.replace(".jpg","")
+  parts.shift()
+  
+  return parts.join("/").replace(".jpg","")
 }
 //moves files from the temp location to the final location
 const moveFromTemp=async(imageUrl,moveTo)=>{
   const output=(await cloud.v2.uploader.upload(basePath+imageUrl,{folder:moveTo})).secure_url.split(basePath)[1]
   await cloud.v2.uploader.destroy(imageUrl)
+  
   return output
 }
 //testing this from online. thank you, google!
@@ -56,4 +65,4 @@ let uploadFromBuffer = (imageData,folder) => {
 
 
 
-module.exports = {storeImage,removeImages,getImageName,uploadFromBuffer,moveFromTemp};
+module.exports = {storeImage,removeImages,getImageName,uploadFromBuffer,moveFromTemp,removeImagesFromURL};

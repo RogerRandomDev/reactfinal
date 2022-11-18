@@ -2,9 +2,9 @@ import React, { useRef, useReducer } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { FaFacebookF, FaTwitter } from 'react-icons/fa';
 // import { useContext } from 'react';
-import {AiOutlineGoogle} from 'react-icons/ai';
-import {sendRequest} from '../Utils/requests';
-import { storeLocal} from '../Utils/useLocalStorageAuth';
+import { AiOutlineGoogle } from 'react-icons/ai';
+import { sendRequest } from '../Utils/requests';
+import { storeLocal } from '../Utils/useLocalStorageAuth';
 import swal from 'sweetalert';
 import { ThreeDots } from 'react-loader-spinner';
 import { useState } from 'react';
@@ -33,11 +33,18 @@ function LandingPage({ updateContext }) {
       indicator.current.style.transform = "translateX(0%)";
       businessSelect.current.classList.add("opacity-60");
       userSelect.current.classList.remove("opacity-60");
-      landingSignup.current.classList.add("overflow-hidden");
+
       if (state.isSignUp) {
-        mover.current.classList.add("md:translate-x-[0%]");
-        mover.current.classList.remove("md:-translate-x-[70%]");
-        landingSignup.current.classList.remove("h-auto")
+        hero.current.classList.remove("md:-translate-x-[233.3%]")
+        hero.current.classList.add("md:translate-x-[0%]")
+        landingSignup.current.classList.remove("md:-translate-x-[233.3%]")
+        landingSignup.current.classList.add("md:translate-x-[0%]")
+        businessInfoSlider.current.classList.remove("md:-translate-x-[100%]")
+        businessInfoSlider.current.classList.add("md:translate-x-[0%]")
+        mover.current.classList.add("overflow-y-hidden")
+        if (mover.current.getBoundingClientRect().width < 800) {
+          hero.current.scrollIntoView({ behavior: "smooth" })
+        };
       }
       return { ...state, userType: "user" }
     }
@@ -45,21 +52,50 @@ function LandingPage({ updateContext }) {
       indicator.current.style.transform = "translateX(100%)";
       userSelect.current.classList.add("opacity-60");
       businessSelect.current.classList.remove("opacity-60");
-      landingSignup.current.classList.remove("overflow-hidden");
+
+      // businessInfoSlider.current.scrollIntoView({ behavior: "smooth" });
+      // console.log(mover.current.getBoundingClientRect().width < 800);
+      if (mover.current.getBoundingClientRect().width < 800) {
+        businessInfoSlider.current.scrollIntoView({ behavior: "smooth" })
+      };
       if (state.isSignUp) {
-        mover.current.classList.add("md:-translate-x-[70%]");
-        mover.current.classList.remove("md:translate-x-[0%]");
-        landingSignup.current.classList.add("h-auto")
+        hero.current.classList.add("md:-translate-x-[233.3%]")
+        hero.current.classList.remove("md:translate-x-[0%]")
+        landingSignup.current.classList.add("md:-translate-x-[233.3%]")
+        landingSignup.current.classList.remove("md:translate-x-[0%]")
+        businessInfoSlider.current.classList.add("md:-translate-x-[100%]")
+        businessInfoSlider.current.classList.remove("md:translate-x-[0%]")
+        mover.current.classList.remove("overflow-y-hidden")
       }
       return { ...state, userType: "business" }
     }
     if (action.type === "changeSignUp") {
       if (!state.isSignUp && state.userType === "business") {
-        mover.current.classList.add("md:-translate-x-[70%]");
-        mover.current.classList.remove("md:translate-x-[0%]");
+        hero.current.classList.add("md:-translate-x-[233.3%]")
+        hero.current.classList.remove("md:translate-x-[0%]")
+
+        landingSignup.current.classList.add("md:-translate-x-[233.3%]")
+        landingSignup.current.classList.remove("md:translate-x-[0%]")
+
+        businessInfoSlider.current.classList.add("md:-translate-x-[100%]")
+        businessInfoSlider.current.classList.remove("md:translate-x-[0%]")
+
+        hero.current.scrollIntoView({ behavior: "smooth" })
+
+        mover.current.classList.remove("overflow-y-hidden")
       } else {
-        mover.current.classList.remove("md:translate-x-[0%]");
-        mover.current.classList.remove("md:-translate-x-[70%]");
+        hero.current.classList.remove("md:-translate-x-[233.3%]")
+        hero.current.classList.remove("md:translate-x-[0%]")
+
+        landingSignup.current.classList.remove("md:-translate-x-[233.3%]")
+        landingSignup.current.classList.remove("md:translate-x-[0%]")
+
+        businessInfoSlider.current.classList.remove("md:-translate-x-[100%]")
+        businessInfoSlider.current.classList.remove("md:translate-x-[0%]")
+
+        hero.current.scrollIntoView({ behavior: "smooth" })
+
+        mover.current.classList.add("overflow-y-hidden")
       }
       return { ...state, isSignUp: !state.isSignUp }
     }
@@ -75,106 +111,106 @@ function LandingPage({ updateContext }) {
       return { ...state, agreements }
     }
     // if (action.type && action.payload) {
-      return { ...state, [action.type]: action.payload }
+    return { ...state, [action.type]: action.payload }
     // }
     // throw new Error("No Matching Action Type");
 
   }
   const [state, dispatch] = useReducer(formInputReducer, initialState);
 
-  const verifyInputs = () =>{
-    return Object.keys(state).every(item=>{
+  const verifyInputs = () => {
+    return Object.keys(state).every(item => {
       return state[item];
     })
   }
 
- const handleSubmit = async (e) =>{
-   e.preventDefault();
-   if(state.userType==="business"){
-     if(!verifyInputs()){
-      swal({
-          title:`Account Sign Up Failed`,
-          text:"Please Ensure all Fields are Completed",
-          icon:"error",
-          button:"Okay"
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (state.userType === "business") {
+      if (!verifyInputs()) {
+        swal({
+          title: `Account Sign Up Failed`,
+          text: "Please Ensure all Fields are Completed",
+          icon: "error",
+          button: "Okay"
         })
-      return;
-     }
-     if(state.password === state.confirmPassword){
-      // console.log("front end req sent");
-      swal({
-        title:`Email Confirmation Sent to ${state.email}`,
-        text:"Please Sign in after Account Confirmation",
-        icon:"success",
-        button:"Cool!"
-      })
-       let newUserData = await sendRequest("user/createAccount","POST",{
-        body:{
-    email:state.email,
-    password:state.password,
-    username:state.username,
-    mycompany:state.userType==="user" ? "" : state.username,
-    Location:[state.city," "+state.state],
-    Banner: state.businessLogo,
-    businessData:JSON.stringify({
-      chosenAgreement:state.agreements,
-      email:state.email,
-      Name:state.username,
-      BannerLink:null,
-      Range:state.range,
-      Location:[state.city,state.state],
-      Description:state.description,
-    })
-  }
-   });
-   console.log(newUserData);
-      }else{
-      alert("passwords dont match");
-    }
-  }else{
-    // console.log("Sending Login from frontend");
-    setLoggingIn(true);
-    console.log(state.email,state.password);
-    let data = await sendRequest("user/Login","POST",{
-    body:{
-      email:state.email,
-      password:state.password
-    }
-   });
-   console.log(data,"144");
-   data = JSON.parse(data);
-  //  console.log("🚀 ~ file: LandingPage.jsx ~ line 144 ~ handleSubmit ~ data", data)
-  //  if(data.success === false) {
-  //   setLoggingIn(false);
-  //   swal({
-  //         title:`Incorrect Login Information`,
-  //         text:"Please Ensure Email and Password are Correct",
-  //         icon:"error",
-  //         button:"Okay"
-  //       })
-  //   return;
-  //  };
-   console.log(data._id);
-   await storeLocal("token", data.token);
+        return;
+      }
+      if (state.password === state.confirmPassword) {
+        // console.log("front end req sent");
+        swal({
+          title: `Email Confirmation Sent to ${state.email}`,
+          text: "Please Sign in after Account Confirmation",
+          icon: "success",
+          button: "Cool!"
+        })
+        let newUserData = await sendRequest("user/createAccount", "POST", {
+          body: {
+            email: state.email,
+            password: state.password,
+            username: state.username,
+            mycompany: state.userType === "user" ? "" : state.username,
+            Location: [state.city, " " + state.state],
+            Banner: state.businessLogo,
+            businessData: JSON.stringify({
+              chosenAgreement: state.agreements,
+              email: state.email,
+              Name: state.username,
+              BannerLink: null,
+              Range: state.range,
+              Location: [state.city, state.state],
+              Description: state.description,
+            })
+          }
+        });
+        console.log(newUserData);
+      } else {
+        alert("passwords dont match");
+      }
+    } else {
+      // console.log("Sending Login from frontend");
+      setLoggingIn(true);
+      console.log(state.email, state.password);
+      let data = await sendRequest("user/Login", "POST", {
+        body: {
+          email: state.email,
+          password: state.password
+        }
+      });
+      console.log(data, "144");
+      data = JSON.parse(data);
+      //  console.log("🚀 ~ file: LandingPage.jsx ~ line 144 ~ handleSubmit ~ data", data)
+      //  if(data.success === false) {
+      //   setLoggingIn(false);
+      //   swal({
+      //         title:`Incorrect Login Information`,
+      //         text:"Please Ensure Email and Password are Correct",
+      //         icon:"error",
+      //         button:"Okay"
+      //       })
+      //   return;
+      //  };
+      console.log(data._id);
+      await storeLocal("token", data.token);
 
-   let userData = await sendRequest("user/show","POST",{
-    body:{
-      "user":data._id
+      let userData = await sendRequest("user/show", "POST", {
+        body: {
+          "user": data._id
+        }
+      });
+      // send to localstorage
+      storeLocal("user", userData);
+      setLoggingIn(false);
+      dispatch({ type: "REFRESH_DATA", payload: userData });
+      navigate("/profile");
     }
-   });
-   // send to localstorage
-   storeLocal("user", userData);
-   setLoggingIn(false);
-   dispatch({type:"REFRESH_DATA",payload:userData});
-   navigate("/profile");
   }
- }
 
- 
+
   // return (
   //   <section ref={section} className="overflow-hidden">
   //     <div className="flex h-screen -mt-14 relative transition delay-200 duration-[600ms] ease-in-out" ref={mover}>
-   
+
   //       <div ref={hero} className="w-[70%] text-center flex flex-col justify-center">
   //         <img src={require("../assets/testingsvg.PNG")} className="max-w-full object-cover w-9/12 mx-auto mb-4"alt="" />
   //         <h2 className='text-4xl font-semibold mb-4 text-blue-900'>Software Analytics and Marketing Statistics</h2>
@@ -228,23 +264,23 @@ function LandingPage({ updateContext }) {
 
   return (
     <section ref={section} className="">
-      <div className="block md:flex h-screen -mt-14 relative transition delay-200 duration-[600ms] ease-in-out" ref={mover}>
+      <div ref={mover} className="overflow-y-hidden md:overflow-x-hidden md:grid h-screen grid-cols-[70%_30%_70%] -mt-14 relative delay-200 duration-[600ms] ease-in-out md:translate-x-[0%]">
 
-        <div ref={hero} className="p-1 w-full md:w-[70%] text-center block md:flex flex-col justify-center mt-32 md:mt-0 md:mb-0">
-          <img src={require("../assets/testingsvg.PNG")} className="max-w-full object-cover w-9/12 mx-auto mb-4" alt="" />
+        <div ref={hero} className="transition duration-300 hidden p-1 w-full text-center md:inline-block flex-col justify-center mt-32 md:mt-0 md:mb-0 ">
+          <img src={require("../assets/testingsvg.PNG")} className="max-w-full object-cover w-9/12 mx-auto mt-11 mb-4" alt="" />
           <h2 className='text-4xl font-semibold mb-4 text-blue-900'>Software Analytics and Marketing Statistics</h2>
           <p className='text-slate-400 mb-5 md:mb-0'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, est. Lorem, ipsum. <br />Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
 
         </div>
 
-        <div ref={landingSignup} className="overflow-hidden relative landing__signup w-full md:w-[30%] bg-blue-900 block md:flex flex-col items-center justify-between py-12 md:pt-36 px-12 h-[33rem] md:h-auto text-center text-neutral-100 border-r border-blue-900">
+        <div ref={landingSignup} className="transition duration-300 overflow-hidden relative border landing__signup w-full bg-blue-900 block md:flex flex-col items-center justify- place-content-center pb-12 pt-36 md:pt-12 px-10 h-full text-center text-neutral-100 border-blue-900">
           {/* <img src={require("../assets/Logo-Intel.png")} alt="" className="w-3/5 inline-block mb-5 md:mb-0" /> */}
           <Desktopsvg className="w-3/5 inline-block mb-5 md:mb-0" />
           <form action="" className="flex flex-col items-center gap-4 w-full">
             <div className="flex w-3/4 relative isolate bg-slate-400 rounded-[1.5rem] mb-4 cursor-pointer">
               {/* modify these state functions for reducer */}
-              <div ref={userSelect} className="transition w-1/2 px-2 py-3 z-10 rounded-[1.5rem] font-bold " onClick={() => dispatch({ type: "changeToUserType" })}>Sign In</div>
-              <div ref={businessSelect} className="transition w-1/2 px-2 py-3 z-10 rounded-[1.5rem]  font-bold opacity-60" onClick={() => dispatch({ type: "changeToBusinessType" })}>Sign Up</div>
+              <div ref={userSelect} className="block my-auto transition w-1/2 px-2 py-3 z-10 rounded-[1.5rem] font-bold " onClick={() => dispatch({ type: "changeToUserType" })}>Sign In</div>
+              <div ref={businessSelect} className="transition w-1/2 px-2 py-3 z-10 rounded-[1.5rem] font-bold opacity-60" onClick={() => dispatch({ type: "changeToBusinessType" })}>Sign Up</div>
               <div ref={indicator} className="absolute transition duration-300 inset-y-0 w-1/2 left-0 bg-blue-500 z-0 rounded-[1.5rem]"></div>
             </div>
             {/* <h3 className='mb-6 text-neutral-100 text-lg font-light tracking-wide'>Sign Up</h3> */}
@@ -253,29 +289,29 @@ function LandingPage({ updateContext }) {
             <input placeholder='Password' type="password" value={state.password} onChange={(e) => dispatch({ type: "password", payload: e.target.value })} name="password" className='py-2 rounded w-9/12 px-4  text-neutral-900' />
             <input placeholder='Confirm Password' type="password" value={state.confirmPassword} onChange={(e) => dispatch({ type: "confirmPassword", payload: e.target.value })} name="confirmPassword" className={`py-2 rounded w-9/12 px-4 text-neutral-900 ${state.userType === "business" ? "block" : "hidden"}`} />
             <input type="hidden" name="userType" value={state.userType} />
-            {!loggingIn 
-            ? 
-            <button type="submit" className='btn-primary mt-4 w-9/12 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold'
-             onClick={(e)=>handleSubmit(e)}>
-              Sign {state.userType==="business" ? "Up" : "In"}
-            </button>
-            :
-             <ThreeDots 
-height="80" 
-width="80" 
-radius="9"
-color="#fff" 
-ariaLabel="three-dots-loading"
-wrapperStyle={{}}
-wrapperClassName=""
-visible={true}
- />
+            {!loggingIn
+              ?
+              <button type="submit" className='btn-primary mt-4 w-9/12 mb-5 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold'
+                onClick={(e) => handleSubmit(e)}>
+                Sign {state.userType === "business" ? "Up" : "In"}
+              </button>
+              :
+              <ThreeDots
+                height="80"
+                width="80"
+                radius="9"
+                color="#fff"
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+              />
             }
-            
-            
-            
+
+
+
           </form>
-          <div className="alternate-signup mb-5">
+          {/* <div className="alternate-signup mb-5">
             <h4>Or Sign {state.userType === "business" ? "Up" : "In"} With</h4>
             <div className="signup-cards">
               <div className="flex gap-4 justify-center mt-4">
@@ -284,57 +320,28 @@ visible={true}
                 <div className="w-8 h-8 rounded-full bg-neutral-100 grid place-items-center cursor-pointer hover:-translate-y-1 transition"><AiOutlineGoogle className='text-red-500'></AiOutlineGoogle></div>
               </div>
             </div>
-          </div>
-          <div ref={businessInfoSlider} className="md:absolute top-0 h-screen md:w-[70.1vw] md:translate-x-[49.05vw] bg-blue-900 flex flex-col items-center justify-center gap-10">
-
-            <div className="business-logo flex flex-col items-center justify-center">
-              <h2 className='text-3xl font-semibold mb-8'>Business Logo</h2>
-              <input type="file" name="Image Upload" id="" onChange={async (e) => {
-                var fr = new FileReader();
-                fr.onload = ((f) => {
-                  dispatch({ type: "businessLogo", payload: f.target.result })
-                })
-                fr.readAsDataURL(e.target.files[0])
-              }} />
-
-            </div>
-            <div className="general-information">
-              <h2 className='text-3xl font-semibold mb-8'>General Information</h2>
-              <div className="grid gap-8" style={{ gridTemplateColumns: "1fr 1fr auto 1fr 1fr" }}>
-                <div className='col-start-1 col-end-3'><label htmlFor="city" className='mb-4 block'>City</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="city" id="city" value={state.city} onChange={(e) => dispatch({ type: "city", payload: e.target.value })} /></div>
-                <div className='col-start-4 col-end-6'><label htmlFor="state" className='mb-4 block'>State</label><input className='py-2  px-4 rounded w-9/12 text-neutral-900' type="text" name="state" id="state" value={state.state} onChange={(e) => dispatch({ type: "state", payload: e.target.value })} /></div>
-                <div className='col-start-2 col-end-5'><label htmlFor="range" className='mb-4 block'>Range</label><select className='py-2  px-4 rounded w-9/12 text-neutral-900' name="range" id="range" value={state.range} onChange={(e) => dispatch({ type: "range", payload: e.target.value })}>
-                  <option value="local">Local</option>
-                  <option value="regional">Regional</option>
-                  <option value="national">National</option>
-                  <option value="international">International</option>
-                </select></div>
-                <div className="col-start-2 col-end-5 flex flex-col">
-                  <label htmlFor="business-description">Description</label>
-                  <textarea className='mt-4 py-2 px-4 rounded text-neutral-900' name="description" id="business-description" cols="30" rows="5" value={state.description} onChange={(e) => dispatch({ type: "description", payload: e.target.value })}></textarea>
-                </div>
-              </div>
-            </div>
-            <div className="agreements">
-              <h2 className='text-3xl font-semibold mb-8'>Agreements</h2>
-              <div className="flex flex-col justify-center gap-4">
-                <div className="flex gap-4">
-                  <input type="checkbox" id="agreement1" name="agreement1" value={state.agreements[0]} onChange={(e) => dispatch({ type: "agreements", payload: [0, e.target.value] })} />
-                  <label htmlFor="agreement1">Business has atleast 10 unique products</label>
-                </div>
-                <div className="flex gap-4">
-                  <input type="checkbox" id="agreement2" name="agreement2" value={state.agreements[1]} onChange={(e) => dispatch({ type: "agreements", payload: [1, e.target.value] })} />
-                  <label htmlFor="agreement2">Business has a stable supply of products</label>
-                </div>
-                <div className="flex gap-4">
-                  <input type="checkbox" id="agreement3" name="agreement3" value={state.agreements[2]} onChange={(e) => dispatch({ type: "agreements", payload: [2, e.target.value] })} />
-                  <label htmlFor="agreement3">Business has their own website</label>
-                </div>
-              </div>
-            </div>
-          </div>
+          </div> */}
           <div className="signup__footer">
             {/* <p>{state.isSignUp ? "Already Have an Account? " : "Create a New Account - "}<span onClick={()=>dispatch({type:"changeSignUp"})} className='underline cursor-pointer hover:text-cyan-600 transition'>Sign {state.isSignUp ? "In" : "Up"}</span></p> */}
+          </div>
+        </div>
+        <div ref={businessInfoSlider} className="transition duration-300 text-white mt-0 pb-9 md:pb-0 h-auto w-full md:translate-x-[0vw] bg-blue-900 flex flex-col items-center justify-center gap-5">
+
+          <div className="business-logo flex flex-col items-center justify-center w-full pb-5">
+            <h2 className='text-3xl font-semibold mb-8'>Business Logo</h2>
+            <input className="block mx-auto text-center w-full md:w-auto" type="file" name="Image Upload" id="" onChange={async (e) => {
+              var fr = new FileReader();
+              fr.onload = ((f) => {
+                dispatch({ type: "businessLogo", payload: f.target.result })
+              })
+              fr.readAsDataURL(e.target.files[0])
+            }} />
+
+          </div>
+          <div className="general-information w-full h-auto">
+            <h2 className='text-3xl font-semibold mb-8 text-center'>General Information</h2>
+            <label htmlFor="business-description" className="block text-center">Description</label>
+            <textarea className='block mt-4 py-2 px-4 rounded text-neutral-900 mx-auto w-[90%] md:w-[60%]' name="description" id="business-description" cols="30" rows="5" value={state.description} onChange={(e) => dispatch({ type: "description", payload: e.target.value })}></textarea>
           </div>
         </div>
       </div>

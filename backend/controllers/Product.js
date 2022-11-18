@@ -38,23 +38,28 @@ const getProduct = async (productId) => {
 };
 const updateProduct = async (productID, productData, senderToken) => {
   var output = { success: false, msg: 'default output' };
-  console.log(productData)
   if (!checkToken(senderToken)) {
     return { success: false, msg: 'invalid sender token' };
   }
-  
+  console.log(productData)
   const senderData = decodeToken(senderToken);
   try {
     await connectDB(process.env.MONGO_URI);
     const creator = await userModel.findOne({ email: senderData.email });
-    (
-      removeImages(await ProductModel.findOne({_id:productID,creatorID:creator._id}).images)
-      (output = await ProductModel.updateOne(
-        { _id: productID, creatorID: creator._id },
-        productData
-      ))
-    );
-    console.log(output);
+    var imgUrls = []
+    for (const image of productData.images) {
+      imgUrls.push((image.includes('.jpg')?image:await storeImage(image[2], 'productImages')));
+  }
+      productData.images = imgUrls;
+      (output = await ProductModel.findById(
+        productID
+      ));
+    //if(output.creatorID!=senderData.userID){return {success:false,msg:"user ID does not match product creator"}}
+    removeImages(output.images)
+    await ProductModel.findByIdAndUpdate(
+      productID,
+      productData
+    )
   } catch (err) {
     console.log(err);
   }
