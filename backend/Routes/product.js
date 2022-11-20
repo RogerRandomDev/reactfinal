@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const {
+  getAllProducts,
   getProduct,
   getUserProducts,
   createProduct,
@@ -26,6 +27,26 @@ router.post('/updateProduct', async (req, res) => {
     senderToken
   );
   res.status(200).send(updateResponse);
+});
+
+// deletes product by id
+router.delete('/deleteProduct', async (req,res)=>{
+  const {productID} = JSON.parse(req.body);
+  await deleteProduct(productID);
+  res.status(200).send({
+    success:true,
+    msg:"Deleted Current Product"
+  })
+})
+
+// shows all products
+router.get("/all", async(req,res)=>{
+  const allProducts = await getAllProducts();
+  res.status(200).send({
+    success:true,
+    products:allProducts,
+    msg:'returned products successfully'
+  })
 });
 
 //shows products created by user with the matching id

@@ -11,6 +11,12 @@ import { sendRequest } from '../Utils/requests';
 import useGetUserProducts from '../hooks/useGetUserProducts';
 import ProductCardSkeleton from '../Components/Skeletons/ProductCardSkeleton';
 function Profile() {
+  /**
+   * !TO FIX!!!
+   * Navbar shows other users username and image when seeing their profile
+   * HOW TO FIX:
+   * Instead of updating context, just create another state in this file and update it, and use that state for all user related things
+   */
   const { state, dispatch } = useContext(userContext);
   const [loading, setLoading] = useState(true);
   const [userProducts, setUserProducts] = useState([]);
@@ -48,7 +54,7 @@ function Profile() {
     <div className="flex flex-col gap-12 py-8 px-20 bg-[#404959] text-[#eee]">
       <div className="flex gap-12 items-center flex-col xl:flex-row">
         {/* <ProfileInfoCard image={"https://picsum.photos/400"} username={context.username} joinDate={context.joinDate} location={`${context.Location[0]}, ${context.Location[1]}`} rating={0} ratingCount={0} bought={0} sold={0}/> */}
-        <ProfileInfoCard image={"https://picsum.photos/400"} username={state.user.username} joinDate={state.user.joinDate} location={state.user.Location[0]} rating={5} ratingCount={0} bought={0} sold={0} />
+        <ProfileInfoCard image={"https://res.cloudinary.com/dztnsrrta/image/upload/"+state.user.icon} username={state.user.username} joinDate={state.user.joinDate} location={state.user.Location[0]} rating={5} ratingCount={0} bought={0} sold={0} />
         {/* Favorited items must come from database, so props are just placeholders for now */}
         <div className="xl:border-l xl:pl-12 w-[90vw] ml-4">
           <RowDisplay title={"Favorited Items"}>
@@ -68,7 +74,7 @@ function Profile() {
             (!loading
               ?
               (userProducts.length > 0 ? (userProducts.map((data, idx) => {
-                return <ProductCard type="edit" key={idx} image={basePath + data.images[0]} title={data.name} price={data.price} location={data.Location} id={data._id} link={`/productDetail?id=${data._id}`} />
+                return <ProductCard type={window.location.search.substring(4).length > 10 ? "favorite" : "edit"} key={idx} image={basePath + data.images[0]} title={data.name} price={data.price} location={data.Location} id={data._id} link={`/productDetail?id=${data._id}`} />
               })) : <div>No Products!</div>)
               :
               <ProductCardSkeleton amount={5} />)

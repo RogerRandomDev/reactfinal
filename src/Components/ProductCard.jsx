@@ -2,9 +2,39 @@ import { useState } from "react"
 import {useNavigate} from 'react-router-dom';
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import {MdEdit, MdDelete} from 'react-icons/md';
+import swal from "sweetalert";
+import { sendRequest } from "../Utils/requests";
 function ProductCard({id, type="favorite", favoritePreset=false, image, title, price, location, link}) {
   const [favorited, setFavorited] = useState(favoritePreset);
   const navigate = useNavigate();
+
+  const handleDelete = () => {
+    swal({
+      title:"Are you sure you want to delete this product",
+      icon:"warning",
+      buttons:{
+        cancel:true,
+        confirm:"Delete"
+      },
+    }).then(confirm=>{
+      if(confirm){
+        sendRequest("product/deleteProduct", "DELETE", {
+          body:{
+            productID:id
+          }
+        }).then(res=>{
+          swal({
+            title:"Deleted!",
+            icon:"success",
+            timer:"2500"
+          }).then(()=>{
+            // temporary fix i guess...
+            window.location.reload(false);
+          })
+        })
+      }
+    })
+  }
   return (
     <div 
     // onClick={(e)=>navigate("/productDetail")} 
@@ -22,7 +52,7 @@ function ProductCard({id, type="favorite", favoritePreset=false, image, title, p
               <div style={{boxShadow:"0 8px 32px 0 rgba( 31, 38, 135, 0.37 )"}} className={`border-[rgba(37,99,235,0.18)] backdrop-blur-sm bg-[rgba(37,99,235,0.4)] text-white absolute top-4 left-4 transition -translate-x-20 group-hover:-translate-x-4 rounded-tr rounded-br pl-8 pr-2 py-1`}>
                 <MdEdit className="hover:scale-125 transition" onClick={()=>navigate(`/addEdit?id=${id}`)}/>
               </div>
-              <div style={{boxShadow:"0 8px 32px 0 rgba( 31, 38, 135, 0.37 )"}} className={`border-[rgba(248,113,113,0.18)] backdrop-blur-sm bg-[rgba(248,113,113,0.4)] text-white absolute top-4 right-4 transition translate-x-20 group-hover:translate-x-4 rounded-tl rounded-bl pr-8 pl-2 py-1`}><MdDelete className="hover:scale-125 transition"/></div>
+              <div style={{boxShadow:"0 8px 32px 0 rgba( 31, 38, 135, 0.37 )"}} className={`border-[rgba(248,113,113,0.18)] backdrop-blur-sm bg-[rgba(248,113,113,0.4)] text-white absolute top-4 right-4 transition translate-x-20 group-hover:translate-x-4 rounded-tl rounded-bl pr-8 pl-2 py-1`}><MdDelete onClick={()=>{handleDelete()}} className="hover:scale-125 transition"/></div>
               </div>
                 // <div onClick={()=>setFavorited(!favorited)}>
                 //   {favorited ? <AiFillHeart className="text-red-400"/> : <AiOutlineHeart className="text-red-400"/>}

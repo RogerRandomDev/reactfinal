@@ -4,12 +4,15 @@ import { sendRequest } from '../Utils/requests';
 import { userContext } from '../Context/userContext';
 import { getLocal } from '../Utils/useLocalStorageAuth';
 import { useState } from 'react';
+import swal from 'sweetalert';
+import { useNavigate } from 'react-router';
 
 
 function AddEditProduct() {
   const [productData, setProductData] = useState({});
   const [loading, setLoading] = useState(true);
   const [isAdding,setIsAdding] = useState(true);
+  const navigate = useNavigate();
   useEffect(()=>{
    let productID = window.location.search.substring(4);
     if(productID.length > 10){
@@ -80,6 +83,18 @@ function AddEditProduct() {
     console.log(state);
     var productData=formState;
     if(isAdding){
+      swal({
+        title:"Successfully Created Product",
+        text:"Product may take up to 1 minute to become visible",
+        icon:"success",
+        timer:"2500",
+        buttons:{
+          confirm:"Okay!"
+        }
+      }).then(()=>{
+          navigate("/profile");
+      });
+      
       await sendRequest("product/createProduct","POST",{
         body:{
           productData,
@@ -87,6 +102,7 @@ function AddEditProduct() {
           token:getLocal("token")
         }
       })
+
     }else{
       await sendRequest("product/updateProduct","POST",{
         body:{
