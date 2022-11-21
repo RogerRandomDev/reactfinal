@@ -32,8 +32,8 @@ function ProductDetail() {
   },[loading]);
   return (
     (!loading && userData.success!==false) ? 
-    <div className="rounded p-8 grid bg-neutral-100 w-full grid-cols-1 md:gap-12 xl:grid-cols-[auto_auto] xl:justify-center xl:gap-48 items-start justify-items-center">
-          <a href={`/profile?id=${productData.creatorID}`} className="text-sm font-normal no-underline text-purple-800 hover:text-purple-900 block md:hidden">{userData.username}</a>
+    <div className="rounded p-8 grid bg-[#404959] text-[#eee] w-full grid-cols-1 md:gap-12 xl:grid-cols-[auto_auto] xl:justify-center xl:gap-48 items-start justify-items-center min-h-[calc(100vh_-_56px)]">
+          <a href={`/profile?id=${productData.creatorID}`} className="text-sm font-normal no-underline text-blue-400 hover:text-blue-600 block md:hidden">{userData.username}</a>
           <h2 className="text-neutral-900 text-2xl mb-6 mt-2 font-semibold w-max block md:hidden">{productData.name}</h2>
             <ProductDetailImageDisplay alternateImages={productData.images.map(i=>"https://res.cloudinary.com/dztnsrrta/image/upload/"+i)}/>
             <ProductDetailInformation creatorID={productData.creatorID} pros={productData.pros} status={productData.status} company={userData.username} image={"https://res.cloudinary.com/dztnsrrta/image/upload/"+userData.icon} memberSince={userData.joinDate} title={productData.name} reviewsCount={0} price={productData.price} discount={productData.discount/100} description={productData.description}/>

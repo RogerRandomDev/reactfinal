@@ -125,8 +125,8 @@ function AddEditProduct() {
     }
   };
   return (
-    <div className='text-slate-600 font-semibold text-2xl bg-slate-100 p-8'>{/*w + bg for testing*/}
-    <h2 className='text-neutral-800 mb-8'>{isAdding ? "Add" : "Update"} Product</h2>
+    <div className='font-semibold text-2xl p-8 bg-[#404959] text-[#eee] min-h-[calc(100vh_-_56px)]'>
+    <h2 className='mb-8'>{isAdding ? "Add" : "Update"} Product</h2>
     <form onSubmit={(e)=>handleSubmit(e)} className="grid gap-8 justify-center grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 3xl:grid-cols-3">
         <div className="">
         <ProductModifySection state={formState} dispatch={formDispatch} header="General" data={[{name:"Product Name", type:"text"}, {name:"Price", type:"number"},{name:"Product Description", type:"textarea"}, {name:"Discount", type:"limitedNumber"},{name:"Status", type:"radio"}]}/>

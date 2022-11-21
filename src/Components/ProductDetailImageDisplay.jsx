@@ -7,7 +7,7 @@ function ProductDetailImageDisplay({alternateImages}) {
                   <div className="col-span-4">
                         <img src={currentImageURL} alt="Product" className="max-w-full rounded object-contain mx-auto md:mx-0 md:w-full aspect-video max-h-[30rem] md:max-h-[unset] md:object-contain md:h-full"/>
                     </div>
-                {/* })} */}
+                
                     {alternateImages.map((altImg,idx)=>{
                    return <div tabIndex={idx+1} className={`hidden md:block alternate-tab-pane md:self-start cursor-pointer ${altImg === currentImageURL && 'outline outline-2 outline-neutral-600 rounded'}`} key={idx} onClick={(e)=>setCurrentImageURL(e.currentTarget.firstChild.src)}>
                         <img src={altImg} alt="Other Products" className="rounded w-full object-cover aspect-video"/>
