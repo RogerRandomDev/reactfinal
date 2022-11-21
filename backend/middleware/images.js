@@ -24,7 +24,7 @@ const removeImages = async(imageUrls,uploadedTo="default")=>{
 const removeImagesFromURL = async(imageUrls)=>{
   console.log(imageUrls)
   removeImages(imageUrls.map((url)=>
-    url.includes(basePath)?url.split(basePath)[1]:url
+    url!=null&&url.includes(basePath)?url.split(basePath)[1]:url
   ))
   //imageUrls.map((url)=>{if(url!=null){cloud.v2.uploader.destroy(url[2].split(basePath)[1])}})
 }
