@@ -1,5 +1,5 @@
 const { connectDB } = require('../db/connect');
-const { storeImage, removeImages} = require('../middleware/images');
+const { storeImage, removeImages,removeImagesFromURL,basePath,imgFileRegex} = require('../middleware/images');
 const { checkToken, decodeToken } = require('./auth.js');
 const ProductModel = require('../models/productModel');
 const userModel = require('../models/userModel');
@@ -70,25 +70,25 @@ const updateProduct = async (productID, productData, senderToken) => {
   if (!checkToken(senderToken)) {
     return { success: false, msg: 'invalid sender token' };
   }
-  console.log(productData)
   const senderData = decodeToken(senderToken);
   try {
     await connectDB(process.env.MONGO_URI);
     const creator = await userModel.findOne({ email: senderData.email });
     var imgUrls = []
     for (const image of productData.images) {
-      imgUrls.push((image.includes('.jpg')?image:await storeImage(image[2], 'productImages')));
+      imgUrls.push((imgFileRegex.test(image[2])?image[2].split(basePath)[1]:await storeImage(image[2], 'productImages')));
   }
-      productData.images = imgUrls;
+      productData.images = imgUrls.filter(img=>img!=null);
       (output = await ProductModel.findById(
         productID
       ));
     //if(output.creatorID!=senderData.userID){return {success:false,msg:"user ID does not match product creator"}}
-    removeImages(output.images)
+    
     await ProductModel.findByIdAndUpdate(
       productID,
       productData
     )
+    removeImagesFromURL(output.images.filter((img)=>!imgUrls.includes(img)||img==null))
   } catch (err) {
     console.log(err);
   }

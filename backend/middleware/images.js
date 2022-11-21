@@ -1,12 +1,11 @@
 const { cloud } = require('../models/imageModel');
 const streamifier = require('streamifier');
 const basePath="https://res.cloudinary.com/dztnsrrta/image/upload/"
-
+const imgFileRegex = /\.png|\.jpg|\.jpeg|\.jfif/
 //try avoiding this one if it is NOT a low res image.
 //only really here still because it has it's use
 //just use uploadFromBuffer when possible
 const storeImage = async(imageData,uploadTo="default")=>{
-  
   try{
   return (
     await uploadFromBuffer(imageData,uploadTo)
@@ -24,6 +23,9 @@ const removeImages = async(imageUrls,uploadedTo="default")=>{
 }
 const removeImagesFromURL = async(imageUrls)=>{
   console.log(imageUrls)
+  removeImages(imageUrls.map((url)=>
+    url!=null&&url.includes(basePath)?url.split(basePath)[1]:url
+  ))
   //imageUrls.map((url)=>{if(url!=null){cloud.v2.uploader.destroy(url[2].split(basePath)[1])}})
 }
 const getImageName=(imageUrl)=>{
@@ -31,7 +33,7 @@ const getImageName=(imageUrl)=>{
   var parts=imageUrl.split("/")
   parts.shift()
   
-  return parts.join("/").replace(".jpg","")
+  return parts.join("/").replace(imgFileRegex,"")
 }
 //moves files from the temp location to the final location
 const moveFromTemp=async(imageUrl,moveTo)=>{
@@ -63,6 +65,4 @@ let uploadFromBuffer = (imageData,folder) => {
 };
 
 
-
-
-module.exports = {storeImage,removeImages,getImageName,uploadFromBuffer,moveFromTemp,removeImagesFromURL};
+module.exports = {storeImage,removeImages,getImageName,uploadFromBuffer,moveFromTemp,removeImagesFromURL,basePath,imgFileRegex};

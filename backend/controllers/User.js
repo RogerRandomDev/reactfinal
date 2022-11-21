@@ -105,6 +105,8 @@ const deleteUser = async (req, res) => {
   res.send({ success: false, msg: 'failed to delete user' });
 };
 
+
+
 const buildUserData = (req) => {
   const { email, password, username, myBusiness, businessData, Location } =
     JSON.parse(req.body);
@@ -118,11 +120,4 @@ const buildUserData = (req) => {
   };
 };
 
-module.exports = {
-  getUser,
-  getUserByID,
-  updateUserFavorites,
-  createUser,
-  buildUserData,
-  deleteUser,
-};
+module.exports = { getUser, getUserByID, createUser, buildUserData, deleteUser,updateUserFavorites};

@@ -17,10 +17,9 @@ function ProductDetail() {
     },}).then(items=>{
       let allProducts = JSON.parse(items);
       setProductData(allProducts);
-    })
       sendRequest('user/show',"POST",{
         body:{
-          "user":productData.creatorID
+          "user":allProducts.creatorID
         }
       }).then(user=>{
         console.log("26------------",user.success!==false);
@@ -29,7 +28,7 @@ function ProductDetail() {
           setLoading(false);
         }
       })
-   
+    });
   },[loading]);
   // useEffect(()=>{
   //   const productID = window.location.search.substring(4);
