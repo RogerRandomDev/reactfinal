@@ -1,5 +1,5 @@
 const { connectDB } = require('../db/connect');
-const { storeImage, removeImages,removeImagesFromURL,basePath} = require('../middleware/images');
+const { storeImage, removeImages,removeImagesFromURL,basePath,imgFileRegex} = require('../middleware/images');
 const { checkToken, decodeToken } = require('./auth.js');
 const ProductModel = require('../models/productModel');
 const userModel = require('../models/userModel');
@@ -76,7 +76,7 @@ const updateProduct = async (productID, productData, senderToken) => {
     const creator = await userModel.findOne({ email: senderData.email });
     var imgUrls = []
     for (const image of productData.images) {
-      imgUrls.push((image[2].includes('.jpg')?image[2].split(basePath)[1]:await storeImage(image[2], 'productImages')));
+      imgUrls.push((image[2].includes(imgFileRegex)?image[2].split(basePath)[1]:await storeImage(image[2], 'productImages')));
   }
       productData.images = imgUrls.filter(img=>img!=null);
       (output = await ProductModel.findById(

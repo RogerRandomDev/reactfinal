@@ -1,7 +1,7 @@
 const { cloud } = require('../models/imageModel');
 const streamifier = require('streamifier');
 const basePath = 'https://res.cloudinary.com/dztnsrrta/image/upload/';
-
+const imgFileRegex = /\.png|\.jpg|\.jpeg|\.jfif/;
 //try avoiding this one if it is NOT a low res image.
 //only really here still because it has it's use
 //just use uploadFromBuffer when possible
@@ -39,7 +39,7 @@ const getImageName = (imageUrl) => {
   var parts = imageUrl.split('/');
   parts.shift();
 
-  return parts.join('/').replace('.jpg', '');
+  return parts.join('/').replace(imgFileRegex, '');
 };
 //moves files from the temp location to the final location
 const moveFromTemp = async (imageUrl, moveTo) => {
@@ -78,4 +78,5 @@ module.exports = {
   moveFromTemp,
   removeImagesFromURL,
   basePath,
+  imgFileRegex,
 };
