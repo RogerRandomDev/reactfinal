@@ -76,7 +76,7 @@ const updateProduct = async (productID, productData, senderToken) => {
     const creator = await userModel.findOne({ email: senderData.email });
     var imgUrls = []
     for (const image of productData.images) {
-      imgUrls.push((image[2].test(imgFileRegex)?image[2].split(basePath)[1]:await storeImage(image[2], 'productImages')));
+      imgUrls.push((imgFileRegex.test(image[2])?image[2].split(basePath)[1]:await storeImage(image[2], 'productImages')));
   }
       productData.images = imgUrls.filter(img=>img!=null);
       (output = await ProductModel.findById(
