@@ -99,7 +99,7 @@ function LandingPage({ updateContext }) {
     }
 
     if (action.type === "businessLogo") {
-      console.log(action)
+      // console.log(action)
       return { ...state, businessLogo: action.payload }
     }
     // if (action.type && action.payload) {
@@ -155,21 +155,21 @@ function LandingPage({ updateContext }) {
             })
           }
         });
-        console.log(newUserData);
+        // console.log(newUserData);
       } else {
         alert("passwords dont match");
       }
     } else {
       // console.log("Sending Login from frontend");
       setLoggingIn(true);
-      console.log(state.email, state.password);
+      // console.log(state.email, state.password);
       let data = await sendRequest("user/Login", "POST", {
         body: {
           email: state.email,
           password: state.password
         }
       });
-      console.log(data, "144");
+      // console.log(data, "144");
       data = JSON.parse(data);
       if (data.success === false) {
         setLoggingIn(false);
@@ -182,7 +182,7 @@ function LandingPage({ updateContext }) {
         return;
       };
       localStorage.clear();
-      console.log(data._id);
+      // console.log(data._id);
       await storeLocal("token", data.token);
 
       let userData = await sendRequest("user/show", "POST", {

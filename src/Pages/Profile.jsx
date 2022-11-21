@@ -15,7 +15,7 @@ function Profile() {
   const { state } = useContext(userContext);
   const [loading, setLoading] = useState(true);
   const [userProducts, setUserProducts] = useState([]);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState(null);
   const [userFavorites, setUserFavorites] = useState([]);
   const basePath = "https://res.cloudinary.com/dztnsrrta/image/upload/"
 
@@ -30,14 +30,28 @@ function Profile() {
             "user": userID
           }
         }).then(res => {
+          //  console.log(JSON.parse(res));
           setUserData(JSON.parse(res));
-          console.log(userData);
+          //  console.log(userData);
         })
       } else {
         // console.log("40--",state);
         setUserData(state.user);
         // console.log("42-------",userData);
       }
+      sendRequest('product/showUser', 'POST', {
+        body: {
+          userID: (userID.length < 10 ? JSON.parse(getLocal("user"))._id : userID),
+        },
+      }).then(products => {
+        setUserProducts(JSON.parse(String(products)).products);
+        setLoading(false);
+      });
+      sendRequest("product/favoritedProducts", 'POST', {
+        body: {
+          favorites: JSON.parse(getLocal("user")).favorites
+        },
+      });
       sendRequest('product/showUser', 'POST', {
         body: {
           userID: (userID.length < 10 ? state.user._id : userID),
@@ -58,7 +72,7 @@ function Profile() {
   }, []);
 
   return (
-    (!loading && userData !== {}) &&
+    (!loading && userData !== null) &&
     <div className="w-full flex flex-col gap-12 py-8 px-6 bg-[#404959] text-[#eee]">
       <div className="flex gap-12 items-center flex-col xl:flex-row">
         {/* <ProfileInfoCard image={"https://picsum.photos/400"} username={context.username} joinDate={context.joinDate} location={`${context.Location[0]}, ${context.Location[1]}`} rating={0} ratingCount={0} bought={0} sold={0}/> */}

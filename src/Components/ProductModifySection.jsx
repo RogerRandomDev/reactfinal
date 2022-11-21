@@ -14,7 +14,7 @@ function ProductModifySection({state, dispatch, header, data}) {
     const removePro = (key) =>{
         let currentPros = state.pros;
         currentPros = currentPros.filter(p=> p.id !== Number(key));
-        console.log(currentPros);
+        // console.log(currentPros);
         dispatch({type:"pros",payload:currentPros});
     }
     const removeSpecification = (key) =>{
@@ -23,12 +23,12 @@ function ProductModifySection({state, dispatch, header, data}) {
         dispatch({type:"specifications", payload:currentSpecifications});
     }
     const handleAddPro = (e) => {
-        console.log(e);
+        // console.log(e);
         e.preventDefault();
         // setPros([...pros, {val:pro.current.value, id:e.timeStamp}]);
         dispatch({type:"pros",payload:[...state.pros, {val:pro.current.value, id:e.timeStamp}]});
         pro.current.value = "";
-        console.log(state);
+        // console.log(state);
     }
     const handleAddSpecification = (e) => {
         e.preventDefault();
@@ -44,12 +44,12 @@ function ProductModifySection({state, dispatch, header, data}) {
             reader.readAsDataURL(files[i]);
             reader.addEventListener("load", () => {
                 dispatch({type:"addImages", payload:[files[i].name, files[i].size, reader.result]});
-                console.log(state.images);
+                // console.log(state.images);
   }, {once:true});
         }
     }
     const handleRemoveFile = (fileName) =>{
-        console.log(fileName);
+        // console.log(fileName);
         dispatch({type:"removeImages", payload:fileName});
     }
   return (

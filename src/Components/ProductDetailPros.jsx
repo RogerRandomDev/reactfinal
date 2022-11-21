@@ -1,7 +1,7 @@
 import {FiCheckCircle} from 'react-icons/fi';
 
 function ProductDetailPros({data}) {
-  console.log(data);
+  // console.log(data);
   return (
     <div className="grid grid-cols-2 justify-between max-w-2xl items-stretch gap-4 my-10 text-sm">
     {data.map(({val},id)=>{

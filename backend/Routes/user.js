@@ -25,25 +25,28 @@ const router = express.Router();
 // router.use(express.urlencoded({extended:true}));
 //these do not require authentication since they relate to giving the user an auth token
 router.options('*', cors());
-router.use(express.text({limit:'12mb'}))
+router.use(express.text({ limit: '12mb' }));
 
-router.put("/updateFavorites", async (req,res)=>{
-  const {userID, favorites} = JSON.parse(req.body);
+router.put('/updateFavorites', async (req, res) => {
+  const { userID, favorites } = JSON.parse(req.body);
   let data = await updateUserFavorites(userID, favorites);
-    res.status(200).send(data);
+  res.status(200).send(data);
 });
 
 router.post('/createAccount', async (req, res) => {
   const userData = buildUserData(req);
-  const Banner=await storeImage(JSON.parse(req.body).Banner,"temp");
-  
-  if(Banner!=null){
-  userData.businessData=JSON.parse(userData.businessData)
-  userData.businessData.BannerLink=Banner;}
-  const IP=req.ip
-  var ipLocation=getLocation(IP)
-  if(IP=="::1"){ipLocation={country:"a",region:"b",city:"c"}}
-  userData.Location=[ipLocation.country,ipLocation.region,ipLocation.city];
+  const Banner = await storeImage(JSON.parse(req.body).Banner, 'temp');
+
+  if (Banner != null) {
+    userData.businessData = JSON.parse(userData.businessData);
+    userData.businessData.BannerLink = Banner;
+  }
+  const IP = req.ip;
+  var ipLocation = getLocation(IP);
+  if (IP == '::1') {
+    ipLocation = { country: 'a', region: 'b', city: 'c' };
+  }
+  userData.Location = [ipLocation.country, ipLocation.region, ipLocation.city];
   await sendConfirmationEmail(userData);
   return res
     .status(200)
@@ -74,7 +77,7 @@ router.post('/confirmAccount', async (req, res) => {
   var _bus = await createBusiness(userData.decoded.businessData);
   userData.decoded.icon = userData.decoded.businessData.BannerLink;
   userData.decoded.myBusiness = _bus._id;
-  console.log(_bus.msg);
+  // console.log(_bus.msg);
   if (_bus._id == null) {
     return res.send('Authentication failed');
   }
@@ -102,16 +105,18 @@ router.all('/', async (req, res) => {
 
 router.post('/logout', async (req, res) => {
   await logout(req, res);
-  console.log('account logged out');
+  // console.log('account logged out');
 });
 
 router.post('/show', async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const { user } = JSON.parse(req.body);
   const userData = await getUserByID(user);
-  if(userData==null){return res.status(202).send({success:false})}
+  if (userData == null) {
+    return res.status(202).send({ success: false });
+  }
   userData.password = null;
-  userData.card=null;
+  userData.card = null;
   res.status(200).send(userData);
 });
 

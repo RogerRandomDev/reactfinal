@@ -25,7 +25,7 @@ const buildQuery = (query) => {
   );
 };
 export const sendRequest = async (path, type, contents) => {
-  console.log(contents);
+  // console.log(contents);
   return new Promise((resolve) => {
     var xml = new XMLHttpRequest();
 
@@ -39,11 +39,9 @@ export const sendRequest = async (path, type, contents) => {
     // console.log(_body);
     xml.send(_body);
   });
-  
 };
 //updates the current token
 export const reloadToken = () => {
-  console.log('reseting token expiration time');
   const token = getLocal('token');
   sendRequest('token', 'POST', {});
 };
