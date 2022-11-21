@@ -14,7 +14,7 @@ const storeImage = async (imageData, uploadTo = 'default') => {
 };
 const removeImages = async (imageUrls, uploadedTo = 'default') => {
   await imageUrls.map((url) => {
-    console.log(url);
+    // console.log(url);
     url = getImageName(url);
     if (url == null) {
       return;
@@ -24,7 +24,7 @@ const removeImages = async (imageUrls, uploadedTo = 'default') => {
   return { success: true, msg: 'removed images from database' };
 };
 const removeImagesFromURL = async (imageUrls) => {
-  console.log(imageUrls);
+  // console.log(imageUrls);
   removeImages(
     imageUrls.map((url) =>
       url != null && url.includes(basePath) ? url.split(basePath)[1] : url

@@ -24,7 +24,7 @@ function AddEditProduct() {
     }).then(product=>{
       setProductData(JSON.parse(String(product)));
     setLoading(false);
-    console.log(productData);
+    // console.log(productData);
     formDispatch({type:"name", payload:productData.name});
     formDispatch({type:"price", payload:productData.price});
     formDispatch({type:"discount", payload:productData.discount});
@@ -80,7 +80,7 @@ function AddEditProduct() {
   const handleSubmit = async (e)=>{
     e.preventDefault();
     // formDispatch({type:"name",value:formState.name});
-    console.log(state);
+    // console.log(state);
     var productData=formState;
     if(isAdding){
       swal({

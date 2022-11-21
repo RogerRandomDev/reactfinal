@@ -17,7 +17,7 @@ function Products() {
       let allProducts = JSON.parse(items);
       setProducts(allProducts.products);
       setLoading(false);
-      console.log(products);
+      // console.log(products);
     })
   },[loading]);
 

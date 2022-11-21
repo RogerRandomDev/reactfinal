@@ -74,10 +74,6 @@ const createUser = async (userData) => {
     }
 
     userData.password = await hashString(userData.password);
-    console.log(
-      '🚀 ~ file: User.js ~ line 51 ~ createUser ~ userData',
-      userData
-    );
 
     const newUser = new UserModel(userData);
     await newUser.save();
@@ -105,8 +101,6 @@ const deleteUser = async (req, res) => {
   res.send({ success: false, msg: 'failed to delete user' });
 };
 
-
-
 const buildUserData = (req) => {
   const { email, password, username, myBusiness, businessData, Location } =
     JSON.parse(req.body);
@@ -120,4 +114,11 @@ const buildUserData = (req) => {
   };
 };
 
-module.exports = { getUser, getUserByID, createUser, buildUserData, deleteUser,updateUserFavorites};
+module.exports = {
+  getUser,
+  getUserByID,
+  createUser,
+  buildUserData,
+  deleteUser,
+  updateUserFavorites,
+};

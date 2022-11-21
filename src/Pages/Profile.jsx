@@ -15,7 +15,7 @@ function Profile() {
   const {state} = useContext(userContext);
   const [loading, setLoading] = useState(true);
   const [userProducts, setUserProducts] = useState([]);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState(null);
   const [userFavorites, setUserFavorites] = useState([]);
   const basePath = "https://res.cloudinary.com/dztnsrrta/image/upload/"
 
@@ -30,8 +30,9 @@ function Profile() {
       "user":userID
     }
    }).then(res=>{
+    //  console.log(JSON.parse(res));
      setUserData(JSON.parse(res));
-     console.log(userData);
+    //  console.log(userData);
     })
   }else{
     // console.log("40--",state);
@@ -40,7 +41,7 @@ function Profile() {
   }
     sendRequest('product/showUser', 'POST', {
       body: {
-        userID: (userID.length < 10 ? state.user._id : userID),
+        userID: (userID.length < 10 ? JSON.parse(getLocal("user"))._id : userID),
       },
     }).then(products => {
       setUserProducts(JSON.parse(String(products)).products);
@@ -58,13 +59,13 @@ function Profile() {
   }, []);
 
   return (
-    (!loading && userData !== {}) && 
+    (!loading && userData != null) && 
     <div className="flex flex-col gap-12 py-8 px-20 bg-[#404959] text-[#eee]">
       <div className="flex gap-12 items-center flex-col xl:flex-row">
         {/* <ProfileInfoCard image={"https://picsum.photos/400"} username={context.username} joinDate={context.joinDate} location={`${context.Location[0]}, ${context.Location[1]}`} rating={0} ratingCount={0} bought={0} sold={0}/> */}
         <ProfileInfoCard image={"https://res.cloudinary.com/dztnsrrta/image/upload/"+userData.icon} username={userData.username} joinDate={userData.joinDate} location={userData.Location[0]} rating={5} ratingCount={0} bought={0} sold={0} />
         {/* Favorited items must come from database, so props are just placeholders for now */}
-        <div className="xl:border-l pl-20 xl:pl-12 w-screen ml-0 xl:mx-4">
+        <div className="xl:border-l pl-20 xl:pl-12 w-[90vw] ml-0 xl:mx-4">
           <RowDisplay title={"Favorited Items"}>
             {userFavorites.length > 0 
             ? 
