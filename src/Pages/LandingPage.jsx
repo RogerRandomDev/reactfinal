@@ -179,16 +179,16 @@ function LandingPage({ updateContext }) {
       });
       console.log(data, "144");
       data = JSON.parse(data);
-       if(data.success === false) {
+      if (data.success === false) {
         setLoggingIn(false);
         swal({
-              title:`Incorrect Login Information`,
-              text:"Please Ensure Email and Password are Correct",
-              icon:"error",
-              button:"Okay"
-            })
+          title: `Incorrect Login Information`,
+          text: "Please Ensure Email and Password are Correct",
+          icon: "error",
+          button: "Okay"
+        })
         return;
-       };
+      };
       localStorage.clear();
       console.log(data._id);
       await storeLocal("token", data.token);
@@ -325,7 +325,7 @@ function LandingPage({ updateContext }) {
             {/* <p>{state.isSignUp ? "Already Have an Account? " : "Create a New Account - "}<span onClick={()=>dispatch({type:"changeSignUp"})} className='underline cursor-pointer hover:text-cyan-600 transition'>Sign {state.isSignUp ? "In" : "Up"}</span></p> */}
           </div>
         </div>
-        <div ref={businessInfoSlider} className="transition duration-300 text-white mt-0 pb-9 md:pb-0 h-auto w-full md:translate-x-[0vw] bg-blue-900 flex flex-col items-center justify-center gap-5">
+        <div ref={businessInfoSlider} className="transition duration-300 text-white mt-0 pb-9 md:pb-0 h-auto w-full bg-blue-900 flex flex-col items-center justify-center gap-5">
 
           <div className="business-logo flex flex-col items-center justify-center w-full pb-5">
             <h2 className='text-3xl font-semibold mb-8'>Business Logo</h2>

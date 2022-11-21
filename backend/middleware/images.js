@@ -6,7 +6,6 @@ const basePath="https://res.cloudinary.com/dztnsrrta/image/upload/"
 //only really here still because it has it's use
 //just use uploadFromBuffer when possible
 const storeImage = async(imageData,uploadTo="default")=>{
-  
   try{
   return (
     await uploadFromBuffer(imageData,uploadTo)
@@ -24,6 +23,9 @@ const removeImages = async(imageUrls,uploadedTo="default")=>{
 }
 const removeImagesFromURL = async(imageUrls)=>{
   console.log(imageUrls)
+  removeImages(imageUrls.map((url)=>
+    url.includes(basePath)?url.split(basePath)[1]:url
+  ))
   //imageUrls.map((url)=>{if(url!=null){cloud.v2.uploader.destroy(url[2].split(basePath)[1])}})
 }
 const getImageName=(imageUrl)=>{
@@ -63,6 +65,4 @@ let uploadFromBuffer = (imageData,folder) => {
 };
 
 
-
-
-module.exports = {storeImage,removeImages,getImageName,uploadFromBuffer,moveFromTemp,removeImagesFromURL};
+module.exports = {storeImage,removeImages,getImageName,uploadFromBuffer,moveFromTemp,removeImagesFromURL,basePath};
