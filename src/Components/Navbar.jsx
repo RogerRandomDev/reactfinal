@@ -84,7 +84,7 @@ export default function Navbar() {
             <button className="text-white block w-max ml-auto pl-4 mr-3 z-30" onClick={() => { setNavHidden(!navHidden) }}>
                 <img src={"https://res.cloudinary.com/dztnsrrta/image/upload/"+state.user.icon} alt="Profile" className="w-10 h-10 inline-block place-self-center rounded-full mr-2" />
                 <p className="inline-block mr-1">
-                    {state?.user?.username?.split(" ")[0] || "Guest"}
+                    {state.user.username.split(" ")[0] || "Guest"}
                 </p>
                 <IoMdArrowDropdown className={`inline-block ${navHidden && "rotate-180"} transition-transform duration-[600ms]`} />
                 <div className={`z-20 absolute top-[1.75rem] -right-5 bg-gray-700 w-40 ${navHidden ? "h-0 p-0" : "h-[8.5rem]"} rounded-b translate-y-5 overflow-hidden flex flex-col gap-y-1 items-center -bottom-50`} style={{ transition: "all 0.6s cubic-bezier(0.75, 0, 0.25, 1)" }}>
