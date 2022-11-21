@@ -1,5 +1,11 @@
 const { connectDB } = require('../db/connect');
-const { storeImage, removeImages,removeImagesFromURL,basePath,imgFileRegex} = require('../middleware/images');
+const {
+  storeImage,
+  removeImages,
+  removeImagesFromURL,
+  basePath,
+  imgFileRegex,
+} = require('../middleware/images');
 const { checkToken, decodeToken } = require('./auth.js');
 const ProductModel = require('../models/productModel');
 const userModel = require('../models/userModel');
@@ -10,36 +16,41 @@ const productsPerPage = 50;
 // Returns all products up to a limit
 const getAllProducts = async () => {
   let products = null;
-  try{
+  try {
     await connectDB(process.env.MONGO_URI);
-    products = await ProductModel.find({},null, {
-      limit:productsPerPage
-    })
-  } catch(err){
+    products = await ProductModel.find({}, null, {
+      limit: productsPerPage,
+    });
+  } catch (err) {
     console.log(err);
   }
   return products;
-}
+};
 
 const getFavoritedProducts = async (favorites) => {
   let products = null;
-  try{
+  try {
     await connectDB(process.env.MONGO_URI);
-    console.log(favorites);
-    products = await ProductModel.find({_id: {"$in": favorites}}, function(err,items){
-      if(err) products=err;
-      if(items) products = items;
-    }).clone().catch(err=>console.log(err));
-  }catch(err){
+    // console.log(favorites);
+    products = await ProductModel.find(
+      { _id: { $in: favorites } },
+      function (err, items) {
+        if (err) products = err;
+        if (items) products = items;
+      }
+    )
+      .clone()
+      .catch((err) => console.log(err));
+  } catch (err) {
     console.log(err);
   }
   return products;
-}
+};
 
 //returns products from given business/user
 const getUserProducts = async (creatorID, viewPage = 0) => {
   var output = null;
-  console.log(creatorID);
+  // console.log(creatorID);
   try {
     await connectDB(process.env.MONGO_URI);
     output = await ProductModel.find({ creatorID }, null, {
@@ -74,21 +85,22 @@ const updateProduct = async (productID, productData, senderToken) => {
   try {
     await connectDB(process.env.MONGO_URI);
     const creator = await userModel.findOne({ email: senderData.email });
-    var imgUrls = []
+    var imgUrls = [];
     for (const image of productData.images) {
-      imgUrls.push((imgFileRegex.test(image[2])?image[2].split(basePath)[1]:await storeImage(image[2], 'productImages')));
-  }
-      productData.images = imgUrls.filter(img=>img!=null);
-      (output = await ProductModel.findById(
-        productID
-      ));
+      imgUrls.push(
+        imgFileRegex.test(image[2])
+          ? image[2].split(basePath)[1]
+          : await storeImage(image[2], 'productImages')
+      );
+    }
+    productData.images = imgUrls.filter((img) => img != null);
+    output = await ProductModel.findById(productID);
     //if(output.creatorID!=senderData.userID){return {success:false,msg:"user ID does not match product creator"}}
-    
-    await ProductModel.findByIdAndUpdate(
-      productID,
-      productData
-    )
-    removeImagesFromURL(output.images.filter((img)=>!imgUrls.includes(img)||img==null))
+
+    await ProductModel.findByIdAndUpdate(productID, productData);
+    removeImagesFromURL(
+      output.images.filter((img) => !imgUrls.includes(img) || img == null)
+    );
   } catch (err) {
     console.log(err);
   }
@@ -99,7 +111,7 @@ const deleteProduct = async (productId) => {
   try {
     await connectDB(process.env.MONGO_URI);
     output = await ProductModel.findByIdAndDelete(productId);
-    console.log(output);
+    // console.log(output);
   } catch (err) {
     console.log(err);
   }
@@ -107,8 +119,6 @@ const deleteProduct = async (productId) => {
 };
 //creates a product and adds it to the database
 const createProduct = async (productData, userToken, userID) => {
-  // console.log('69');
-
   if (!checkToken(userToken)) {
     return { success: false, msg: 'token invalid', _id: null };
   }
