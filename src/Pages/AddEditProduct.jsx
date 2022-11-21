@@ -105,7 +105,7 @@ function AddEditProduct() {
 
     }else{
       swal({
-        title:"Successfully Update Product",
+        title:"Successfully Updated Product",
         text:"Product may take up to 1 minute to fully update",
         icon:"success",
         timer:"7500",

@@ -30,28 +30,6 @@ function ProductDetail() {
       })
     });
   },[loading]);
-  // useEffect(()=>{
-  //   const productID = window.location.search.substring(4);
-  //     sendRequest('product/show', 'POST', {
-  //     body: {
-  //       productID:productID
-  //     },
-  //   }).then(product=>{
-  //     setProductData(JSON.parse(String(product)));
-  //     console.log(productData);
-  //   }).then(()=>{
-      // sendRequest('user/show',"POST",{
-      //   body:{
-      //     "user":productData.creatorID
-      //   }
-      // }).then(user=>{
-      //   console.log(user);
-      //   setUserData(JSON.parse(user));
-      //   console.log(userData);
-      // })
-      // setLoading(false);
-  //   });
-  // },[loading]);
   return (
     (!loading && userData.success!==false) ? 
     <div className="rounded p-8 grid bg-neutral-100 w-full grid-cols-1 md:gap-12 xl:grid-cols-[auto_auto] xl:justify-center xl:gap-48 items-start justify-items-center">
