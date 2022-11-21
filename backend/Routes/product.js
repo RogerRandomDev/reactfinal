@@ -3,6 +3,7 @@ const cors = require('cors');
 const {
   getAllProducts,
   getProduct,
+  getFavoritedProducts,
   getUserProducts,
   createProduct,
   updateProduct,
@@ -49,12 +50,17 @@ router.get("/all", async(req,res)=>{
   })
 });
 
+router.post("/favoritedProducts", async(req,res)=>{
+  const favorites = JSON.parse(req.body).favorites;
+  let products = await getFavoritedProducts(favorites);
+  console.log(products);
+  res.status(200).send(products);
+})
+
 //shows products created by user with the matching id
 router.post('/showUser', async (req, res) => {
   const { userID } = JSON.parse(req.body);
   const userProducts = await getUserProducts(userID);
-  console.log(userID);
-  console.log(userProducts);
   res
     .status(200)
     .send({

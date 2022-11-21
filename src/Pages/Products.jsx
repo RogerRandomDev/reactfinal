@@ -32,12 +32,12 @@ function Products() {
             products.map((p,idx)=>{
               if(search.length > 0){
                 if(p.name.toLowerCase().includes(search.toLowerCase())){
-                return <ProductCard key={idx} type="favorite" image={"https://res.cloudinary.com/dztnsrrta/image/upload/"+p.images[0]} title={p.name} price={p.price} location={p.Location} link={`/productDetail?id=${p._id}`}/>
+                return <ProductCard key={idx} id={p._id} type="favorite" image={"https://res.cloudinary.com/dztnsrrta/image/upload/"+p.images[0]} title={p.name} price={p.price} location={p.Location} link={`/productDetail?id=${p._id}`}/>
               }else{
                 return;
               }
             }
-              return <ProductCard key={idx} type="favorite" image={"https://res.cloudinary.com/dztnsrrta/image/upload/"+p.images[0]} title={p.name} price={p.price} location={p.Location} link={`/productDetail?id=${p._id}`}/>
+              return <ProductCard key={idx} id={p._id} type="favorite" image={"https://res.cloudinary.com/dztnsrrta/image/upload/"+p.images[0]} title={p.name} price={p.price} location={p.Location} link={`/productDetail?id=${p._id}`}/>
             })
           }
     </ResponsiveGridDisplay>

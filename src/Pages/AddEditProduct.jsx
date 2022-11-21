@@ -87,7 +87,7 @@ function AddEditProduct() {
         title:"Successfully Created Product",
         text:"Product may take up to 1 minute to become visible",
         icon:"success",
-        timer:"2500",
+        timer:"7500",
         buttons:{
           confirm:"Okay!"
         }

@@ -4,7 +4,10 @@ import { reloadToken } from '../Utils/requests';
 const userContext = createContext('');
 
 function Provider({ children }) {
-  const initialState = { user: JSON.parse(localStorage.getItem('user')) || {} };
+  let initialState = {};
+  if(localStorage.getItem('user')){
+    initialState={user:JSON.parse(localStorage.getItem('user'))}
+  }
   const userReducer = (state, action) => {
     if (action.type == 'REFRESH_DATA') {
       return { ...state, user: action.payload };
@@ -12,12 +15,14 @@ function Provider({ children }) {
   };
   const [state, dispatch] = useReducer(userReducer, initialState);
   useEffect(() => {
+    if(localStorage.getItem('user')){
     console.log('Running User Context Use Effect');
     reloadToken();
     dispatch({
       type: 'REFRESH_DATA',
       payload: JSON.parse(localStorage.getItem('user')),
     });
+  }
   }, []);
   return (
     <userContext.Provider value={{ state, dispatch }}>

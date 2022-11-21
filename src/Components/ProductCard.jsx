@@ -1,11 +1,30 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {useNavigate} from 'react-router-dom';
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import {MdEdit, MdDelete} from 'react-icons/md';
 import swal from "sweetalert";
 import { sendRequest } from "../Utils/requests";
-function ProductCard({id, type="favorite", favoritePreset=false, image, title, price, location, link}) {
-  const [favorited, setFavorited] = useState(favoritePreset);
+import { getLocal, storeLocal } from "../Utils/useLocalStorageAuth";
+function ProductCard({id, type="favorite", image, title, price, location, link}) {
+  const [favorited, setFavorited] = useState(false);
+
+  useEffect(()=>{
+    if(getLocal("user")){
+    setFavorited(JSON.parse(getLocal("user")).favorites.includes(id));
+    }
+  },[]);
+
+  const handleFavorite = (e) =>{
+    let user = JSON.parse(getLocal("user"));
+    if(!favorited){
+      user.favorites.push(id);
+    }else{
+      user.favorites = user.favorites.filter(f=>f !== id);
+    }
+    storeLocal("user", JSON.stringify(user));
+    setFavorited(!favorited); 
+    e.stopPropagation();
+  }
   const navigate = useNavigate();
 
   const handleDelete = () => {
@@ -42,7 +61,7 @@ function ProductCard({id, type="favorite", favoritePreset=false, image, title, p
           {
           type==="favorite" ? 
           <div className={`absolute top-4 left-4 text-2xl z-10 hover:scale-125 transition ${!favorited && "-translate-x-10"} group-hover:translate-x-0`}>
-            <div onClick={(e)=>{setFavorited(!favorited); e.stopPropagation()}}>
+            <div onClick={(e)=>handleFavorite(e)}>
               {favorited ? <AiFillHeart className="text-red-400"/> : <AiOutlineHeart className="text-red-400"/>}
               </div>
               </div> 

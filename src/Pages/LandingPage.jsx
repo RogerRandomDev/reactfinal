@@ -179,17 +179,17 @@ function LandingPage({ updateContext }) {
       });
       console.log(data, "144");
       data = JSON.parse(data);
-      //  console.log("🚀 ~ file: LandingPage.jsx ~ line 144 ~ handleSubmit ~ data", data)
-      //  if(data.success === false) {
-      //   setLoggingIn(false);
-      //   swal({
-      //         title:`Incorrect Login Information`,
-      //         text:"Please Ensure Email and Password are Correct",
-      //         icon:"error",
-      //         button:"Okay"
-      //       })
-      //   return;
-      //  };
+       if(data.success === false) {
+        setLoggingIn(false);
+        swal({
+              title:`Incorrect Login Information`,
+              text:"Please Ensure Email and Password are Correct",
+              icon:"error",
+              button:"Okay"
+            })
+        return;
+       };
+      localStorage.clear();
       console.log(data._id);
       await storeLocal("token", data.token);
 
