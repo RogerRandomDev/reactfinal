@@ -39,6 +39,7 @@ export const sendRequest = async (path, type, contents) => {
     // console.log(_body);
     xml.send(_body);
   });
+  
 };
 //updates the current token
 export const reloadToken = () => {
