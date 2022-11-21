@@ -78,7 +78,7 @@ const updateProduct = async (productID, productData, senderToken) => {
     for (const image of productData.images) {
       imgUrls.push((image[2].includes('.jpg')?image[2].split(basePath)[1]:await storeImage(image[2], 'productImages')));
   }
-      productData.images = imgUrls;
+      productData.images = imgUrls.filter(img=>img!=null);
       (output = await ProductModel.findById(
         productID
       ));
@@ -88,7 +88,7 @@ const updateProduct = async (productID, productData, senderToken) => {
       productID,
       productData
     )
-    removeImagesFromURL(output.images.filter((img)=>!imgUrls.includes(img)))
+    removeImagesFromURL(output.images.filter((img)=>!imgUrls.includes(img)||img==null))
   } catch (err) {
     console.log(err);
   }
