@@ -3,7 +3,7 @@ const UserModel = require('../models/userModel');
 const productModel = require('../models/productModel');
 const businessModel = require('../models/businessModel');
 const { hashString } = require('../middleware/hash');
-const { sendConfirmationEmail } = require("../middleware/accountConfirmation");
+const { sendConfirmationEmail } = require('../middleware/accountConfirmation');
 const { checkToken } = require('./auth');
 
 require('dotenv').config();
@@ -34,24 +34,29 @@ const getUserByID = async (userID) => {
 //Updates User Favorites
 const updateUserFavorites = async (userID, favorites) => {
   let output = null;
-  try{
+  try {
     await connectDB(process.env.MONGO_URI);
-    await UserModel.findByIdAndUpdate(userID, {favorites: favorites}, function(err, docs){
-      if(err){
-        output = err;
-      }else{
-        output = docs;
+    await UserModel.findByIdAndUpdate(
+      userID,
+      { favorites: favorites },
+      function (err, docs) {
+        if (err) {
+          output = err;
+        } else {
+          output = docs;
+        }
       }
-    }).clone().catch(err=>console.log(err));
-  } catch(err){
+    )
+      .clone()
+      .catch((err) => console.log(err));
+  } catch (err) {
     console.log(err);
   }
   return output;
-}
+};
 
 //creates a user and adds it to the database
 const createUser = async (userData) => {
-
   userData = {
     email: userData.email,
     password: userData.password,
@@ -59,7 +64,7 @@ const createUser = async (userData) => {
     myBusiness: userData.myBusiness,
     Location: userData.Location,
     joinDate: new Date().toDateString(),
-    icon: userData.icon
+    icon: userData.icon,
   };
   var _id = null;
   try {
@@ -69,7 +74,10 @@ const createUser = async (userData) => {
     }
 
     userData.password = await hashString(userData.password);
-    console.log("🚀 ~ file: User.js ~ line 51 ~ createUser ~ userData", userData)
+    console.log(
+      '🚀 ~ file: User.js ~ line 51 ~ createUser ~ userData',
+      userData
+    );
 
     const newUser = new UserModel(userData);
     await newUser.save();
@@ -82,28 +90,39 @@ const createUser = async (userData) => {
 const deleteUser = async (req, res) => {
   const { token } = JSON.parse(req.body);
   const { userID, email } = decodeToken(token);
-  if (!checkToken(token)) { return res.status(202).send({ success: false, msg: 'invalid user token' }) }
+  if (!checkToken(token)) {
+    return res.status(202).send({ success: false, msg: 'invalid user token' });
+  }
   try {
-    await connectDB(process.env.MONGO_URI)
-    await UserModel.findByIdAndDelete(userID)
-    await businessModel.findOneAndDelete({ email })
-    await productModel.deleteMany({ creatorID: userID })
-    return res.status(200).send({ success: true, msg: "User deleted successfully" })
-  } catch (e) { }
-  res.send({ success: false, msg: "failed to delete user" })
-}
+    await connectDB(process.env.MONGO_URI);
+    await UserModel.findByIdAndDelete(userID);
+    await businessModel.findOneAndDelete({ email });
+    await productModel.deleteMany({ creatorID: userID });
+    return res
+      .status(200)
+      .send({ success: true, msg: 'User deleted successfully' });
+  } catch (e) {}
+  res.send({ success: false, msg: 'failed to delete user' });
+};
 
 const buildUserData = (req) => {
-
-  const { email, password, username, myBusiness, businessData, Location } = JSON.parse(req.body)
+  const { email, password, username, myBusiness, businessData, Location } =
+    JSON.parse(req.body);
   return {
     email,
     password,
     username,
     myBusiness,
     businessData,
-    Location
+    Location,
   };
 };
 
-module.exports = { getUser, getUserByID, createUser, buildUserData, deleteUser};
+module.exports = {
+  getUser,
+  getUserByID,
+  updateUserFavorites,
+  createUser,
+  buildUserData,
+  deleteUser,
+};
