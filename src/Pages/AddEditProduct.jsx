@@ -104,6 +104,17 @@ function AddEditProduct() {
       })
 
     }else{
+      swal({
+        title:"Successfully Update Product",
+        text:"Product may take up to 1 minute to fully update",
+        icon:"success",
+        timer:"7500",
+        buttons:{
+          confirm:"Okay!"
+        }
+      }).then(()=>{
+          navigate("/profile");
+      });
       await sendRequest("product/updateProduct","POST",{
         body:{
           productData,
