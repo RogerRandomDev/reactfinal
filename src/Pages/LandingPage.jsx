@@ -1,8 +1,6 @@
 import React, { useRef, useReducer } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { FaFacebookF, FaTwitter } from 'react-icons/fa';
 // import { useContext } from 'react';
-import { AiOutlineGoogle } from 'react-icons/ai';
 import { sendRequest } from '../Utils/requests';
 import { storeLocal } from '../Utils/useLocalStorageAuth';
 import swal from 'sweetalert';
@@ -13,7 +11,7 @@ import { ReactComponent as Desktopsvg } from '../assets/item.svg';
 // import {userContext} from '../Context/userContext';
 // import { Link } from 'react-router-dom';
 //https://coderthemes.com/ubold/layouts/default/index.html
-const initialState = { username: "", email: "", password: "", confirmPassword: "", userType: "user", isSignUp: true, businessLogo: "", city: "", state: "", range: "Local", description: "", agreements: [false, false, false] };
+const initialState = { username: "", email: "", password: "", confirmPassword: "", userType: "user", isSignUp: true, businessLogo: "", description: "" };
 function LandingPage({ updateContext }) {
   const navigate = useNavigate();
   // const context = useContext(userContext);
@@ -103,12 +101,6 @@ function LandingPage({ updateContext }) {
     if (action.type === "businessLogo") {
       console.log(action)
       return { ...state, businessLogo: action.payload }
-    }
-    if (action.type === "agreements") {
-      let agreements = state.agreements;
-      // action.payload = [0,true]
-      agreements[action.payload[0]] = action.payload[1];
-      return { ...state, agreements }
     }
     // if (action.type && action.payload) {
     return { ...state, [action.type]: action.payload }
@@ -266,11 +258,10 @@ function LandingPage({ updateContext }) {
     <section ref={section} className="">
       <div ref={mover} className="overflow-y-hidden md:overflow-x-hidden md:grid h-screen grid-cols-[70%_30%_70%] -mt-14 relative delay-200 duration-[600ms] ease-in-out md:translate-x-[0%]">
 
-        <div ref={hero} className="transition duration-300 hidden p-1 w-full text-center md:inline-block flex-col justify-center mt-32 md:mt-0 md:mb-0 ">
-          <img src={require("../assets/testingsvg.PNG")} className="max-w-full object-cover w-9/12 mx-auto mt-11 mb-4" alt="" />
-          <h2 className='text-4xl font-semibold mb-4 text-blue-900'>Software Analytics and Marketing Statistics</h2>
-          <p className='text-slate-400 mb-5 md:mb-0'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, est. Lorem, ipsum. <br />Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
-
+        <div ref={hero} className="h-full pt-6 transition duration-300 hidden p-1 w-full text-center md:flex flex-col justify-center md:mt-0 md:mb-0 ">
+          <img src={require("../assets/testingsvg.PNG")} className="object-cover mx-auto w-3/4" alt="" />
+          <h2 className='text-4xl font-semibold mb-4 text-blue-900 w-[90%] mx-auto'>Software Analytics and Marketing Statistics</h2>
+          <p className='text-slate-400 mb-5 md:mb-0 w-[90%] mx-auto'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, est. Lorem, ipsum. <br />Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
         </div>
 
         <div ref={landingSignup} className="transition duration-300 overflow-hidden relative border landing__signup w-full bg-blue-900 block md:flex flex-col items-center justify- place-content-center pb-12 pt-36 md:pt-12 px-10 h-full text-center text-neutral-100 border-blue-900">
