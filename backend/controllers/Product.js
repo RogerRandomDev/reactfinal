@@ -7,6 +7,35 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const productsPerPage = 50;
 
+// Returns all products up to a limit
+const getAllProducts = async () => {
+  let products = null;
+  try{
+    await connectDB(process.env.MONGO_URI);
+    products = await ProductModel.find({},null, {
+      limit:productsPerPage
+    })
+  } catch(err){
+    console.log(err);
+  }
+  return products;
+}
+
+const getFavoritedProducts = async (favorites) => {
+  let products = null;
+  try{
+    await connectDB(process.env.MONGO_URI);
+    console.log(favorites);
+    products = await ProductModel.find({_id: {"$in": favorites}}, function(err,items){
+      if(err) products=err;
+      if(items) products = items;
+    }).clone().catch(err=>console.log(err));
+  }catch(err){
+    console.log(err);
+  }
+  return products;
+}
+
 //returns products from given business/user
 const getUserProducts = async (creatorID, viewPage = 0) => {
   var output = null;
@@ -109,7 +138,9 @@ const createProduct = async (productData, userToken, userID) => {
 };
 
 module.exports = {
+  getAllProducts,
   getProduct,
+  getFavoritedProducts,
   getUserProducts,
   createProduct,
   updateProduct,

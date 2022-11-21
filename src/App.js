@@ -22,6 +22,7 @@ import Profile from './Pages/Profile';
 import Products from './Pages/Products';
 import NavBar from './Components/Navbar';
 
+import { Provider as FavoritesProvider } from './Context/favoritesContext';
 import { Provider } from './Context/userContext';
 import { useEffect } from 'react';
 
@@ -42,12 +43,13 @@ const App = () => {
   // };
 
   return (
+    <FavoritesProvider>
     <Provider>
       <div className='App mt-14'>
         <Router>
           <NavBar />
           <Switch>
-            <Route path='/' element={<TotalRevenue />} />
+            <Route path='/' element={<Products />} />
             <Route path='/home' element={<TotalRevenue />} />
             <Route path='/login' element={<LandingPage />} />
             <Route path='/about' element={<AboutPage />} />
@@ -148,6 +150,7 @@ const App = () => {
       </div> */}
       </div>
     </Provider>
+    </FavoritesProvider>
   );
 };
 

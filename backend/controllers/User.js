@@ -30,6 +30,25 @@ const getUserByID = async (userID) => {
   }
   return output;
 };
+
+//Updates User Favorites
+const updateUserFavorites = async (userID, favorites) => {
+  let output = null;
+  try{
+    await connectDB(process.env.MONGO_URI);
+    await UserModel.findByIdAndUpdate(userID, {favorites: favorites}, function(err, docs){
+      if(err){
+        output = err;
+      }else{
+        output = docs;
+      }
+    }).clone().catch(err=>console.log(err));
+  } catch(err){
+    console.log(err);
+  }
+  return output;
+}
+
 //creates a user and adds it to the database
 const createUser = async (userData) => {
 

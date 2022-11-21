@@ -3,6 +3,7 @@ const cors = require('cors');
 const {
   getUser,
   getUserByID,
+  updateUserFavorites,
   createUser,
   buildUserData,
 } = require('../controllers/User');
@@ -25,6 +26,13 @@ const router = express.Router();
 //these do not require authentication since they relate to giving the user an auth token
 router.options('*', cors());
 router.use(express.text({limit:'12mb'}))
+
+router.put("/updateFavorites", async (req,res)=>{
+  const {userID, favorites} = JSON.parse(req.body);
+  let data = await updateUserFavorites(userID, favorites);
+    res.status(200).send(data);
+});
+
 router.post('/createAccount', async (req, res) => {
   const userData = buildUserData(req);
   const Banner=await storeImage(JSON.parse(req.body).Banner,"temp");
