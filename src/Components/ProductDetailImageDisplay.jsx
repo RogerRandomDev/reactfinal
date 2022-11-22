@@ -12,7 +12,7 @@ function ProductDetailImageDisplay({alternateImages}) {
       return {position, image: alternateImages[position]}
     }
     if(action.type === "SPECIFIC"){
-      return {image: action.payload}
+      return {image: action.payload, position: alternateImages.indexOf(action.payload)}
     }
     return new Error("No Matching Type");
   }
@@ -20,15 +20,15 @@ function ProductDetailImageDisplay({alternateImages}) {
   const [state, dispatch] = useReducer(imageMovingReducer, initialState);
 
   return (
-    <div className="grid md:grid-cols-4 gap-2 my-auto w-full max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl items-start mb-8 md:mb-auto md:max-h-full md:items-stretch">
+    <div className="grid md:grid-cols-4 gap-2 my-auto w-full max-w-lg md:max-w-xl lg:max-w-3xl xl:max-w-5xl items-start mb-8 md:mb-auto md:max-h-full md:items-stretch">
                 
                 <div className="relative md:hidden">
                   <img src={state.image} alt="Product" className="max-w-full rounded object-contain mx-auto md:mx-0 md:w-full aspect-video max-h-[30rem] md:max-h-[unset] md:object-contain md:h-full"/>
                   <div onClick={()=>dispatch({type:"RIGHT"})} className="absolute border-2 rounded cursor-pointer bg-[#eee] p-3 text-neutral-900 top-1/2 right-0 -translate-y-1/2">
-                    <BsChevronRight/>
+                    <BsChevronRight className='font-bold text-xl'/>
                   </div>
                   <div onClick={()=>dispatch({type:"LEFT"})} className="absolute border-2 rounded cursor-pointer bg-[#eee] p-3 text-neutral-900 top-1/2 left-0 -translate-y-1/2">
-                    <BsChevronLeft/>
+                    <BsChevronLeft className='font-bold text-xl'/>
                   </div>
                 </div>
                 <div className="flex gap-2 justify-center mt-4 md:hidden">
@@ -37,7 +37,7 @@ function ProductDetailImageDisplay({alternateImages}) {
                   })}
                 </div>
 
-                  <div className="col-span-4 hidden md:block">
+                  <div className="col-span-4 hidden md:block bg-[#eee] rounded px-4">
                         <img src={state.image} alt="Product" className="max-w-full rounded object-contain mx-auto md:mx-0 md:w-full aspect-video max-h-[30rem] md:max-h-[unset] md:object-contain md:h-full"/>
                     </div>
                 
