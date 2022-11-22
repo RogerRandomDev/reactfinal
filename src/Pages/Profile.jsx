@@ -78,7 +78,7 @@ function Profile() {
         {/* <ProfileInfoCard image={"https://picsum.photos/400"} username={context.username} joinDate={context.joinDate} location={`${context.Location[0]}, ${context.Location[1]}`} rating={0} ratingCount={0} bought={0} sold={0}/> */}
         <ProfileInfoCard image={"https://res.cloudinary.com/dztnsrrta/image/upload/" + userData.icon} username={userData.username} joinDate={userData.joinDate} location={userData.Location[0]} rating={5} ratingCount={0} bought={0} sold={0} />
         {/* Favorited items must come from database, so props are just placeholders for now */}
-        <div className="xl:border-l w-screen ml-0 xl:mx-4">
+        <div className="xl:border-l w-full ml-0 xl:mx-4">
           <RowDisplay title={"Favorited Items"}>
             {userFavorites.length > 0
               ?
@@ -91,7 +91,7 @@ function Profile() {
           </RowDisplay>
         </div>
       </div>
-      <div className="xl:px-20">
+      <div className="px-0 xl:px-20">
         <ResponsiveGridDisplay title={"Items From This Seller"}>
           {/* {new Array(25).fill().map((_,idx)=>{
             return <ProductCard key={idx} image={`https://picsum.photos/400?random=${idx+6}`} title={"Xbox Gaming Controller"} price={50} location={"Salt Lake City, UT"} link={"#"}/>

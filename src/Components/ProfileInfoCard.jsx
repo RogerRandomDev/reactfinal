@@ -5,7 +5,7 @@ import { FiFlag } from 'react-icons/fi';
 function ProfileInfoCard({ image, username, joinDate, location, rating, ratingCount, bought, sold }) {
     // {/*Remove width later */}
     return (
-        <div className="flex flex-col gap-4 w-full xl:w-1/3">
+        <div className="flex flex-col gap-4 items-center w-full xl:w-1/3">
             <div className="flex gap-2 md:gap-8 items-center justify-center">
                 <img src={image} alt="Profile" className="rounded-full w-[40%] min-w-[8rem] object-cover aspect-square max-w-[6rem] ml-2" />
                 <div className="w-full flex flex-col gap-2 text-[#eee]">
