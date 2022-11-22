@@ -1,28 +1,18 @@
 require('dotenv').config()
 const stripe = require('stripe')(process.env.STRIPE_KEY);
+const createAccount = async (accountData)=>{return await stripe.accounts.create({
+    type: 'custom',
+    country: accountData.location[0],
+    email: accountData.email,
+    capabilities: {card_payments: {requested: true}, transfers: {requested: true}},
+    business_profile: {url:'https://localhost:3000/profile?id='+accountData._id}
+  });
+}
+const linkAccount = async (userData,updateAccount=false) => {return await stripe.accountLinks.create({
+    account: userData.account,
+    refresh_url: 'https://example.com/reauth',
+    return_url: 'https://example.com/return',
+    type: (updateAccount?'account_update':'account_onboarding'),
+  });}
 
-//creates a product with the given data
-const createProduct = async (productData) => {
-    const product = await stripe.products.create({
-        name: productData.name,
-        description:productData.description
-      });
-    console.log(product)
-    a()
-}
-const getProduct = async (productID) => {
-    return await stripe.products.retrieve(
-        productID
-      );
-}
-//searches through all products
-const searchProducts = async (query) => {
-    query = Object.keys(query).reduce((a,b)=>a+(a!=''?" AND ":'')+b+":"+query[b],'')
-    return await stripe.products.search({
-        query
-    })
-}
-
-const a=async()=>{
-console.log(await searchProducts({"active":'\'true\''}))
-}
+module.exports = {createAccount,linkAccount}
