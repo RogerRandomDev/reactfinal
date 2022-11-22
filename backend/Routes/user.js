@@ -1,26 +1,13 @@
 const express = require('express');
 const cors = require('cors');
-const {
-  getUser,
-  getUserByID,
-  updateUserFavorites,
-  createUser,
-  buildUserData,
-} = require('../controllers/User');
+const {getUser,getUserByID,updateUserFavorites,createUser,buildUserData,} = require('../controllers/User');
 const { getLocation } = require('../middleware/geo');
-const {
-  login,
-  logout,
-  updateToken,
-  checkToken,
-} = require('../controllers/auth');
+const {login,logout,updateToken,checkToken,} = require('../controllers/auth');
 const { storeImage, moveFromTemp } = require('../middleware/images');
-const {
-  sendConfirmationEmail,
-  recieveConfirmationToken,
-} = require('../middleware/accountConfirmation');
+const {sendConfirmationEmail,recieveConfirmationToken,} = require('../middleware/accountConfirmation');
 const { createBusiness } = require('../controllers/Business');
 const { ImNext } = require('react-icons/im');
+const {createAccount,linkAccount} = require('../middleware/stripe');
 const router = express.Router();
 // router.use(express.urlencoded({extended:true}));
 //these do not require authentication since they relate to giving the user an auth token
@@ -74,10 +61,16 @@ router.post('/confirmAccount', async (req, res) => {
   if (!userData.success) return res.send('Authentication Failed');
   // userData.decoded.businessData=JSON.parse(userData.decoded.businessData)
   //creates the business account for the user
+  
   var _bus = await createBusiness(userData.decoded.businessData);
   userData.decoded.icon = userData.decoded.businessData.BannerLink;
   userData.decoded.myBusiness = _bus._id;
-  // console.log(_bus.msg);
+  //set this up once we can actually use stripe
+  //Credit unions do not like being used as banks for a business
+  //const account = await createAccount(userData.decoded)
+  //console.log(account)
+  console.log(_bus.msg);
+  //userData.decoded.card=account.id
   if (_bus._id == null) {
     return res.send('Authentication failed');
   }
@@ -119,5 +112,10 @@ router.post('/show', async (req, res) => {
   userData.card = null;
   res.status(200).send(userData);
 });
+router.post('/addCardData',async (req,res) => {
+
+})
+
+
 
 module.exports = router;
