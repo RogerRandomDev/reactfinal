@@ -24,11 +24,11 @@ function ProductDetailImageDisplay({alternateImages}) {
                 
                 <div className="relative md:hidden">
                   <img src={state.image} alt="Product" className="max-w-full rounded object-contain mx-auto md:mx-0 md:w-full aspect-video max-h-[30rem] md:max-h-[unset] md:object-contain md:h-full"/>
-                  <div className="absolute border-2 rounded cursor-pointer bg-[#eee] p-3 text-neutral-900 top-1/2 right-0 -translate-y-1/2">
-                    <BsChevronRight onClick={()=>dispatch({type:"RIGHT"})}/>
+                  <div onClick={()=>dispatch({type:"RIGHT"})} className="absolute border-2 rounded cursor-pointer bg-[#eee] p-3 text-neutral-900 top-1/2 right-0 -translate-y-1/2">
+                    <BsChevronRight/>
                   </div>
-                  <div className="absolute border-2 rounded cursor-pointer bg-[#eee] p-3 text-neutral-900 top-1/2 left-0 -translate-y-1/2">
-                    <BsChevronLeft onClick={()=>dispatch({type:"LEFT"})}/>
+                  <div onClick={()=>dispatch({type:"LEFT"})} className="absolute border-2 rounded cursor-pointer bg-[#eee] p-3 text-neutral-900 top-1/2 left-0 -translate-y-1/2">
+                    <BsChevronLeft/>
                   </div>
                 </div>
                 <div className="flex gap-2 justify-center mt-4 md:hidden">
