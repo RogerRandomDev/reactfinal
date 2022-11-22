@@ -31,7 +31,7 @@ function ProductDetailImageDisplay({alternateImages}) {
                     <BsChevronLeft onClick={()=>dispatch({type:"LEFT"})}/>
                   </div>
                 </div>
-                <div className="flex gap-2 justify-center mt-4">
+                <div className="flex gap-2 justify-center mt-4 md:hidden">
                   {new Array(alternateImages.length).fill().map((i,idx)=>{
                     return <div key={idx} className={`w-3 h-3 rounded-full bg-white ${idx==state.position ? "bg-opacity-100" : "bg-opacity-0"} transition border border-[#eee]`}></div>
                   })}
