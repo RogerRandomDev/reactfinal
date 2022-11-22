@@ -60,7 +60,7 @@ const purchaseProduct = async (buyerToken,productID)=> {
         destination:sellerData.card,
         _id:sellerData._id
     })
-    sendSMS(sellerData.contact,`User ${buyerData.name} has purchased ${productData.name}. Please Get the purchased product to them.`)
+    sendSMS(sellerData.contact,`User ${buyerData.name} has purchased ${productData.name}. Please navigate to the site and contact the buyer at location https://localhost:3000/profile?id=${buyerData._id}`)
     return {success:true,msg:'transaction complete'}
     }catch(e){
         return {success:false,msg:'transaction error',e}
