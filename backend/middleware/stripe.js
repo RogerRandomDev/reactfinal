@@ -3,6 +3,7 @@ const stripe = require('stripe')(process.env.STRIPE_KEY);
 const { decodeToken } = require('../controllers/auth');
 const {getProduct} = require('../controllers/Product');
 const { getUserByID } = require('../controllers/User');
+const { sendSMS } = require('./sms');
 const createAccount = async (accountData)=>{return await stripe.accounts.create({
     type: 'custom',
     country: 'US',
@@ -47,6 +48,7 @@ const purchaseProduct = async (buyerToken,productID)=> {
     const buyerData = await getUserByID(buyerID);
     const productData = await getProduct(productID);
     const sellerData = await getUserByID(productData.creatorID);
+    if(productData.cost<=0){return {success:true,msg:'free transaction complete'}}
     const charge = await createCharge({
         amount:productData.cost,
         id:buyerData.card,
@@ -58,7 +60,8 @@ const purchaseProduct = async (buyerToken,productID)=> {
         destination:sellerData.card,
         _id:sellerData._id
     })
-        return {success:true,msg:'transaction complete'}
+    sendSMS(sellerData.contact,`User ${buyerData.name} has purchased ${productData.name}. Please Get the purchased product to them.`)
+    return {success:true,msg:'transaction complete'}
     }catch(e){
         return {success:false,msg:'transaction error',e}
     }
