@@ -80,7 +80,7 @@ function ProductCard({ id, type = "favorite", image, title, price, location, lin
       }
       <a href={link} className="block relative">
         <div className="absolute inset-0 bg-[#121212] opacity-[0.2] hidden group-hover:block"></div>
-        <img src={image} alt={"Product"} className="rounded w-60 aspect-square" />
+        <img src={image} alt={"Product"} className="rounded w-60 aspect-square object-cover" />
       </a>
       <a className="font-semibold text-lg group-hover:underline hover:underline" href={link}>{title}</a>
       <h3 className="text-base">${price}</h3>

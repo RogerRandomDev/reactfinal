@@ -53,42 +53,42 @@ function ProductModifySection({state, dispatch, header, data}) {
         dispatch({type:"removeImages", payload:fileName});
     }
   return (
-    <div className="bg-[#3b69a2] rounded p-8 ">
+    <div className="bg-[#3b69a2] bg-opacity-40 rounded p-8 ">
         <h2 className='bg-slate-200 text-neutral-800 p-4 text-lg mb-6'>{header}</h2>
         <div className="flex flex-col justify-center gap-4">
         {data.map(({name, type, items=[]}, id)=>{
             if(type==="text"){
             return <div className="text-base text-neutral-800 bg-[" key={id}>
                 <p className='text-[#eee] font-semibold mb-2 text-sm'>{name}</p>
-                <input value={state.name} onChange={(e)=>dispatch({type:"name",payload:e.target.value})} type='text' className="border-2 rounded p-2"/>
+                <input value={state.name} onChange={(e)=>dispatch({type:"name",payload:e.target.value})} type='text' className="border-2 rounded p-2 bg-[#eee]"/>
             </div>
             }else if(type==="number"){
                     return <div className="text-base text-neutral-800" key={id}>
                 <p className='text-[#eee] font-semibold mb-2 text-sm'>{name}</p>
-                <input value={state.price} onChange={(e)=>dispatch({type:"price",payload:e.target.value})} type='number' className="border-2 rounded p-2"/>
+                <input value={state.price} onChange={(e)=>dispatch({type:"price",payload:e.target.value})} type='number' className="border-2 rounded p-2 bg-[#eee]"/>
             </div>
             }else if(type==="textarea"){
                 return <div className='text-base text-neutral-800' key={id}>
                 <p className='text-[#eee] font-semibold mb-2 text-sm'>{name}</p>
-                <textarea value={state.description} onChange={(e)=>dispatch({type:"description",payload:e.target.value})} name="" id="" className="border-2 rounded w-3/4 p-2"></textarea>
+                <textarea value={state.description} onChange={(e)=>dispatch({type:"description",payload:e.target.value})} name="" id="" className="border-2 rounded w-3/4 p-2 bg-[#eee]"></textarea>
                 </div>
             }else if(type==="limitedNumber"){
                 return <div className="text-base text-neutral-800" key={id}>
                  <p className='text-[#eee] font-semibold mb-2 text-sm'>{name} (%)</p>
-                <input value={state.discount} onChange={(e)=>dispatch({type:"discount",payload:e.target.value})} type="number" min={0} max={99} className="border-2 rounded p-2"/>
+                <input value={state.discount} onChange={(e)=>dispatch({type:"discount",payload:e.target.value})} type="number" min={0} max={99} className="border-2 rounded p-2 bg-[#eee]"/>
                 </div>
             }else if(type==="radio"){
                 return <div className="text-sm text-[#eee]" key={id}>
                     <p className='font-semibold mb-2'>{name}</p>
                     <div className="flex items-center gap-2">
-                    <input onChange={(e)=>dispatch({type:"status",payload:"Instock"})} type="radio" name="status" value={state.status} id="status-instock" checked={state.status==="Instock"}/>
+                    <input onChange={(e)=>dispatch({type:"status",payload:"Instock"})} type="radio" name="status" value={state.status} id="status-instock" checked={state.status!=="Unavailable"}/>
                     <label htmlFor="status-instock">Instock</label>
-                    <input onChange={(e)=>dispatch({type:"status",payload:"Unavailable"})} type="radio" name="status" value={state.status} id="status-unavailable" checked={state.status!=="Instock"}/>
+                    <input onChange={(e)=>dispatch({type:"status",payload:"Unavailable"})} type="radio" name="status" value={state.status} id="status-unavailable" checked={state.status==="Unavailable"}/>
                     <label htmlFor="status-unavailable">Unavailable</label>
                 </div></div>
             }else if(type==="image"){
                 return <div className="text-base" key={id}>
-                <label htmlFor="product-file" className='cursor-pointer flex flex-col justify-center items-center gap-2 border-2 border-dashed border-slate-300 py-10 hover:border-slate-500 transition'>
+                <label htmlFor="product-file" className='cursor-pointer flex flex-col justify-center items-center gap-2 border-2 border-dashed border-slate-400 py-10 hover:border-slate-200 transition'>
                     <BsCloudUpload className='text-slate-400 text-4xl'/>
                     <p className='text-2xl text-[#eee]'>Click Here to Add Files</p>   
                     </label>
@@ -102,7 +102,7 @@ function ProductModifySection({state, dispatch, header, data}) {
                 return <div key={id}>
                             <div className="flex gap-4 items-end">
                     <p className='text-base mb-2'>Name</p>
-                    <input ref={pro} type="text" placeholder='e.g. High Quality' className='border-2 rounded p-4 text-sm text-neutral-800'/>
+                    <input ref={pro} type="text" placeholder='e.g. High Quality' className='border-2 rounded p-4 text-sm text-neutral-800 bg-[#eee]'/>
                     <button onClick={(e)=>handleAddPro(e)} className='btn-primary w-20 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold text-lg mb-2'>Add</button>
                     </div>
                 <div className="flex flex-wrap mt-4 gap-2">
@@ -116,11 +116,11 @@ function ProductModifySection({state, dispatch, header, data}) {
                     <div className="flex items-start gap-4 flex-col sm:flex-row sm:items-end text-neutral-800">
                         <div className="">
                      <p className='text-base mb-2 text-[#eee]'>Name</p>
-                    <input ref={specificationName} type="text" placeholder='e.g. Size' className='border-2 rounded p-4 text-sm'/>
+                    <input ref={specificationName} type="text" placeholder='e.g. Size' className='border-2 rounded p-4 text-sm bg-[#eee]'/>
                     </div>
                     <div className="">
                      <p className='text-base mb-2 text-[#eee]'>Values</p>
-                    <input ref={specificationValue} type="text" placeholder='e.g. Small,Medium,Large' className='border-2 rounded p-4 text-sm'/>
+                    <input ref={specificationValue} type="text" placeholder='e.g. Small,Medium,Large' className='border-2 rounded p-4 text-sm bg-[#eee]'/>
                     </div>
                     <button onClick={(e)=>handleAddSpecification(e)} className='btn-primary w-20 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold text-lg mb-2'>Add</button>
                 </div>
