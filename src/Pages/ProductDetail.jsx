@@ -33,7 +33,7 @@ function ProductDetail() {
   },[loading]);
   return (
     (!loading && userData.success!==false) ? 
-    <div className="rounded p-8 grid bg-[#404959] text-[#eee] w-full grid-cols-1 md:gap-4 xl:grid-cols-[auto_auto] xl:justify-center xl:gap-48 items-start justify-items-center min-h-[calc(100vh_-_56px)]">
+    <div className="p-8 xl:p-16 grid bg-[#404959] text-[#eee] w-full grid-cols-1 md:gap-4 xl:grid-cols-[auto_auto] xl:justify-center xl:gap-48 items-start justify-items-center min-h-[calc(100vh_-_56px)]">
           <Link to={`/profile?id=${productData.creatorID}`} className="block xl:hidden">
       <div className="items-center gap-4 group cursor-pointer flex">
         <img src={"https://res.cloudinary.com/dztnsrrta/image/upload/"+userData.icon} alt="Profile Image" className="rounded-full w-16 h-16" />
