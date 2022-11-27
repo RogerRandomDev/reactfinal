@@ -12,6 +12,7 @@ import { Link } from "react-router-dom"
 export default function Navbar() {
     let [navHidden, setNavHidden] = useState(true);
     let [sideHidden, setSideHidden] = useState(true);
+
     const { state } = useContext(userContext);
     const navigate = useNavigate();
 
@@ -51,6 +52,10 @@ export default function Navbar() {
                     <FaWrench className="inline-block mr-1 mb-1" />
                     Add Products
                 </Link>
+                <Link to="/chat" className="text-left hover:bg-slate-400 text-2xl bg-none hover:text-gray-200 transition p-6">
+                    <AiFillCalendar className="inline-block mr-1 mb-1" />
+                    Messages
+                </Link>
                 <Link to="/about" className="text-left hover:bg-slate-400 text-2xl bg-none hover:text-gray-200 transition p-6">
                     <AiFillCalendar className="inline-block mr-1 mb-1" />
                     About Us
@@ -73,6 +78,7 @@ export default function Navbar() {
             <Link to="/products" className="hidden md:inline-block mr-5 bg-none text-gray-300 hover:text-gray-200 transition-colors">All Products</Link>
             <Link to="/addEdit" className="hidden md:inline-block mr-5 bg-none text-gray-300 hover:text-gray-200 transition-colors">Add Products</Link>
             <Link to="/about" className="hidden md:inline-block mr-5 bg-none text-gray-300 hover:text-gray-200 transition-colors">About Us</Link>
+            <Link to="/chat" className="hidden md:inline-block mr-5 bg-none text-gray-300 hover:text-gray-200 transition-colors">Messages</Link>
             {/* <Link to="/productdetail" className="hidden md:inline-block bg-none text-gray-300 hover:text-gray-200 transition-colors">Customer List</Link> */}
         </div>
         {/* dashboard, all products, add/edit product, customer list */}
@@ -82,7 +88,7 @@ export default function Navbar() {
             {
                 getLocal("user") ?
                     <button className="text-white block w-max ml-auto pl-4 mr-3 z-30" onClick={() => { setNavHidden(!navHidden) }}>
-                        <img src={"https://res.cloudinary.com/dztnsrrta/image/upload/" + state.user.icon} alt="Profile" className="w-10 h-10 inline-block place-self-center rounded-full mr-2" />
+                        <img src={"https://res.cloudinary.com/dztnsrrta/image/upload/" + state?.user?.icon} alt="Profile" className="w-10 h-10 inline-block place-self-center rounded-full mr-2" />
                         <p className="inline-block mr-1">
                             {state?.user?.username?.split(" ")[0] || "Guest"}
                         </p>

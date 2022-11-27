@@ -4,14 +4,12 @@ import ProductCard from "../Components/ProductCard"
 import ResponsiveGridDisplay from "../Components/ResponsiveGridDisplay"
 import SearchBar from "../Components/SearchBar"
 import { sendRequest } from "../Utils/requests"
-
 function Products() {
-
   const [products, setProducts] = useState({});
   const [loading, setLoading] = useState(true);
-
+  
   const [search, setSearch] = useState("");
-
+  
   useEffect(() => {
     sendRequest("product/all", "GET", {}).then(items => {
       let allProducts = JSON.parse(items);
