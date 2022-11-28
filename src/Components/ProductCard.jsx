@@ -5,6 +5,7 @@ import { MdEdit, MdDelete } from 'react-icons/md';
 import swal from "sweetalert";
 import { sendRequest } from "../Utils/requests";
 import { getLocal, storeLocal } from "../Utils/useLocalStorageAuth";
+import propTypes from 'prop-types'
 function ProductCard({ id, type = "favorite", image, title, price, location, link }) {
   const [favorited, setFavorited] = useState(false);
 
@@ -87,6 +88,15 @@ function ProductCard({ id, type = "favorite", image, title, price, location, lin
       <h3 className="text-sm text-slate-400">{location}</h3>
     </div>
   )
+}
+
+ProductCard.propTypes = {
+  id: propTypes.string,
+  image: propTypes.string,
+  title: propTypes.string,
+  price: propTypes.number,
+  location: propTypes.string,
+  link: propTypes.string
 }
 
 export default ProductCard

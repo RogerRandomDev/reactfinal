@@ -19,15 +19,15 @@ const ProductSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    required: true,
+    default: "Instock"
   },
   Location: {
     type: String,
-    default:'nowhere'
+    default: 'nowhere'
   },
   Tags: {
     type: Array,
-    default:[]
+    default: []
   },
   quantity: {
     type: Number,
@@ -41,13 +41,12 @@ const ProductSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  creatorID:{
-    type:String,
-    required:true
+  creatorID: {
+    type: String,
+    required: true
   },
-  discount:{
-    type:Number,
-    required:true,
+  discount: {
+    type: Number,
     default: 0
   }
 });
