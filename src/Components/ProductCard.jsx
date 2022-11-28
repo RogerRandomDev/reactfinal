@@ -57,7 +57,7 @@ function ProductCard({ id, type = "favorite", image, title, price, location, lin
   return (
     <div
       // onClick={(e)=>navigate("/productDetail")} 
-      className="flex flex-col justify-center gap-1 group cursor-pointer relative overflow-hidden">
+      className="flex flex-col justify-center gap-1 group cursor-pointer relative overflow-hidden mx-auto md:mx-0">
       {
         type === "favorite" ?
           <div className={`absolute top-4 left-4 text-2xl z-10 hover:scale-125 transition ${!favorited && "-translate-x-10"} group-hover:translate-x-0`}>

@@ -36,6 +36,10 @@ const UserSchema = mongoose.Schema({
   card:{
     type:String,
     default:''
+  },
+  contact:{
+    type:String,
+    default:''
   }
 });
 

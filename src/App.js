@@ -25,6 +25,7 @@ import NavBar from './Components/Navbar';
 import { Provider as FavoritesProvider } from './Context/favoritesContext';
 import { Provider } from './Context/userContext';
 import { useEffect } from 'react';
+import Chat from './Pages/Chat';
 
 const App = () => {
   // const [user, setUser] = useState('');
@@ -52,6 +53,7 @@ const App = () => {
               <Route path='/' element={<Products />} />
               <Route path='/home' element={<TotalRevenue />} />
               <Route path='/login' element={<LandingPage />} />
+              <Route path='/chat' element={<Chat />} />
               <Route path='/about' element={<AboutPage />} />
               <Route path='/about/terms' element={<TermsofService />} />
               <Route path='/about/privacy' element={<PrivacyPolicy />} />
