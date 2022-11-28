@@ -17,9 +17,9 @@ const TransactionSchema = mongoose.Schema({
     type:Number,
     required:true
   },
-  //don't be stupid, it only stored the last four digits
-  buyerDigits:{
-    type:Number,
+  //should be true if bought with card
+  purchaseMethod:{
+    type:Boolean,
     required:true
   },
   purchasePrice:{

@@ -1,4 +1,6 @@
 import React, {useState, useEffect, useReducer} from 'react'
+//swap over to ws WebSocket. I got the format for it already finished on backend for us.
+//shouldn't take much effort for us since they are similiar.
 import { io } from "socket.io-client";
 const socket = io('http://localhost:3001');
 function Chat() {

@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const {getUser,getUserByID,updateUserFavorites,createUser,buildUserData,} = require('../controllers/User');
 const { getLocation } = require('../middleware/geo');
+const {getReceiptsFor} = require("../controllers/transaction")
 const {login,logout,updateToken,checkToken,} = require('../controllers/auth');
 const { storeImage, moveFromTemp } = require('../middleware/images');
 const {sendConfirmationEmail,recieveConfirmationToken,} = require('../middleware/accountConfirmation');
@@ -112,8 +113,12 @@ router.post('/show', async (req, res) => {
   userData.card = null;
   res.status(200).send(userData);
 });
-router.post('/addCardData',async (req,res) => {
-
+//returns receipts of the user
+//includes sold items as well as bought items
+router.post("/getReceipts", async (req,res) => {
+  const { user,recieptPage} = JSON.parse(req.body)
+  const output = await getReceiptsFor(user,recieptPage)
+  res.send(output)
 })
 
 
