@@ -5,6 +5,7 @@ import ProductDetailInformation from "../Components/ProductDetailInformation"
 import { sendRequest } from "../Utils/requests";
 import { userContext } from "../Context/userContext";
 import { useContext } from "react";
+import {Link} from 'react-router-dom';
 function ProductDetail() {
   const [productData, setProductData] = useState({});
   const [userData, setUserData] = useState({});
@@ -32,9 +33,18 @@ function ProductDetail() {
   },[loading]);
   return (
     (!loading && userData.success!==false) ? 
-    <div className="rounded p-8 grid bg-neutral-100 w-full grid-cols-1 md:gap-12 xl:grid-cols-[auto_auto] xl:justify-center xl:gap-48 items-start justify-items-center">
-          <a href={`/profile?id=${productData.creatorID}`} className="text-sm font-normal no-underline text-purple-800 hover:text-purple-900 block md:hidden">{userData.username}</a>
-          <h2 className="text-neutral-900 text-2xl mb-6 mt-2 font-semibold w-max block md:hidden">{productData.name}</h2>
+    <div className="p-8 xl:p-16 grid bg-[#404959] text-[#eee] w-full grid-cols-1 md:gap-4 xl:grid-cols-[auto_auto] xl:justify-center xl:gap-48 items-start justify-items-center min-h-[calc(100vh_-_56px)]">
+          <Link to={`/profile?id=${productData.creatorID}`} className="block xl:hidden">
+      <div className="items-center gap-4 group cursor-pointer flex">
+        <img src={"https://res.cloudinary.com/dztnsrrta/image/upload/"+userData.icon} alt="Profile Image" className="rounded-full w-16 h-16" />
+        <div>
+        <div className="text-lg font-normal no-underline text-blue-400 hover:text-blue-600 group-hover:underline">{userData.username.charAt(0).toUpperCase() + userData.username.slice(1)}</div>
+        <p className="text-[#eee] text-sm">Member Since {userData.joinDate}</p>
+        </div>
+      </div>
+      </Link>
+        <div className="my-8 border h-[1px] w-1/2 mx-auto block xl:hidden"></div>
+          <h2 className="text-3xl mb-6 mt-2 font-semibold w-max block md:hidden">{productData.name}</h2>
             <ProductDetailImageDisplay alternateImages={productData.images.map(i=>"https://res.cloudinary.com/dztnsrrta/image/upload/"+i)}/>
             <ProductDetailInformation creatorID={productData.creatorID} pros={productData.pros} status={productData.status} company={userData.username} image={"https://res.cloudinary.com/dztnsrrta/image/upload/"+userData.icon} memberSince={userData.joinDate} title={productData.name} reviewsCount={0} price={productData.price} discount={productData.discount/100} description={productData.description}/>
     </div>

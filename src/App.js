@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// useCallback, propType
+// back, propType
 import {
   BrowserRouter as Router,
   Routes as Switch,
@@ -25,6 +25,7 @@ import NavBar from './Components/Navbar';
 import { Provider as FavoritesProvider } from './Context/favoritesContext';
 import { Provider } from './Context/userContext';
 import { useEffect } from 'react';
+import Chat from './Pages/Chat';
 
 const App = () => {
   // const [user, setUser] = useState('');
@@ -44,112 +45,113 @@ const App = () => {
 
   return (
     <FavoritesProvider>
-    <Provider>
-      <div className='App mt-14'>
-        <Router>
-          <NavBar />
-          <Switch>
-            <Route path='/' element={<Products />} />
-            <Route path='/home' element={<TotalRevenue />} />
-            <Route path='/login' element={<LandingPage />} />
-            <Route path='/about' element={<AboutPage />} />
-            <Route path='/about/terms' element={<TermsofService />} />
-            <Route path='/about/privacy' element={<PrivacyPolicy />} />
-            <Route
-              path='/test'
-              element={
-                <div className='flex gap-8'>
-                  <DataOverview
-                    fadedAccentColor='rgba(102, 88, 221, 0.25)'
-                    accentColor='#6658dd'
-                    Icon={FaRegHeart}
-                    data='$58,947'
-                    description='Total Revenue'
-                  />
-                  <DataOverview
-                    fadedAccentColor='rgba(102, 88, 221, 0.25)'
-                    accentColor='#6658dd'
-                    Icon={FaRegHeart}
-                    data='$58,947'
-                    description='Total Revenue'
-                  />
-                  <DataOverview
-                    fadedAccentColor='rgba(102, 88, 221, 0.25)'
-                    accentColor='#6658dd'
-                    Icon={FaRegHeart}
-                    data='$58,947'
-                    description='Total Revenue'
-                  />
-                  <DataOverview
-                    fadedAccentColor='rgba(102, 88, 221, 0.25)'
-                    accentColor='#6658dd'
-                    Icon={FaRegHeart}
-                    data='$58,947'
-                    description='Total Revenue'
-                  />
-                </div>
-              }
-            />
-            <Route path='/test2' element={<SalesAnalytics />} />
+      <Provider>
+        <div className='App pt-14'>
+          <Router>
+            <NavBar />
+            <Switch>
+              <Route path='/' element={<Products />} />
+              <Route path='/home' element={<TotalRevenue />} />
+              <Route path='/login' element={<LandingPage />} />
+              <Route path='/chat' element={<Chat />} />
+              <Route path='/about' element={<AboutPage />} />
+              <Route path='/about/terms' element={<TermsofService />} />
+              <Route path='/about/privacy' element={<PrivacyPolicy />} />
+              <Route
+                path='/test'
+                element={
+                  <div className='flex gap-8'>
+                    <DataOverview
+                      fadedAccentColor='rgba(102, 88, 221, 0.25)'
+                      accentColor='#6658dd'
+                      Icon={FaRegHeart}
+                      data='$58,947'
+                      description='Total Revenue'
+                    />
+                    <DataOverview
+                      fadedAccentColor='rgba(102, 88, 221, 0.25)'
+                      accentColor='#6658dd'
+                      Icon={FaRegHeart}
+                      data='$58,947'
+                      description='Total Revenue'
+                    />
+                    <DataOverview
+                      fadedAccentColor='rgba(102, 88, 221, 0.25)'
+                      accentColor='#6658dd'
+                      Icon={FaRegHeart}
+                      data='$58,947'
+                      description='Total Revenue'
+                    />
+                    <DataOverview
+                      fadedAccentColor='rgba(102, 88, 221, 0.25)'
+                      accentColor='#6658dd'
+                      Icon={FaRegHeart}
+                      data='$58,947'
+                      description='Total Revenue'
+                    />
+                  </div>
+                }
+              />
+              <Route path='/test2' element={<SalesAnalytics />} />
 
-            <Route
-              path='/test3'
-              element={
-                <Table
-                  title='Recent Purchases'
-                  type='Small'
-                  th={['Profile', 'Date', 'Items', 'Amount']}
-                  data={[
-                    {
-                      profile: 'Tomaslau',
-                      date: new Date().toDateString(),
-                      items: ['Nike Shoes', 'Adidas Pants'],
-                      amount: '$134.99',
-                    },
-                    {
-                      profile: 'Tomaslau',
-                      date: new Date().toDateString(),
-                      items: ['Nike Shoes', 'Adidas Pants'],
-                      amount: '$134.99',
-                    },
-                    {
-                      profile: 'Tomaslau',
-                      date: new Date().toDateString(),
-                      items: ['Nike Shoes', 'Adidas Pants'],
-                      amount: '$134.99',
-                    },
-                    {
-                      profile: 'Tomaslau',
-                      date: new Date().toDateString(),
-                      items: ['Nike Shoes', 'Adidas Pants'],
-                      amount: '$134.99',
-                    },
-                    {
-                      profile: 'Tomaslau',
-                      date: new Date().toDateString(),
-                      items: ['Nike Shoes', 'Adidas Pants'],
-                      amount: '$134.99',
-                    },
-                  ]}
-                />
-              }
-            />
-            <Route exact path='/productDetail' element={<ProductDetail />} />
+              <Route
+                path='/test3'
+                element={
+                  <Table
+                    title='Recent Purchases'
+                    type='Small'
+                    th={['Profile', 'Date', 'Items', 'Amount']}
+                    data={[
+                      {
+                        profile: 'Tomaslau',
+                        date: new Date().toDateString(),
+                        items: ['Nike Shoes', 'Adidas Pants'],
+                        amount: '$134.99',
+                      },
+                      {
+                        profile: 'Tomaslau',
+                        date: new Date().toDateString(),
+                        items: ['Nike Shoes', 'Adidas Pants'],
+                        amount: '$134.99',
+                      },
+                      {
+                        profile: 'Tomaslau',
+                        date: new Date().toDateString(),
+                        items: ['Nike Shoes', 'Adidas Pants'],
+                        amount: '$134.99',
+                      },
+                      {
+                        profile: 'Tomaslau',
+                        date: new Date().toDateString(),
+                        items: ['Nike Shoes', 'Adidas Pants'],
+                        amount: '$134.99',
+                      },
+                      {
+                        profile: 'Tomaslau',
+                        date: new Date().toDateString(),
+                        items: ['Nike Shoes', 'Adidas Pants'],
+                        amount: '$134.99',
+                      },
+                    ]}
+                  />
+                }
+              />
+              <Route exact path='/productDetail' element={<ProductDetail />} />
 
-            <Route path='/addEdit' element={<AddEditProduct />} />
-            <Route path='/customers' element={<Customers />}></Route>
-            <Route path='/profile' element={<Profile />}></Route>
-            <Route path='/products' element={<Products />}></Route>
-          </Switch>
-        </Router>
-        {/* <div className='flex gap-8'>
+              <Route path='/addEdit' element={<AddEditProduct />} />
+              <Route path='/customers' element={<Customers />}></Route>
+              <Route path='/profile' element={<Profile />}></Route>
+              <Route path='/products' element={<Products />}></Route>
+            </Switch>
+          </Router>
+          {/* <div className='flex gap-8'>
         <DataOverview fadedAccentColor="rgba(102, 88, 221, 0.25)" accentColor="rgb(102, 88, 221)" Icon={FaRegHeart} data="$58,947" description="Total Revenue"/>
         <DataOverview fadedAccentColor="rgba(102, 88, 221, 0.25)" accentColor="rgb(102, 88, 221)" Icon={FaRegHeart} data="$58,947" description="Total Revenue"/>
         <DataOverview fadedAccentColor="rgba(102, 88, 221, 0.25)" accentColor="rgb(102, 88, 221)" Icon={FaRegHeart} data="$58,947" description="Total Revenue"/>
         <DataOverview fadedAccentColor="rgba(102, 88, 221, 0.25)" accentColor="rgb(102, 88, 221)" Icon={FaRegHeart} data="$58,947" description="Total Revenue"/>
       </div> */}
-      </div>
-    </Provider>
+        </div>
+      </Provider>
     </FavoritesProvider>
   );
 };

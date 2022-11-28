@@ -33,9 +33,9 @@ function LandingPage({ updateContext }) {
       userSelect.current.classList.remove("opacity-60");
 
       if (state.isSignUp) {
-        hero.current.classList.remove("md:-translate-x-[233.3%]")
+        hero.current.classList.remove("md:-translate-x-[100%]", "lg:-translate-x-[233.3%]")
         hero.current.classList.add("md:translate-x-[0%]")
-        landingSignup.current.classList.remove("md:-translate-x-[233.3%]")
+        landingSignup.current.classList.remove("md:-translate-x-[100%]", "lg:-translate-x-[233.3%]")
         landingSignup.current.classList.add("md:translate-x-[0%]")
         businessInfoSlider.current.classList.remove("md:-translate-x-[100%]")
         businessInfoSlider.current.classList.add("md:translate-x-[0%]")
@@ -57,9 +57,9 @@ function LandingPage({ updateContext }) {
         businessInfoSlider.current.scrollIntoView({ behavior: "smooth" })
       };
       if (state.isSignUp) {
-        hero.current.classList.add("md:-translate-x-[233.3%]")
+        hero.current.classList.add("md:-translate-x-[100%]", "lg:-translate-x-[233.3%]")
         hero.current.classList.remove("md:translate-x-[0%]")
-        landingSignup.current.classList.add("md:-translate-x-[233.3%]")
+        landingSignup.current.classList.add("md:-translate-x-[100%]", "lg:-translate-x-[233.3%]")
         landingSignup.current.classList.remove("md:translate-x-[0%]")
         businessInfoSlider.current.classList.add("md:-translate-x-[100%]")
         businessInfoSlider.current.classList.remove("md:translate-x-[0%]")
@@ -69,10 +69,10 @@ function LandingPage({ updateContext }) {
     }
     if (action.type === "changeSignUp") {
       if (!state.isSignUp && state.userType === "business") {
-        hero.current.classList.add("md:-translate-x-[233.3%]")
+        hero.current.classList.add("md:-translate-x-[100%]", "lg:-translate-x-[233.3%]")
         hero.current.classList.remove("md:translate-x-[0%]")
 
-        landingSignup.current.classList.add("md:-translate-x-[233.3%]")
+        landingSignup.current.classList.add("md:-translate-x-[100%]", "lg:-translate-x-[233.3%]")
         landingSignup.current.classList.remove("md:translate-x-[0%]")
 
         businessInfoSlider.current.classList.add("md:-translate-x-[100%]")
@@ -82,13 +82,13 @@ function LandingPage({ updateContext }) {
 
         mover.current.classList.remove("overflow-y-hidden")
       } else {
-        hero.current.classList.remove("md:-translate-x-[233.3%]")
+        hero.current.classList.remove("md:-translate-x-[100%]", "lg:-translate-x-[233.3%]")
         hero.current.classList.remove("md:translate-x-[0%]")
 
-        landingSignup.current.classList.remove("md:-translate-x-[233.3%]")
+        landingSignup.current.classList.remove("md:-translate-x-[100%]", "lg:-translate-x-[233.3%]")
         landingSignup.current.classList.remove("md:translate-x-[0%]")
 
-        businessInfoSlider.current.classList.remove("md:-translate-x-[100%]")
+        businessInfoSlider.current.classList.remove("md:-translate-x-[100%]", "lg:-translate-x-[233.3%]")
         businessInfoSlider.current.classList.remove("md:translate-x-[0%]")
 
         hero.current.scrollIntoView({ behavior: "smooth" })
@@ -198,65 +198,9 @@ function LandingPage({ updateContext }) {
     }
   }
 
-
-  // return (
-  //   <section ref={section} className="overflow-hidden">
-  //     <div className="flex h-screen -mt-14 relative transition delay-200 duration-[600ms] ease-in-out" ref={mover}>
-
-  //       <div ref={hero} className="w-[70%] text-center flex flex-col justify-center">
-  //         <img src={require("../assets/testingsvg.PNG")} className="max-w-full object-cover w-9/12 mx-auto mb-4"alt="" />
-  //         <h2 className='text-4xl font-semibold mb-4 text-blue-900'>Software Analytics and Marketing Statistics</h2>
-  //         <p className='text-slate-400'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, est. Lorem, ipsum. <br/>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
-  //       </div>
-  //       <div ref={landingSignup} className="relative landing__signup w-[30%] bg-blue-900 flex flex-col items-center justify-between py-24 px-12 text-center text-neutral-100 border-r border-blue-900">
-  //         <div ref={businessInfoSlider} className="absolute top-0 left-full h-screen w-[70.1vw] bg-blue-900 flex flex-col items-center justify-center gap-10">
-  //         <div className="business-logo flex flex-col items-center justify-center">
-  //         <h2 className='text-3xl font-semibold mb-8'>Business Logo</h2>
-  //         <input type="file" name="Image Upload" id="" onChange={async (e)=>{
-  //           var fr=new FileReader();
-  //           fr.onload=((f)=>{
-  //             dispatch({type:"businessLogo",payload:f.target.result});
-  //           });
-  //           fr.readAsDataURL(e.target.files[0]);
-  //         }
-  //       }
-  //           })
-  //         }
-  //       });
-  //       console.log(newUserData);
-  //     } else {
-  //       alert("passwords dont match");
-  //     }
-  //   } else {
-  //     console.log("Sending Login from frontend");
-  //     let data = await sendRequest("user/Login", "POST", {
-  //       body: {
-  //         email: state.email,
-  //         password: state.password
-  //       }
-  //     });
-  //     data = JSON.parse(data);
-  //     console.log("🚀 ~ file: LandingPage.jsx ~ line 144 ~ handleSubmit ~ data", data)
-  //     if (data.success === false) return;
-  //     console.log(data._id);
-  //     await storeLocal("token", data.token);
-
-  //     let userData = await sendRequest("user/show", "POST", {
-  //       body: {
-  //         "user": data._id
-  //       }
-  //     });
-  //     // send to localstorage
-  //     storeLocal("user", userData);
-
-  //     dispatch({ type: "REFRESH_DATA", payload: userData });
-  //     navigate("/profile");
-  //   }
-  // }
-
   return (
     <section ref={section} className="">
-      <div ref={mover} className="overflow-y-hidden md:overflow-x-hidden md:grid h-screen grid-cols-[70%_30%_70%] -mt-14 relative delay-200 duration-[600ms] ease-in-out md:translate-x-[0%]">
+      <div ref={mover} className="overflow-y-hidden md:overflow-x-hidden md:grid h-screen md:grid-cols-[50%_50%_50%] lg:md:grid-cols-[70%_30%_70%] -mt-14 relative delay-200 duration-[600ms] ease-in-out md:translate-x-[0%]">
 
         <div ref={hero} className="h-full pt-6 transition duration-300 hidden p-1 w-full text-center md:flex flex-col justify-center md:mt-0 md:mb-0 ">
           <img src={require("../assets/testingsvg.PNG")} className="object-cover mx-auto w-3/4" alt="" />

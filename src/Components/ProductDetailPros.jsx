@@ -7,7 +7,7 @@ function ProductDetailPros({data}) {
     {data.map(({val},id)=>{
        return <div className="flex gap-4 items-center" key={id}>
             <FiCheckCircle className='text-purple-400 w-4 h-4 flex-shrink-0'/>
-            <p className='text-slate-400'>{val}</p>
+            <p className='text-[#eee] font-normal'>{val}</p>
         </div>
     })}
     </div>

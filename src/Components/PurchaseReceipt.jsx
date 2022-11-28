@@ -1,12 +1,12 @@
 // MOST CREDIT FOR THIS HTML AND CSS GOES TO https://github.com/sparksuite/simple-html-invoice-template/blob/master/invoice.html
 // import {useState} from 'react';
-function PurchaseReceipt({buyer, seller, logo, date, items, location, email}) {
-    let totalPrice = 0;
-  return (
-    <>
-    <style>{`
+function PurchaseReceipt({ buyer, seller, logo, date, items, location, email }) {
+	let totalPrice = 0;
+	return (
+		<>
+			<style>{`
 			.invoice-box {
-				padding: 30px;
+				padding: 10px;
 				border: 1px solid #eee;
 				box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 				font-size: 16px;
@@ -22,7 +22,7 @@ function PurchaseReceipt({buyer, seller, logo, date, items, location, email}) {
 			}
 
 			.invoice-box table td {
-				padding: 5px;
+				padding: 2px;
 				vertical-align: top;
 			}
 
@@ -70,65 +70,65 @@ function PurchaseReceipt({buyer, seller, logo, date, items, location, email}) {
 			}
 
 		`}</style>
-    <div className="invoice-box w-[25rem] flex-shrink-0 bg-[#eee] rounded-lg" >
-			<div className="flex justify-between items-center w-full mb-6">
-								<div className="">
-									<img src={logo} alt="Logo" className="w-20 h-20 rounded-full"/>
-								</div>
-
-								<div>
-									<p className="">Date: {date}</p>
-								</div>
-                                </div>
-
+			<div className="invoice-box w-full md:w-[25rem] h-full flex-shrink-0 bg-[#eee] rounded-lg" >
 				<div className="flex justify-between items-center w-full mb-6">
+					<div className="">
+						<img src={logo} alt="Logo" className="w-20 h-20 rounded-full" />
+					</div>
 
-								<div>
-									<p className='mb-1'>{seller}</p>
-									<p>{location}</p>
-								</div>
-								<div>
-									<p className='mb-1'>{buyer}</p>
-									<p>{email}</p>
-								</div>
+					<div>
+						<p className="pl-2">Date: {date}</p>
+					</div>
+				</div>
+
+				<div className="flex justify-between items-center w-full mb-6 gap-x-4">
+
+					<div>
+						<p className='mb-1'>{seller}</p>
+						<p>{location}</p>
+					</div>
+					<div>
+						<p className='mb-1'>{buyer}</p>
+						<p>{email}</p>
+					</div>
 
 				</div>
-<table cellPadding="0" cellSpacing="0">
-                <tbody>
-				<tr className="heading">
-					<td>Payment Method</td>
-                    <td></td>
-					<td>Validated</td>
-				</tr>
+				<table cellPadding="0" cellSpacing="0">
+					<tbody>
+						<tr className="heading">
+							<td>Payment Method</td>
+							<td></td>
+							<td>Validated</td>
+						</tr>
 
-				<tr className="details">
-					<td>Card</td>
-                    <td></td>
-					<td>True</td>
-				</tr>
+						<tr className="details">
+							<td>Card</td>
+							<td></td>
+							<td>True</td>
+						</tr>
 
-				<tr className="bg-[#eee] font-bold border-b">
-					<td>Item</td>
-                    <td>Quantity</td>
-					<td>Price</td>
-				</tr>
-                {items.map((item,id)=>{
-                    totalPrice+=parseInt(item.cost);
-                    return <tr key={id}>
-                        <td>{item.name}</td>
-                        <td>{item.quantity}</td>
-                        <td>${item.cost}</td>
-                    </tr>
-                })}
+						<tr className="bg-[#eee] font-bold border-b">
+							<td>Item</td>
+							<td>Quantity</td>
+							<td>Price</td>
+						</tr>
+						{items.map((item, id) => {
+							totalPrice += parseInt(item.cost);
+							return <tr key={id}>
+								<td>{item.name}</td>
+								<td>{item.quantity}</td>
+								<td>${item.cost}</td>
+							</tr>
+						})}
 
-                </tbody>
-			</table>
+					</tbody>
+				</table>
 				<div className="text-center mt-4">
 					<p className='font-bold'>Total: ${totalPrice}</p>
-                    </div>
-		</div>
-        </>
-  )
+				</div>
+			</div>
+		</>
+	)
 }
 
 export default PurchaseReceipt

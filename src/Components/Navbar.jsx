@@ -12,6 +12,7 @@ import { Link } from "react-router-dom"
 export default function Navbar() {
     let [navHidden, setNavHidden] = useState(true);
     let [sideHidden, setSideHidden] = useState(true);
+
     const { state } = useContext(userContext);
     const navigate = useNavigate();
 
@@ -20,7 +21,7 @@ export default function Navbar() {
         navigate("/login");
     };
 
-    return state.user && <div className="bg-gray-700 flex items-center px-5 py-2 z-50 justify-between w-full fixed top-0 left-0 right-0">
+    return <div className="bg-gray-700 flex items-center px-5 py-2 z-50 justify-between w-full fixed top-0 left-0 right-0">
         <div className="float-left flex align-middle h-full flex-1 md:flex-5">
             <Link className="w-14 md:w-24 grid mr-2 h-full" to="/products">
                 <Desktopsvg className="hidden md:inline-block" />
@@ -51,6 +52,10 @@ export default function Navbar() {
                     <FaWrench className="inline-block mr-1 mb-1" />
                     Add Products
                 </Link>
+                <Link to="/chat" className="text-left hover:bg-slate-400 text-2xl bg-none hover:text-gray-200 transition p-6">
+                    <AiFillCalendar className="inline-block mr-1 mb-1" />
+                    Messages
+                </Link>
                 <Link to="/about" className="text-left hover:bg-slate-400 text-2xl bg-none hover:text-gray-200 transition p-6">
                     <AiFillCalendar className="inline-block mr-1 mb-1" />
                     About Us
@@ -73,46 +78,47 @@ export default function Navbar() {
             <Link to="/products" className="hidden md:inline-block mr-5 bg-none text-gray-300 hover:text-gray-200 transition-colors">All Products</Link>
             <Link to="/addEdit" className="hidden md:inline-block mr-5 bg-none text-gray-300 hover:text-gray-200 transition-colors">Add Products</Link>
             <Link to="/about" className="hidden md:inline-block mr-5 bg-none text-gray-300 hover:text-gray-200 transition-colors">About Us</Link>
+            <Link to="/chat" className="hidden md:inline-block mr-5 bg-none text-gray-300 hover:text-gray-200 transition-colors">Messages</Link>
             {/* <Link to="/productdetail" className="hidden md:inline-block bg-none text-gray-300 hover:text-gray-200 transition-colors">Customer List</Link> */}
         </div>
         {/* dashboard, all products, add/edit product, customer list */}
         {/* profile button with My account, settings, and logout */}
         {/* profile thing on right hidden on mobile and put on three dots instead */}
         <ol className="relative hidden md:inline-block h-full ml-auto md:ml-0 list-none flex-1 md:flex-5">
-        {
-            getLocal("user") ? 
-            <button className="text-white block w-max ml-auto pl-4 mr-3 z-30" onClick={() => { setNavHidden(!navHidden) }}>
-                <img src={"https://res.cloudinary.com/dztnsrrta/image/upload/"+state.user.icon} alt="Profile" className="w-10 h-10 inline-block place-self-center rounded-full mr-2" />
-                <p className="inline-block mr-1">
-                    {state.user.username.split(" ")[0] || "Guest"}
-                </p>
-                <IoMdArrowDropdown className={`inline-block ${navHidden && "rotate-180"} transition-transform duration-[600ms]`} />
-                <div className={`z-20 absolute top-[1.75rem] -right-5 bg-gray-700 w-40 ${navHidden ? "h-0 p-0" : "h-[8.5rem]"} rounded-b translate-y-5 overflow-hidden flex flex-col gap-y-1 items-center -bottom-50`} style={{ transition: "all 0.6s cubic-bezier(0.75, 0, 0.25, 1)" }}>
+            {
+                getLocal("user") ?
+                    <button className="text-white block w-max ml-auto pl-4 mr-3 z-30" onClick={() => { setNavHidden(!navHidden) }}>
+                        <img src={"https://res.cloudinary.com/dztnsrrta/image/upload/" + state?.user?.icon} alt="Profile" className="w-10 h-10 inline-block place-self-center rounded-full mr-2" />
+                        <p className="inline-block mr-1">
+                            {state.user.username.split(" ")[0] || "Guest"}
+                        </p>
+                        <IoMdArrowDropdown className={`inline-block ${navHidden && "rotate-180"} transition-transform duration-[600ms]`} />
+                        <div className={`z-20 absolute top-[1.75rem] -right-5 bg-gray-700 w-40 ${navHidden ? "h-0 p-0" : "h-[8.5rem]"} rounded-b translate-y-5 overflow-hidden flex flex-col gap-y-1 items-center -bottom-50`} style={{ transition: "all 0.6s cubic-bezier(0.75, 0, 0.25, 1)" }}>
 
-                    <Link to="/profile" className="hover:bg-slate-400 w-full py-2 transition">
-                        <div className="text-center px-4 w-full">
-                            <BsPerson className="inline-block m-auto mr-1" />
-                            My Account
+                            <Link to="/profile" className="hover:bg-slate-400 w-full py-2 transition">
+                                <div className="text-center px-4 w-full">
+                                    <BsPerson className="inline-block m-auto mr-1" />
+                                    My Account
+                                </div>
+                            </Link>
+                            <Link to="/home" className="hover:bg-slate-400 w-full py-2 transition">
+                                <div className="text-center px-4 w-full">
+                                    <BsGearFill className="inline-block m-auto mr-1" />
+                                    Settings
+                                </div>
+                            </Link>
+                            <Link to="/login" className="hover:bg-slate-400 w-full transition py-2">
+                                <div className="px-4 w-full" onClick={() => handleLogOut()} >
+                                    <AiOutlineUnlock className="inline-block m-auto mr-1" />
+                                    Log Out
+                                </div>
+                            </Link>
                         </div>
-                    </Link>
-                    <Link to="/home" className="hover:bg-slate-400 w-full py-2 transition">
-                        <div className="text-center px-4 w-full">
-                            <BsGearFill className="inline-block m-auto mr-1" />
-                            Settings
-                        </div>
-                    </Link>
-                    <Link to="/login" className="hover:bg-slate-400 w-full transition py-2">
-                        <div className="px-4 w-full" onClick={()=>handleLogOut()} >
-                            <AiOutlineUnlock className="inline-block m-auto mr-1" />
-                            Log Out
-                        </div>
-                    </Link>
-                </div>
 
-            </button>
-        :
-        <Link to="/login" className="text-gray-300 block w-max ml-auto pl-4 mr-3 z-30 hover:underline">Login / Sign Up</Link>
-}
+                    </button>
+                    :
+                    <Link to="/login" className="text-gray-300 block w-max ml-auto pl-4 mr-3 z-30 hover:underline">Login / Sign Up</Link>
+            }
         </ol>
     </div>
 }

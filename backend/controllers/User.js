@@ -13,6 +13,7 @@ const getUser = async (userEmail) => {
   let output = null;
   try {
     await connectDB(process.env.MONGO_URI);
+    
     output = await UserModel.findOne({ email: userEmail });
   } catch (err) {
     console.log(err);

@@ -12,7 +12,7 @@ import useGetUserProducts from '../hooks/useGetUserProducts';
 import ProductCardSkeleton from '../Components/Skeletons/ProductCardSkeleton';
 import { getLocal } from '../Utils/useLocalStorageAuth';
 function Profile() {
-  const {state} = useContext(userContext);
+  const { state } = useContext(userContext);
   const [loading, setLoading] = useState(true);
   const [userProducts, setUserProducts] = useState([]);
   const [userData, setUserData] = useState(null);
@@ -21,64 +21,77 @@ function Profile() {
 
   // const userProducts = useGetUserProducts(state.user._id);
   useEffect(() => {
-    if(localStorage.getItem("user")){
-    setLoading(true);
-    let userID = window.location.search.substring(4);
-    if(userID.length > 10 && userID != JSON.parse(localStorage.getItem("user"))._id){
-      sendRequest("user/show","POST",{
-    body:{
-      "user":userID
-    }
-   }).then(res=>{
-    //  console.log(JSON.parse(res));
-     setUserData(JSON.parse(res));
-    //  console.log(userData);
-    })
-  }else{
-    // console.log("40--",state);
-    setUserData(state.user);
-    // console.log("42-------",userData);
-  }
-    sendRequest('product/showUser', 'POST', {
-      body: {
-        userID: (userID.length < 10 ? JSON.parse(getLocal("user"))._id : userID),
-      },
-    }).then(products => {
-      setUserProducts(JSON.parse(String(products)).products);
-      setLoading(false);
-    });
-    sendRequest("product/favoritedProducts", 'POST', {
-      body:{
-        favorites: JSON.parse(getLocal("user")).favorites
+    if (localStorage.getItem("user")) {
+      setLoading(true);
+      let userID = window.location.search.substring(4);
+      if (userID.length > 10 && userID != JSON.parse(localStorage.getItem("user"))._id) {
+        sendRequest("user/show", "POST", {
+          body: {
+            "user": userID
+          }
+        }).then(res => {
+          //  console.log(JSON.parse(res));
+          setUserData(JSON.parse(res));
+          //  console.log(userData);
+        })
+      } else {
+        // console.log("40--",state);
+        setUserData(state.user);
+        // console.log("42-------",userData);
       }
-    }).then(favorites=>{
-      setUserFavorites(JSON.parse(favorites));
-    })
-  }
+      sendRequest('product/showUser', 'POST', {
+        body: {
+          userID: (userID.length < 10 ? JSON.parse(getLocal("user"))._id : userID),
+        },
+      }).then(products => {
+        setUserProducts(JSON.parse(String(products)).products);
+        setLoading(false);
+      });
+      sendRequest("product/favoritedProducts", 'POST', {
+        body: {
+          favorites: JSON.parse(getLocal("user")).favorites
+        },
+      });
+      sendRequest('product/showUser', 'POST', {
+        body: {
+          userID: (userID.length < 10 ? state.user._id : userID),
+        },
+      }).then(products => {
+        setUserProducts(JSON.parse(String(products)).products);
+        setLoading(false);
+      });
+      sendRequest("product/favoritedProducts", 'POST', {
+        body: {
+          favorites: JSON.parse(getLocal("user")).favorites
+        }
+      }).then(favorites => {
+        setUserFavorites(JSON.parse(favorites));
+      })
+    }
 
   }, []);
 
   return (
-    (!loading && userData != null) && 
-    <div className="flex flex-col gap-12 py-8 px-20 bg-[#404959] text-[#eee]">
+    (!loading && userData !== null) &&
+    <div className="w-full flex flex-col gap-12 py-8 px-6 bg-[#404959] text-[#eee]">
       <div className="flex gap-12 items-center flex-col xl:flex-row">
         {/* <ProfileInfoCard image={"https://picsum.photos/400"} username={context.username} joinDate={context.joinDate} location={`${context.Location[0]}, ${context.Location[1]}`} rating={0} ratingCount={0} bought={0} sold={0}/> */}
-        <ProfileInfoCard image={"https://res.cloudinary.com/dztnsrrta/image/upload/"+userData.icon} username={userData.username} joinDate={userData.joinDate} location={userData.Location[0]} rating={5} ratingCount={0} bought={0} sold={0} />
+        <ProfileInfoCard image={"https://res.cloudinary.com/dztnsrrta/image/upload/" + userData.icon} username={userData.username} joinDate={userData.joinDate} location={userData.Location[0]} rating={5} ratingCount={0} bought={0} sold={0} />
         {/* Favorited items must come from database, so props are just placeholders for now */}
-        <div className="xl:border-l pl-20 xl:pl-12 w-[90vw] ml-0 xl:mx-4">
+        <div className="xl:border-l w-full ml-0 xl:mx-4">
           <RowDisplay title={"Favorited Items"}>
-            {userFavorites.length > 0 
-            ? 
-            userFavorites.map((data,idx)=>{
-              return <ProductCard type={"favorite"} key={idx} image={basePath + data.images[0]} title={data.name} price={data.price} location={data.Location} id={data._id} link={`/productDetail?id=${data._id}`} />
-            })
-            : 
-            <p>No Favorited Items</p>
-          }
+            {userFavorites.length > 0
+              ?
+              userFavorites.map((data, idx) => {
+                return <ProductCard type={"favorite"} key={idx} image={basePath + data.images[0]} title={data.name} price={data.price} location={data.Location} id={data._id} link={`/productDetail?id=${data._id}`} />
+              })
+              :
+              <p className="pl-3">No Favorited Items</p>
+            }
           </RowDisplay>
         </div>
       </div>
-      <div className="xl:px-20">
+      <div className="px-0 xl:px-20">
         <ResponsiveGridDisplay title={"Items From This Seller"}>
           {/* {new Array(25).fill().map((_,idx)=>{
             return <ProductCard key={idx} image={`https://picsum.photos/400?random=${idx+6}`} title={"Xbox Gaming Controller"} price={50} location={"Salt Lake City, UT"} link={"#"}/>
@@ -88,7 +101,7 @@ function Profile() {
               (userProducts.length > 0 ? (userProducts.map((data, idx) => {
                 let search = window.location.search.substring(4);
                 let userID = JSON.parse(localStorage.getItem("user"))._id;
-                return <ProductCard type={search.length > 10 && search != userID  ? "favorite" : "edit"} key={idx} image={basePath + data.images[0]} title={data.name} price={data.price} location={data.Location} id={data._id} link={`/productDetail?id=${data._id}`} />
+                return <ProductCard type={search.length > 10 && search != userID ? "favorite" : "edit"} key={idx} image={basePath + data.images[0]} title={data.name} price={data.price} location={data.Location} id={data._id} link={`/productDetail?id=${data._id}`} />
               })) : <div>No Products!</div>)
               :
               <ProductCardSkeleton amount={5} />)

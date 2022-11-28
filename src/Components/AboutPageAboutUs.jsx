@@ -1,7 +1,7 @@
 import Person from "./AboutPerson"
 function AboutUs() {
     return (
-        <>
+        <div className="bg-[#404959] text-[#eee]">
             <div className="w-9/12 md:w-6/12 mx-auto pt-4">
                 <h1 className="text-5xl mx-auto mb-5 mt-6 text-center"><b>About Us</b></h1>
                 <img src="https://picsum.photos/500/300" alt="the team" className="mx-auto mb-3 w-500 h-300"></img>
@@ -13,7 +13,7 @@ function AboutUs() {
                 <Person nam="Victor" title="Quality Assurance and Backend" desc="The world shall burn." />
                 <Person nam="Logan" title="Database Manager and Frontend" desc="I really do not like web development..." />
             </div>
-        </>
+        </div>
     )
 }
 export default AboutUs
