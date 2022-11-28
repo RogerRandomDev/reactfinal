@@ -24,7 +24,7 @@ function Products() {
     <div className="mt-[-.5rem]p-8 bg-[#404959] text-[#eee] min-h-[calc(100vh_-_3.5rem)]">
       <h2 className="font-bold text-3xl ml-8 py-6">Products</h2>
       <div className="mb-12"><SearchBar search={search} setSearch={setSearch} /></div>
-      <div className="ml-8">
+      <div className="p-4 pt-0">
         <ResponsiveGridDisplay title={""}>
           {
             products.map((p, idx) => {
