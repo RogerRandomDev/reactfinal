@@ -1,48 +1,138 @@
-import React, {useState, useEffect, useReducer} from 'react'
-//swap over to ws WebSocket. I got the format for it already finished on backend for us.
-//shouldn't take much effort for us since they are similiar.
-import { io } from "socket.io-client";
-const socket = io('http://localhost:3001');
+import React, { useState, useEffect, useReducer } from 'react';
+import socket from '../socket';
 function Chat() {
-    const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
+  //   useEffect(()=>{
+  //   let s = new WebSocket("wss://localhost:8080/");
+  //   s.addEventListener('open',()=>{
+  //     s.send("Hello World!");
+  //   });
+  // },[]);
+  // webSocket.onmessage = (event) => {
+  // };
+  const initialState = [];
+  const messageReducer = (state, action) => {
+    if (action.type === 'self' || action.type === 'other') {
+      return [...state, { type: action.type, data: action.payload }];
+    }
+    return new Error('No Matching Action Type');
+  };
 
-    const initialState = [];
-    const messageReducer = (state, action) => {
-        if(action.type==="self" || action.type==="other"){
-            return [...state, {type:action.type, data: action.payload}]
-        }
-        return new Error("No Matching Action Type");
-    };
+  const [state, dispatch] = useReducer(messageReducer, initialState);
+  const [users, setUsers] = useState([]);
 
-    const [state, dispatch] = useReducer(messageReducer, initialState);
+  useEffect(() => {
+    // const sessionID = localStorage.getItem('sessionID');
+    // if (sessionID) {
+    //   socket.auth = { sessionID };
+    //   socket.connect();
+    // }
+    // socket.request = JSON.parse(localStorage.getItem('user'))._id;
+    const id = JSON.parse(localStorage.getItem('user'))._id;
+    socket.requestID = { id };
+    socket.connect();
+    socket.onAny((event, ...args) => {
+      console.log(event, args);
+    });
+    socket.on('Chat-Message', (data) => {
+      dispatch({ type: 'other', payload: data });
+    });
+    socket.on('users', (users) => {
+      users.forEach((user) => {
+        user.self = user.userID === socket.id;
+        user.messages = [];
+        setUsers((prevUsers) => [...prevUsers, user]);
+      });
+      socket.on('user connected', (user) => {
+        setUsers((prevUsers) => [...prevUsers, user]);
+      });
+      socket.on('private message', ({ content, from }) => {
+        console.log(content, from);
+        dispatch({ type: 'other', payload: content });
+        // users.forEach((user) => {
+        //   if (user.userID === from) {
+        //   }
+        // });
+      });
+      socket.on('session', ({ sessionID, userID }) => {
+        // attach to auth for reconnection
+        socket.auth = { sessionID };
+        // store locally
+        localStorage.setItem('sessionID', sessionID);
+        // save the userID
+        socket.userID = userID;
+      });
+    });
+  }, []);
 
-    useEffect(()=>{
-        socket.on("Chat-Message", data=>{
-            dispatch({type:"other", payload:data})
-          })
-    },[]);
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        socket.emit("sendmessage", message);
-        dispatch({type:"self", payload:message})
-        setMessage("");
-      };
+  const onMessage = (content) => {
+    const toUserID = window.location.href.split('?id=')[1];
+    console.log('CLIENT USER ID -> ', toUserID);
+    socket.emit('private message', {
+      content,
+      to: toUserID,
+    });
+    dispatch({
+      type: 'self',
+      payload: content,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // socket.emit('sendmessage', message);
+    // dispatch({ type: 'self', payload: message });
+    onMessage(message);
+    setMessage('');
+  };
 
   return (
     <div>
-        <form className="send-message p-4 w-1/4" onSubmit={(e)=>handleSubmit(e)}>
-            <input type="text" value={message} onChange={(e)=>setMessage(e.target.value)} className='border-2 border-neutral-900 rounded p-4 w-full' name="Message Input"/>
-            <button type="submit" className='btn-primary mt-8 w-full mb-5 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold flex items-center justify-center gap-4'>Send</button>
-        </form>
-        <div className="messages">
-            {state.map(({type, data},idx)=>{
-               return <div key={idx} className='bg-slate-400'>
-                <p className={`${type === "self" ? "text-green-400" : "text-orange-400 text-right"} p-4 font-bold text-2xl`}>{data}</p>
-               </div>
-            })}
-        </div>
+      <form
+        className='send-message p-4 w-1/4'
+        onSubmit={(e) => handleSubmit(e)}>
+        <input
+          type='text'
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          className='border-2 border-neutral-900 rounded p-4 w-full'
+          name='Message Input'
+        />
+        <button
+          type='submit'
+          className='btn-primary mt-8 w-full mb-5 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold flex items-center justify-center gap-4'>
+          Send
+        </button>
+      </form>
+      <div className='users'>
+        {users.map((u, idx) => {
+          return (
+            <div key={idx}>
+              <p>Hi! My userID is {u.userID}</p>
+              <p>Is this myself? {u.self ? 'Yes' : 'No'}</p>
+            </div>
+          );
+        })}
+      </div>
+      <div className='messages'>
+        {console.log(state)}
+        {state.map(({ type, data }, idx) => {
+          return (
+            <div key={idx} className='bg-slate-400'>
+              <p
+                className={`${
+                  type === 'self'
+                    ? 'text-green-400'
+                    : 'text-orange-400 text-right'
+                } p-4 font-bold text-2xl`}>
+                {data}
+              </p>
+            </div>
+          );
+        })}
+      </div>
     </div>
-  )
+  );
 }
 
-export default Chat
+export default Chat;

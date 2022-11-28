@@ -1,7 +1,5 @@
 const dotenv = require('dotenv');
-
 dotenv.config();
-
 const express = require('express');
 const { updateToken, checkToken } = require('./controllers/auth');
 const app = express();
@@ -13,19 +11,60 @@ const productRouter = require('./Routes/product');
 const chatRouter = require('./Routes/chat');
 //admin page
 const adminPage = fs.readFileSync(__dirname + '/interface/index.html', 'utf-8');
-//Don't need this anymore, i'm using WebSocket (ws) and got the setup for us now.
-//go to middleware, controller,and routes.
-//middleware handles the actual connection to the websocket itself
-//the controller and router handle getting info and old messages from the database along with storing them
 // /*
 // * Socket IO
 // */
-const io = require('socket.io')(3001, { cors: { origin: '*' } });
+const io = require('socket.io')(3001, {
+  cors: { origin: '*' },
+});
+
+io.use((socket, next) => {
+  const sessionID = socket.handshake.auth.sessionID;
+  if (sessionID) {
+    // find sessions
+    const session = null; // get session from mongo database with this ID
+    if (session) {
+      socket.sessionID = sessionID;
+      socket.userID = session.userID;
+      return next();
+    }
+  }
+  socket.sessionID = String(Math.random()); // for now
+  console.log(socket.handshake.auth);
+  // socket.userID = socket.request._query['request'];
+  // socket.userID = JSON.parse(localStorage.getItem('user'))._id; // get from localstorage
+  // console.log(socket.sessionID, socket.userID);
+  next();
+});
+
 io.on('connection', (socket) => {
+  const users = [];
+  for (let [id, socket] of io.of('/').sockets) {
+    users.push({
+      userID: id,
+    });
+  }
+  socket.emit('users', users);
+
+  socket.emit('session', {
+    sessionID: socket.sessionID,
+    userID: socket.userID,
+  });
+
+  socket.broadcast.emit('user connected', {
+    userID: socket.id,
+  });
+
   socket.on('sendmessage', (message) => {
-    // socket.emit('Chat-Message', 'Hello World!');
     socket.broadcast.emit('Chat-Message', message);
-    console.log(socket.id);
+  });
+
+  socket.on('private message', ({ content, to }) => {
+    console.log(to);
+    socket.to(to).emit('private message', {
+      content,
+      from: socket.id,
+    });
   });
 });
 
