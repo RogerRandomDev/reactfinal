@@ -1,5 +1,6 @@
 import Rating from "./Rating"
 import { FiFlag } from 'react-icons/fi';
+import propTypes from "prop-types"
 
 // updated version will only pass in user id from database and this info will be fetched here
 function ProfileInfoCard({ image, username, joinDate, location, rating, ratingCount, bought, sold }) {
@@ -28,6 +29,17 @@ function ProfileInfoCard({ image, username, joinDate, location, rating, ratingCo
             </div>
         </div>
     )
+}
+
+ProfileInfoCard.propTypes = {
+    image: propTypes.string,
+    username: propTypes.string,
+    joinDate: propTypes.string,
+    location: propTypes.string,
+    rating: propTypes.number,
+    ratingCount: propTypes.number,
+    bought: propTypes.number,
+    sold: propTypes.number
 }
 
 export default ProfileInfoCard

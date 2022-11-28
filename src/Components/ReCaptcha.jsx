@@ -1,12 +1,12 @@
 import React, { useRef } from 'react';
 import ReCAPTCHA from "react-google-recaptcha"
-const ReCaptcha=() => {
+const ReCaptcha = () => {
   const captchaRef = useRef(null)
   return (
     <div className="App">
-      Hi!
+      Braincells present?
       <ReCAPTCHA sitekey="6LdIDrciAAAAABglwOoli0l8DE0LTwbGMk9L8d3L" />
-      
+
     </div>
   );
 }
