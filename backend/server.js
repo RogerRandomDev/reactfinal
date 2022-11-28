@@ -30,10 +30,7 @@ io.use((socket, next) => {
     }
   }
   socket.sessionID = String(Math.random()); // for now
-  console.log(socket.handshake.auth);
-  // socket.userID = socket.request._query['request'];
-  // socket.userID = JSON.parse(localStorage.getItem('user'))._id; // get from localstorage
-  // console.log(socket.sessionID, socket.userID);
+  socket.userID = socket.handshake.query['id'];
   next();
 });
 
