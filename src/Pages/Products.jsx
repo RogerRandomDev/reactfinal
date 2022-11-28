@@ -23,7 +23,7 @@ function Products() {
 
   return (
     !loading &&
-    <div className="mt-[-.5rem]p-8 bg-[#404959] text-[#eee] min-h-[calc(100vh_-_3.25rem)]">
+    <div className="mt-[-.5rem] p-8 bg-[#404959] text-[#eee] min-h-[calc(100vh_-_3rem)]">
       <h2 className="font-bold text-3xl">Products</h2>
       <div className="mt-8 mb-12"><SearchBar search={search} setSearch={setSearch} /></div>
 
