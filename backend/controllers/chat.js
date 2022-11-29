@@ -27,7 +27,7 @@ const getMessages = async (user1,user2,product) => {
         const h1=user1
         const h2=user2
         await connectDB(process.env.MONGO_URI)
-        let list = await MessageModel.find({$or:[{"sender":h1,"receiver":h2,product},{"receiver":h1,"sender":h2,product}]})
+        let list = await MessageModel.find({$or:[{"sender":h1,"receiver":h2,product},{"receiver":h1,"sender":h2,product}]}).sort({_id:-1}).limit(50)
         return {success:true,msg:"succeeded at getting user messaged with other user",list}
     }
     catch(err){
