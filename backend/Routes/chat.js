@@ -27,15 +27,16 @@ router.post("/getConversations",async (req,res)=>{
   const {userID}=decodeToken(userToken)
   try{
     const output=await getConversations(userID)
-    return res.status(200).send({success:true,msg:"successfully returned conversations",output})
+    return res.status(200).send(output)
   }catch(err){}
-  return res.status(200).send({success:false,msg:"error getting conversations"})
+  res.status(200).send({success:false,msg:"error getting conversations"})
 })
 
 
 
 //socket-io socket
-const socket = require("../middleware/chat")
+const socket = require("../middleware/chat");
+const { request } = require('express');
 
 //returns the list of unique conversations the user is having
 module.exports = router;

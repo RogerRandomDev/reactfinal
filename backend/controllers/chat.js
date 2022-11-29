@@ -39,9 +39,8 @@ const getMessages = async (user1,user2,product) => {
 //user is also the userID of the sender
 const getConversations = async (user) => {
     try{
-        const h=user
         await connectDB(process.env.MONGO_URI)
-        let list = await MessageModel.find({$or:[{"sender":h},{"receiver":h}]}).distinct('product')
+        let list = await MessageModel.find({$or:[{"sender":user},{"receiver":user}]}).distinct('product')
         return {success:true,msg:"successfully got all unique message lists",list}
     }
     catch(err){
@@ -49,5 +48,4 @@ const getConversations = async (user) => {
     }
     return {success:false,msg:"failed to obtain message lists"}
 }
-
 module.exports = {sendMessage,getMessages,getConversations}
