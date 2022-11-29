@@ -53,8 +53,8 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('Chat-Message', message);
   });
 
-  socket.on('private message', ({ content, to,from}) => {
-    sendMessage(from,to,content);
+  socket.on('private message', ({ content, to,token}) => {
+    sendMessage(token,to,content);
     socket.to(to).emit('private message', {
       content,
       from: socket.userID,

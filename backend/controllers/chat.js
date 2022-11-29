@@ -1,27 +1,24 @@
 const { connectDB, process } = require('../db/connect');
 const MessageModel = require('../models/MessageModel');
 const { hashString } = require('../middleware/hash');
-
+const {decodeToken} = require('../controllers/auth');
 require('dotenv').config();
 
 //sends message to the given receiver
 //use userID for sender and receivers
 //product should be the productID
 const sendMessage = async (sender,receiver,message) => {
+    const {userID}=JSON.parse(decodeToken(sender));
     try {
         await connectDB(process.env.MONGO_URI);
         
-        const sentMsg=new MessageModel({sender,receiver,message})
+        const sentMsg=new MessageModel({sender:userID,receiver,message})
         sentMsg.save()
         return {success:true,msg:"message sent"}
     }
-    catch(err){
+    catch(err){}
+    return { success: false, msg: 'failed to send message' };
 
-    const sentMsg = new MessageModel({ sender, receiver, product, message });
-    sentMsg.save();
-    return { success: true, msg: 'message sent' };
-  } catch (err) {}
-  return { success: false, msg: 'failed to send message' };
 };
 //Use userID here as well for getting messages
 //productID for product here again
