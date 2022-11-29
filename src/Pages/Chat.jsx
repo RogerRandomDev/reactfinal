@@ -36,9 +36,10 @@ function Chat() {
     const id = JSON.parse(localStorage.getItem('user'))._id;
     const token = localStorage.getItem('token');
 
-    sendRequest('chat/getConversations', 'POST', {
+    sendRequest('chat/getMessages', 'POST', {
       body: {
         userToken: token,
+        targetID: window.location.href.split('?id=')[1],
       },
       query: {},
     }).then((data) => {
@@ -91,6 +92,7 @@ function Chat() {
     socket.emit('private message', {
       content,
       to: toUserID,
+      token: localStorage.getItem('token'),
     });
     dispatch({
       type: 'self',
