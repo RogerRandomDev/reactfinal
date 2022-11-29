@@ -10,8 +10,6 @@ require('dotenv').config();
 const sendMessage = async (sender,receiver,product,message) => {
     try {
         await connectDB(process.env.MONGO_URI);
-        //for testing if it works
-        console.log(await MessageModel.distinct("sender"))
         
         const sentMsg=new MessageModel({sender,receiver,product,message})
         sentMsg.save()
