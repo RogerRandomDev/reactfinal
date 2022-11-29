@@ -13,7 +13,7 @@ const sendMessage = async (sender,receiver,product,message) => {
         //for testing if it works
         console.log(await MessageModel.distinct("sender"))
         
-        const sentMsg=new MessageModel({sender:hashString(sender),receiver:hashString(receiver),product,message})
+        const sentMsg=new MessageModel({sender,receiver,product,message})
         sentMsg.save()
         return {success:true,msg:"message sent"}
     }
@@ -26,8 +26,8 @@ const sendMessage = async (sender,receiver,product,message) => {
 //productID for product here again
 const getMessages = async (user1,user2,product) => {
     try{
-        const h1=hashString(user1)
-        const h2=hashString(user2)
+        const h1=user1
+        const h2=user2
         await connectDB(process.env.MONGO_URI)
         let list = await MessageModel.find({$or:[{"sender":h1,"receiver":h2,product},{"receiver":h1,"sender":h2,product}]})
         return {success:true,msg:"succeeded at getting user messaged with other user",list}
@@ -41,7 +41,7 @@ const getMessages = async (user1,user2,product) => {
 //user is also the userID of the sender
 const getConversations = async (user) => {
     try{
-        const h=hashString(user)
+        const h=user
         await connectDB(process.env.MONGO_URI)
         let list = await MessageModel.find({$or:[{"sender":h},{"receiver":h}]}).distinct('product')
         return {success:true,msg:"successfully got all unique message lists",list}
