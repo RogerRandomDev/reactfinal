@@ -12,10 +12,10 @@ router.use((req, res, next) => {
 //returns messages between two users about given product
 //send data in form {userToken,targetID,productID}
 router.post("/getMessages",async (req,res)=>{
-    const {userToken,targetID,productID}=JSON.parse(req.body)
+    const {userToken,targetID}=JSON.parse(req.body)
     const {userID}=decodeToken(userToken)
     try{
-        const output=await getMessages(userID,targetID,productID)
+        const output=await getMessages(userID,targetID)
         return res.status(200).send({success:true,msg:"successfully returned messages",output})
     }
     catch(err){}

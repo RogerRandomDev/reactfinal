@@ -12,10 +12,6 @@ const MessageSchema = new mongoose.Schema({
     message:{
         type:String,
         required:true
-    },
-    product:{
-        type:String,
-        required:true
     }
 });
 
