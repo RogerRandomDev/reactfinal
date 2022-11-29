@@ -67,6 +67,7 @@ const createUser = async (userData) => {
     joinDate: new Date().toDateString(),
     icon: userData.icon,
   };
+  
   var _id = null;
   try {
     await connectDB(process.env.MONGO_URI);
