@@ -54,9 +54,9 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('Chat-Message', message);
   });
 
-  socket.on('private message', ({ content, to }) => {
-    console.log(to);
-    // sendMessage('a', 'b', 'c', 'd');
+  socket.on('private message', ({ content, to, from }) => {
+    // console.log(to);
+    sendMessage('a', 'b', 'c', 'd');
     socket.to(to).emit('private message', {
       content,
       from: socket.userID,
