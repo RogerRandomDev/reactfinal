@@ -17,10 +17,11 @@ router.use((req, res, next) => {
 //send data in form {userToken,targetID,productID}
 router.post("/getMessages",async (req,res)=>{
     const {userToken,targetID}=JSON.parse(req.body)
-    const {userID}=decodeToken(userToken)
+    const {userID}=JSON.parse(decodeToken(userToken))
     try{
+      
         const output=await getMessages(userID,targetID)
-        return res.status(200).send({success:true,msg:"successfully returned messages",output})
+        return res.status(200).send(output)
     }
     catch(err){}
     return res.send({success:false,msg:"error getting messages"})
