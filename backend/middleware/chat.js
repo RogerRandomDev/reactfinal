@@ -1,3 +1,8 @@
+const {
+  sendMessage,
+  getMessages,
+  getConversations,
+} = require('../controllers/chat');
 // /*
 // * Socket IO
 // */
@@ -6,18 +11,21 @@ const io = require('socket.io')(3001, {
 });
 
 io.use((socket, next) => {
-  const sessionID = socket.handshake.auth.sessionID;
-  if (sessionID) {
-    // find sessions
-    const session = null; // get session from mongo database with this ID
-    if (session) {
-      socket.sessionID = sessionID;
-      socket.userID = session.userID;
-      return next();
-    }
-  }
+  // const sessionID = socket.handshake.auth.sessionID;
+  // // const sessionID
+  // console.log(sessionID);
+  // if (sessionID) {
+  //   // find sessions
+  //   const session = null; // get session from mongo database with this ID
+  //   if (session) {
+  //     socket.sessionID = sessionID;
+  //     socket.userID = session.userID;
+  //     return next();
+  //   }
+  // }
   socket.sessionID = String(Math.random()); // for now
   socket.userID = socket.handshake.query['id'];
+  // console.log(socket.userID);
   next();
 });
 
@@ -25,9 +33,12 @@ io.on('connection', (socket) => {
   const users = [];
   for (let [id, socket] of io.of('/').sockets) {
     users.push({
-      userID: id,
+      userID: socket.userID,
     });
   }
+
+  socket.join(socket.userID);
+
   socket.emit('users', users);
 
   socket.emit('session', {
@@ -36,7 +47,7 @@ io.on('connection', (socket) => {
   });
 
   socket.broadcast.emit('user connected', {
-    userID: socket.id,
+    userID: socket.userID,
   });
 
   socket.on('sendmessage', (message) => {
@@ -45,10 +56,10 @@ io.on('connection', (socket) => {
 
   socket.on('private message', ({ content, to }) => {
     console.log(to);
-    sendMessage('a','b','c','d')
+    // sendMessage('a', 'b', 'c', 'd');
     socket.to(to).emit('private message', {
       content,
-      from: socket.id,
+      from: socket.userID,
     });
   });
 });

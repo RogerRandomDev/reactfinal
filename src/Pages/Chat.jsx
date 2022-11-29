@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import socket from '../socket';
+import { sendRequest } from '../Utils/requests';
 function Chat() {
   const [message, setMessage] = useState('');
   //   useEffect(()=>{
@@ -28,7 +29,22 @@ function Chat() {
     //   socket.connect();
     // }
     // socket.request = JSON.parse(localStorage.getItem('user'))._id;
+
+    /**
+     * Get From Database
+     */
     const id = JSON.parse(localStorage.getItem('user'))._id;
+    const token = localStorage.getItem('token');
+
+    sendRequest('chat/getConversations', 'POST', {
+      body: {
+        userToken: token,
+      },
+      query: {},
+    }).then((data) => {
+      console.log(data);
+    });
+
     // socket.requestID = { id };
     socket.connect();
     socket.onAny((event, ...args) => {
@@ -39,15 +55,19 @@ function Chat() {
     });
     socket.on('users', (users) => {
       users.forEach((user) => {
-        user.self = user.userID === socket.id;
+        const id = socket['io'].opts.query.substring(3);
+        user.self = user.userID === id;
         user.messages = [];
         setUsers((prevUsers) => [...prevUsers, user]);
       });
       socket.on('user connected', (user) => {
+        for (let i = 0; i < users.length; i++) {
+          if (users[i].userID == user.userID) return;
+        }
         setUsers((prevUsers) => [...prevUsers, user]);
       });
       socket.on('private message', ({ content, from }) => {
-        console.log(content, from);
+        console.log(content, from, '51');
         dispatch({ type: 'other', payload: content });
         // users.forEach((user) => {
         //   if (user.userID === from) {

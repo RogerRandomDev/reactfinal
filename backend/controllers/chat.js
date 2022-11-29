@@ -10,8 +10,6 @@ require('dotenv').config();
 const sendMessage = async (sender,receiver,product,message) => {
     try {
         await connectDB(process.env.MONGO_URI);
-        //for testing if it works
-        console.log(await MessageModel.distinct("sender"))
         
         const sentMsg=new MessageModel({sender,receiver,product,message})
         sentMsg.save()
@@ -29,7 +27,7 @@ const getMessages = async (user1,user2,product) => {
         const h1=user1
         const h2=user2
         await connectDB(process.env.MONGO_URI)
-        let list = await MessageModel.find({$or:[{"sender":h1,"receiver":h2,product},{"receiver":h1,"sender":h2,product}]})
+        let list = await MessageModel.find({$or:[{"sender":h1,"receiver":h2,product},{"receiver":h1,"sender":h2,product}]}).sort({_id:-1}).limit(50)
         return {success:true,msg:"succeeded at getting user messaged with other user",list}
     }
     catch(err){
@@ -41,9 +39,8 @@ const getMessages = async (user1,user2,product) => {
 //user is also the userID of the sender
 const getConversations = async (user) => {
     try{
-        const h=user
         await connectDB(process.env.MONGO_URI)
-        let list = await MessageModel.find({$or:[{"sender":h},{"receiver":h}]}).distinct('product')
+        let list = await MessageModel.find({$or:[{"sender":user},{"receiver":user}]}).distinct('product')
         return {success:true,msg:"successfully got all unique message lists",list}
     }
     catch(err){
@@ -51,5 +48,4 @@ const getConversations = async (user) => {
     }
     return {success:false,msg:"failed to obtain message lists"}
 }
-
 module.exports = {sendMessage,getMessages,getConversations}
