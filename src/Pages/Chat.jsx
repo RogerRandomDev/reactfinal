@@ -56,7 +56,7 @@ function Chat() {
     // socket.requestID = { id };
     socket.connect();
     socket.onAny((event, ...args) => {
-      console.log(event, args);
+      // console.log(event, args);
     });
     socket.on('Chat-Message', (data) => {
       dispatch({ type: 'other', payload: data });
@@ -95,7 +95,7 @@ function Chat() {
 
   const onMessage = (content) => {
     const toUserID = window.location.href.split('?id=')[1];
-    console.log('CLIENT USER ID -> ', toUserID);
+    // console.log('CLIENT USER ID -> ', toUserID);
     socket.emit('private message', {
       content,
       to: toUserID,
@@ -144,7 +144,7 @@ function Chat() {
         })}
       </div>
       <div className='messages'>
-        {console.log(state)}
+        {/* {console.log(state)} */}
         {state.map(({ type, data }, idx) => {
           return (
             <div key={idx} className='bg-slate-400'>
