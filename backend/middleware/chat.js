@@ -7,6 +7,8 @@ const io = require('socket.io')(3001, {
 
 io.use((socket, next) => {
   const sessionID = socket.handshake.auth.sessionID;
+  // const sessionID
+  console.log(sessionID);
   if (sessionID) {
     // find sessions
     const session = null; // get session from mongo database with this ID
@@ -18,6 +20,7 @@ io.use((socket, next) => {
   }
   socket.sessionID = String(Math.random()); // for now
   socket.userID = socket.handshake.query['id'];
+  // console.log(socket.userID);
   next();
 });
 
@@ -25,7 +28,7 @@ io.on('connection', (socket) => {
   const users = [];
   for (let [id, socket] of io.of('/').sockets) {
     users.push({
-      userID: id,
+      userID: socket.userID,
     });
   }
   socket.emit('users', users);
@@ -45,7 +48,7 @@ io.on('connection', (socket) => {
 
   socket.on('private message', ({ content, to }) => {
     console.log(to);
-    sendMessage('a','b','c','d')
+    // sendMessage('a', 'b', 'c', 'd');
     socket.to(to).emit('private message', {
       content,
       from: socket.id,
