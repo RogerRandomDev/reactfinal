@@ -9,6 +9,7 @@ require('dotenv').config();
 //product should be the productID
 const sendMessage = async (sender,receiver,message) => {
     const {userID}=JSON.parse(decodeToken(sender));
+    if(message.length>200){return {success:false,msg:"message is too long"}}
     try {
         await connectDB(process.env.MONGO_URI);
         
@@ -27,7 +28,7 @@ const getMessages = async (user1,user2) => {
         const h1=user1
         const h2=user2
         await connectDB(process.env.MONGO_URI)
-        let list = await MessageModel.find({$or:[{"sender":h1,"receiver":h2},{"receiver":h1,"sender":h2}]}).sort({_id:-1}).limit(50)
+        let list = await MessageModel.find({$or:[{"sender":h1,"receiver":h2},{"receiver":h1,"sender":h2}]}).sort({_id:-1}).limit(150)
         return {success:true,msg:"succeeded at getting user messaged with other user",list}
     }
     catch(err){
