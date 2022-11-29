@@ -39,7 +39,8 @@ function Chat() {
     });
     socket.on('users', (users) => {
       users.forEach((user) => {
-        user.self = user.userID === socket.id;
+        const id = socket['io'].opts.query.substring(3);
+        user.self = user.userID === id;
         user.messages = [];
         setUsers((prevUsers) => [...prevUsers, user]);
       });
@@ -47,7 +48,7 @@ function Chat() {
         setUsers((prevUsers) => [...prevUsers, user]);
       });
       socket.on('private message', ({ content, from }) => {
-        console.log(content, from);
+        console.log(content, from, '51');
         dispatch({ type: 'other', payload: content });
         // users.forEach((user) => {
         //   if (user.userID === from) {
