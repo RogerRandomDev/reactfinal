@@ -21,5 +21,7 @@ router.post("/getMessages",async (req,res)=>{
     catch(err){}
     return res.send({success:false,msg:"error getting messages"})
 })
+const socket = require("../middleware/chat")
+
 //returns the list of unique conversations the user is having
 module.exports = router;

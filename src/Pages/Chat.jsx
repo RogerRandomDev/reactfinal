@@ -29,7 +29,7 @@ function Chat() {
     // }
     // socket.request = JSON.parse(localStorage.getItem('user'))._id;
     const id = JSON.parse(localStorage.getItem('user'))._id;
-    socket.requestID = { id };
+    // socket.requestID = { id };
     socket.connect();
     socket.onAny((event, ...args) => {
       console.log(event, args);
