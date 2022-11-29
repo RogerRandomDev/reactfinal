@@ -17,9 +17,12 @@ const sendMessage = async (sender,receiver,message) => {
     }
     catch(err){
 
-    }
-    return {success:false,msg:"failed to send message"}
-}
+    const sentMsg = new MessageModel({ sender, receiver, product, message });
+    sentMsg.save();
+    return { success: true, msg: 'message sent' };
+  } catch (err) {}
+  return { success: false, msg: 'failed to send message' };
+};
 //Use userID here as well for getting messages
 //productID for product here again
 const getMessages = async (user1,user2) => {
