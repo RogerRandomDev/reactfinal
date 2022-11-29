@@ -16,6 +16,9 @@ function Chat() {
     if (action.type === 'self' || action.type === 'other') {
       return [...state, { type: action.type, data: action.payload }];
     }
+    if (action.type === 'custom') {
+      return action.payload;
+    }
     return new Error('No Matching Action Type');
   };
 
@@ -43,7 +46,11 @@ function Chat() {
       },
       query: {},
     }).then((data) => {
-      console.log(data);
+      let messages = JSON.parse(data).list;
+      messages = messages.map((m) => {
+        return { type: m.sender === id ? 'self' : 'other', data: m.message };
+      });
+      dispatch({ type: 'custom', payload: messages.reverse() });
     });
 
     // socket.requestID = { id };
