@@ -1,7 +1,6 @@
 const {
   sendMessage,
   getMessages,
-  getConversations,
 } = require('../controllers/chat');
 // /*
 // * Socket IO
@@ -54,9 +53,8 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('Chat-Message', message);
   });
 
-  socket.on('private message', ({ content, to }) => {
-    console.log(to);
-    // sendMessage('a', 'b', 'c', 'd');
+  socket.on('private message', ({ content, to,token}) => {
+    sendMessage(token,to,content);
     socket.to(to).emit('private message', {
       content,
       from: socket.userID,

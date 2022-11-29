@@ -16,6 +16,9 @@ function Chat() {
     if (action.type === 'self' || action.type === 'other') {
       return [...state, { type: action.type, data: action.payload }];
     }
+    if (action.type === 'custom') {
+      return action.payload;
+    }
     return new Error('No Matching Action Type');
   };
 
@@ -36,13 +39,18 @@ function Chat() {
     const id = JSON.parse(localStorage.getItem('user'))._id;
     const token = localStorage.getItem('token');
 
-    sendRequest('chat/getConversations', 'POST', {
+    sendRequest('chat/getMessages', 'POST', {
       body: {
         userToken: token,
+        targetID: window.location.href.split('?id=')[1],
       },
       query: {},
     }).then((data) => {
-      console.log(data);
+      let messages = JSON.parse(data).list;
+      messages = messages.map((m) => {
+        return { type: m.sender === id ? 'self' : 'other', data: m.message };
+      });
+      dispatch({ type: 'custom', payload: messages.reverse() });
     });
 
     // socket.requestID = { id };
@@ -91,6 +99,7 @@ function Chat() {
     socket.emit('private message', {
       content,
       to: toUserID,
+      token: localStorage.getItem('token'),
     });
     dispatch({
       type: 'self',
