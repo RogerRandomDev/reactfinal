@@ -69,11 +69,18 @@ export default function Navbar() {
             Add Products
           </Link>
           <Link
+            to='/chat'
+            className='text-left hover:bg-slate-400 text-2xl bg-none hover:text-gray-200 transition p-6'>
+            <AiFillCalendar className='inline-block mr-1 mb-1' />
+            Chat
+          </Link>
+          <Link
             to='/about'
             className='text-left hover:bg-slate-400 text-2xl bg-none hover:text-gray-200 transition p-6'>
             <AiFillCalendar className='inline-block mr-1 mb-1' />
             About Us
           </Link>
+
           {/* <Link to="/productdetail" className="text-left hover:bg-slate-400 text-2xl bg-none hover:text-gray-200 transition p-6">
                     <FaList className="inline-block mr-2 mb-1" />
                     Customer List
@@ -113,10 +120,16 @@ export default function Navbar() {
           Add Products
         </Link>
         <Link
+          to='/chat'
+          className='hidden md:inline-block mr-5 bg-none text-gray-300 hover:text-gray-200 transition-colors'>
+          Chat
+        </Link>
+        <Link
           to='/about'
           className='hidden md:inline-block mr-5 bg-none text-gray-300 hover:text-gray-200 transition-colors'>
           About Us
         </Link>
+
         {/* <Link to="/productdetail" className="hidden md:inline-block bg-none text-gray-300 hover:text-gray-200 transition-colors">Customer List</Link> */}
       </div>
       {/* dashboard, all products, add/edit product, customer list */}

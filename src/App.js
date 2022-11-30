@@ -53,6 +53,7 @@ const App = () => {
               <Route path='/' element={<Products />} />
               <Route path='/home' element={<TotalRevenue />} />
               <Route path='/login' element={<LandingPage />} />
+              <Route exact path='/chat/:chatID' element={<Chat />} />
               <Route exact path='/chat' element={<Chat />} />
               <Route path='/about' element={<AboutPage />} />
               <Route path='/about/terms' element={<TermsofService />} />
