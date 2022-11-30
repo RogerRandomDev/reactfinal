@@ -1,5 +1,5 @@
 const { connectDB } = require('../db/connect');
-const BlackListModel = require('../models/BlackListModel');
+const BlackListModel = require('../models/blackListModel');
 require('dotenv').config();
 
 const blacklistEmail = async (email, domain) => {
