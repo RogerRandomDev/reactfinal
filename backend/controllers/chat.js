@@ -13,7 +13,7 @@ const sendMessage = async (sender,receiver,message) => {
     try {
         await connectDB(process.env.MONGO_URI);
         
-        const sentMsg=new MessageModel({sender:userID,receiver,message})
+        const sentMsg=new MessageModel({sender:userID,receiver,message,time:Date.now()})
         sentMsg.save()
         return {success:true,msg:"message sent"}
     }
