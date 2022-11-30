@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const {getUser,getUserByID,updateUserFavorites,createUser,buildUserData,} = require('../controllers/User');
+const {getUser,getUserByID,updateUserFavorites,createUser,buildUserData, getUsers,} = require('../controllers/User');
 const { getLocation } = require('../middleware/geo');
 const {getReceiptsFor} = require("../controllers/transaction")
 const {login,logout,updateToken,checkToken,} = require('../controllers/auth');
@@ -18,6 +18,11 @@ router.use(express.text({ limit: '12mb' }));
 router.put('/updateFavorites', async (req, res) => {
   const { userID, favorites } = JSON.parse(req.body);
   let data = await updateUserFavorites(userID, favorites);
+  res.status(200).send(data);
+});
+router.post("/users", async (req,res)=>{
+  const {userIDs} = JSON.parse(req.body);
+  let data = await getUsers(userIDs);
   res.status(200).send(data);
 });
 

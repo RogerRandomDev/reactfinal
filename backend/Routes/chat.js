@@ -19,7 +19,6 @@ router.post("/getMessages",async (req,res)=>{
     const {userToken,targetID}=JSON.parse(req.body)
     const {userID}=JSON.parse(decodeToken(userToken))
     try{
-      
         const output=await getMessages(userID,targetID)
         return res.status(200).send(output)
     }
