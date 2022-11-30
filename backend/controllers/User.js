@@ -20,6 +20,26 @@ const getUser = async (userEmail) => {
   }
   return output;
 };
+const getUsers = async (userIDs) => {
+  let users = null;
+  try {
+    await connectDB(process.env.MONGO_URI);
+    // console.log(favorites);
+    users = await UserModel.find(
+      { _id: { $in: userIDs } },
+      function (err, items) {
+        if (err) users = err;
+        if (items) users = items;
+      }
+    )
+      .clone()
+      .catch((err) => console.log(err));
+  } catch (err) {
+    console.log(err);
+  }
+  return users;
+};
+
 //returns user from database through the user id
 const getUserByID = async (userID) => {
   var output = null;
@@ -118,6 +138,7 @@ const buildUserData = (req) => {
 
 module.exports = {
   getUser,
+  getUsers,
   getUserByID,
   createUser,
   buildUserData,
