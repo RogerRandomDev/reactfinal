@@ -2,15 +2,24 @@ import React, { useState, useEffect, useReducer } from 'react';
 import { Link } from 'react-router-dom';
 import Message from '../Components/Message';
 import socket from '../socket';
+import parseTime from '../Utils/parseTime';
 import { sendRequest } from '../Utils/requests';
 function Chat() {
   const [message, setMessage] = useState('');
   const [usersInConversation, setUsersInConversation] = useState([]);
+  const [currentUser, setCurrentUser] = useState({});
 
   const initialState = [];
   const messageReducer = (state, action) => {
     if (action.type === 'self' || action.type === 'other') {
-      return [...state, { type: action.type, data: action.payload }];
+      return [
+        {
+          type: action.type,
+          data: action.payload,
+          time: parseTime(Date.now()),
+        },
+        ...state,
+      ];
     }
     if (action.type === 'custom') {
       return action.payload;
@@ -44,9 +53,14 @@ function Chat() {
     }).then((data) => {
       let messages = JSON.parse(data).list;
       messages = messages.map((m) => {
-        return { type: m.sender === id ? 'self' : 'other', data: m.message };
+        // need to remove all messages from database that dont have time
+        return {
+          type: m.sender === id ? 'self' : 'other',
+          data: m.message,
+          time: parseTime(m.time),
+        };
       });
-      dispatch({ type: 'custom', payload: messages.reverse() });
+      dispatch({ type: 'custom', payload: messages });
     });
 
     sendRequest('chat/getMessages', 'POST', {
@@ -57,19 +71,13 @@ function Chat() {
       query: {},
     }).then((data) => {
       let messages = JSON.parse(data).list;
-      let uniqueIDs = new Set();
-      messages.forEach(m=>{
-        const correctID = (m.sender === id ? m.receiver : m.sender);
-        uniqueIDs.add(correctID);
-        // if(!usersInConversation.includes(correctID)) setUsersInConversation((prev)=>[...prev, correctID]);
-      });
-      uniqueIDs.delete(id);
+      messages.splice(messages.indexOf(id), 1);
       sendRequest('user/users', 'POST', {
-        body:{
-          userIDs: Array.from(uniqueIDs)
-        }
-      }).then(userInfo=>{
-        setUsersInConversation(JSON.parse(userInfo))
+        body: {
+          userIDs: messages,
+        },
+      }).then((userInfo) => {
+        setUsersInConversation(JSON.parse(userInfo));
       });
     });
 
@@ -113,6 +121,13 @@ function Chat() {
     });
   }, []);
 
+  useEffect(() => {
+    let cUser = usersInConversation.find((u) => {
+      return u._id === window.location.href.split('?id=')[1];
+    });
+    if (cUser) setCurrentUser(cUser);
+  }, [usersInConversation]);
+
   const onMessage = (content) => {
     const toUserID = window.location.href.split('?id=')[1];
     // console.log('CLIENT USER ID -> ', toUserID);
@@ -136,99 +151,79 @@ function Chat() {
   };
 
   return (
-    <div className='flex h-[calc(100vh_-_56px)]'>
-      <div className="bg-blue-200 flex flex-col gap-4 w-[30%] p-4">
-        {usersInConversation.map(user=>{
-          // CHANGE TO LINK TAGS - NEED TO FIX BUG
-          return <a href={`http://localhost:3000/chat?id=${user._id}`} className='flex gap-4 items-center bg-slate-400 p-4 rounded cursor-pointer hover:bg-blue-800 hover:text-[#eee] transition'>
-            <img src={`https://res.cloudinary.com/dztnsrrta/image/upload/${user.icon}`} alt="Icon" className='w-20 h-20 rounded-full object-cover'/>
-            <p className='text-xl'>{user.username}</p>
-          </a>
-        })}
+    <div className='flex h-[calc(100vh_-_56px)] flex-col sm:flex-row bg-[#404959] text-[#eee]'>
+      <div className='border-r border-slate-200 border-opacity-50 flex flex-col gap-4 w-full sm:w-[30%] p-4 max-w-md mr-1'>
+        <div className='flex sm:flex-col flex-wrap gap-4'>
+          {usersInConversation.map((user, idx) => {
+            // CHANGE TO LINK TAGS - NEED TO FIX BUG
+            return (
+              <a
+                key={idx}
+                href={`http://localhost:3000/chat?id=${user._id}`}
+                className='flex gap-4 items-center bg-blue-200 p-4 rounded cursor-pointer hover:bg-blue-800 group transition flex-shrink-0'>
+                <img
+                  src={`https://res.cloudinary.com/dztnsrrta/image/upload/${user.icon}`}
+                  alt='Icon'
+                  className='w-20 h-20 rounded-full object-cover'
+                />
+                <p className='text-xl text-[#111] group-hover:text-[#eee] transition'>
+                  {user.username}
+                </p>
+              </a>
+            );
+          })}
+        </div>
       </div>
       {/* grid grid-rows-[auto_auto_1fr_auto]  max-h-[calc(100vh_-_56px)]*/}
-      <div className="m-6 border border-slate-200 grid grid-rows-[auto_auto_1fr_auto] max-h-[80%] w-[70%]">
-        <div className="flex items-center gap-4 p-4">
-          <img src="https://picsum.photos/40/40" alt="r" className='w-20 h-20 rounded-full object-cover'/>
-          <div className="">
-            <h3 className='font-semibold text-lg mb-2'>Felicia Riley</h3>
+      <div className='m-6 grid grid-rows-[auto_auto_1fr_auto] max-h-[80%] w-full sm:w-[70%] max-w-7xl mx-auto'>
+        <div className='flex items-center gap-4 p-4'>
+          <img
+            src={`https://res.cloudinary.com/dztnsrrta/image/upload/${currentUser.icon}`}
+            alt='r'
+            className='w-20 h-20 rounded-full object-cover'
+          />
+          <div className=''>
+            <h3 className='font-semibold text-lg mb-2'>
+              {currentUser.username}
+            </h3>
             <p>Active in the last day</p>
           </div>
         </div>
-        <div className="h-px bg-slate-200 rounded w-[90%] mx-auto mb-4"></div>
-        <div className="bg-blue-100 flex flex-col p-4 overflow-auto">
-           {state.map(({ type, data }, idx) => {
-          return (
-            <Message key={idx} time={"3:30 PM"} data={data} self={type==="self"} first={idx===0}/>
-          );
-        })}
-      </div>
-        <div className="">
-        <form
-        className='send-message w-full flex justify-between items-center border-t border-slate-200'
-        onSubmit={(e) => handleSubmit(e)}>
-        <input
-          type='text'
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          className='rounded px-4 py-8 w-full focus:outline-none max-w-full'
-          placeholder='Message...'
-          autoComplete="off"
-          name='Message Input'
-        />
-        <button
-          type='submit'
-          className='btn-primary w-max px-6 py-3 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold mr-4'>
-          Send
-        </button>
-      </form>
+        <div className='h-px bg-slate-200 rounded w-[90%] mx-auto mb-4'></div>
+        <div className='bg-blue-100 flex flex-col-reverse p-4 overflow-auto'>
+          {state.map(({ type, data, time }, idx) => {
+            return (
+              <Message
+                key={idx}
+                time={time}
+                data={data}
+                self={type === 'self'}
+              />
+            );
+          })}
         </div>
+        <div className=''>
+          <form
+            className='send-message w-full flex justify-between items-center border border-opacity-50 border-slate-200 rounded-br rounded-bl border-t-0'
+            onSubmit={(e) => handleSubmit(e)}>
+            <input
+              type='text'
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              className='rounded px-4 py-8 w-full focus:outline-none max-w-full bg-[#404959]'
+              placeholder='Message...'
+              autoComplete='off'
+              name='Message Input'
+            />
+            <button
+              type='submit'
+              className='btn-primary w-max px-6 py-3 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold mr-4'>
+              Send
+            </button>
+          </form>
         </div>
-
       </div>
-      /* <form
-        className='send-message p-4 w-1/4'
-        onSubmit={(e) => handleSubmit(e)}>
-        <input
-          type='text'
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          className='border-2 border-neutral-900 rounded p-4 w-full'
-          name='Message Input'
-        />
-        <button
-          type='submit'
-          className='btn-primary mt-8 w-full mb-5 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold flex items-center justify-center gap-4'>
-          Send
-        </button>
-      </form>
-      <div className='users'>
-        {users.map((u, idx) => {
-          return (
-            <div key={idx}>
-              <p>Hi! My userID is {u.userID}</p>
-              <p>Is this myself? {u.self ? 'Yes' : 'No'}</p>
-            </div>
-          );
-        })}
-      </div>
-      <div className='messages'>
-        {/* {state.map(({ type, data }, idx) => {
-          return (
-            <div key={idx} className='bg-slate-400'>
-              <p
-                className={`${
-                  type === 'self'
-                    ? 'text-green-400'
-                    : 'text-orange-400 text-right'
-                } p-4 font-bold text-2xl`}>
-                {data}
-              </p>
-            </div>
-          );
-        })}
-      </div> 
-    </div>*/
+    </div>
   );
 }
 
