@@ -1,4 +1,4 @@
-const url = 'http://localhost:5000/';
+const url = 'https://ubarter.onrender.com/';
 // const local = require('./useLocalStorageAuth');
 const { storeLocal, getLocal } = require('./useLocalStorageAuth');
 const buildHeader = (request, content) => {

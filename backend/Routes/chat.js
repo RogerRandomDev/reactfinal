@@ -23,7 +23,7 @@ router.post("/getMessages",async (req,res)=>{
         return res.status(200).send(output)
     }
     catch(err){}
-    return res.send({success:false,msg:"error getting messages"})
+    return res.status(200).send({success:false,msg:"error getting messages"})
 })
 //returns message conversations
 router.post('/getConversations', async (req, res) => {
@@ -42,4 +42,4 @@ const socket = require('../middleware/chat');
 const { request } = require('express');
 
 //returns the list of unique conversations the user is having
-module.exports = router;
+module.exports = {router,socket};

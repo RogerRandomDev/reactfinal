@@ -8,7 +8,8 @@ const fs = require('fs');
 //routers
 const userRouter = require('./Routes/user');
 const productRouter = require('./Routes/product');
-const chatRouter = require('./Routes/chat');
+const {router,socket} = require('./Routes/chat');
+const chatRouter=router;
 //admin page
 const adminPage = fs.readFileSync(__dirname + '/interface/index.html', 'utf-8');
 
