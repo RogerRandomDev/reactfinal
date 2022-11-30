@@ -79,7 +79,10 @@ function Chat() {
       query: {},
     }).then((data) => {
       let messages = JSON.parse(data).list;
-      messages.splice(messages.indexOf(id), 1);
+      if (messages.indexOf(id) != -1) {
+        messages.splice(messages.indexOf(id), 1);
+      }
+      console.log(messages);
       sendRequest('user/users', 'POST', {
         body: {
           userIDs: messages,
