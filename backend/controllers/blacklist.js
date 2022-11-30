@@ -1,5 +1,7 @@
 const { connectDB } = require('../db/connect');
-const BlackListModel = require('../models/blackListModel');
+
+//this has angered me greatly
+const BlackListModel = require('../models/blacklistModel');
 require('dotenv').config();
 
 const blacklistEmail = async (email, domain) => {
