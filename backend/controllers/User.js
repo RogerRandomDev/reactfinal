@@ -86,6 +86,7 @@ const createUser = async (userData) => {
     Location: userData.Location,
     joinDate: new Date().toDateString(),
     icon: userData.icon,
+    contact:userData.contact
   };
   
   var _id = null;
