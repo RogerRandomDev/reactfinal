@@ -68,7 +68,7 @@ function ProductCard({ id, type = "favorite", image, title, price, location, lin
           </div>
           :
           // <div className={`absolute top-4 left-4 text-2xl z-10 hover:scale-125 transition ${!favorited && "-translate-x-10"} group-hover:translate-x-0`}>
-          <div className="z-10 text-2xl" onClick={(e) => e.stopPropagation()}>
+          <div className="z-10 text-2xl" /*onClick={(e) => e.stopPropagation()}*/>
             <div style={{ boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )" }} className={`border-[rgba(37,99,235,0.18)] backdrop-blur-sm bg-[rgba(37,99,235,0.4)] text-white absolute top-4 left-4 transition -translate-x-20 group-hover:-translate-x-4 rounded-tr rounded-br pl-8 pr-2 py-1`}>
               <MdEdit className="hover:scale-125 transition" onClick={() => navigate(`/addEdit?id=${id}`)} />
             </div>
