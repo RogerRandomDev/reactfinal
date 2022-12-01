@@ -1,4 +1,4 @@
-const url = 'https://ubarter.onrender.com:5000/';
+const url = 'https://ubarter.onrender.com/';
 // const local = require('./useLocalStorageAuth');
 const { storeLocal, getLocal } = require('./useLocalStorageAuth');
 const buildHeader = (request, content) => {
@@ -29,7 +29,7 @@ export const sendRequest = async (path, type, contents) => {
   return new Promise((resolve) => {
     var xml = new XMLHttpRequest();
 
-    let xmlPath = url + path + buildQuery(contents.query);
+    let xmlPath = url + path + buildQuery(contents.query)+':5000';
     xml.open(type, xmlPath, true);
     buildHeader(xml, contents.header);
     xml.onload = function () {
