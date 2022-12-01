@@ -29,7 +29,7 @@ export const sendRequest = async (path, type, contents) => {
   return new Promise((resolve) => {
     var xml = new XMLHttpRequest();
 
-    let xmlPath = url + path + buildQuery(contents.query)+':5000';
+    let xmlPath = url + path + buildQuery(contents.query);
     xml.open(type, xmlPath, true);
     buildHeader(xml, contents.header);
     xml.onload = function () {

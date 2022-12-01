@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
 
-const URL = 'https://ubarter.onrender.com/chat/socket.io';
+const URL = 'https://ubarter.onrender.com/socket.io/';
 const socket = io(URL, {
   autoConnect: false,
   secure:true,

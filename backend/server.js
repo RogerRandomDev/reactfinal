@@ -45,6 +45,7 @@ app.use('/', async (req, res, next) => {
 });
 app.use('/product', productRouter);
 app.use('/chat', chatRouter);
+app.use("/socket.io",socket)
 app.get('/', (req, res) => {
   if (req.hostname != 'localhost')
     return res.status(404).send({ success: false, msg: 'Access denied' });
