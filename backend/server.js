@@ -46,11 +46,11 @@ app.use('/', async (req, res, next) => {
 app.use('/product', productRouter);
 app.use('/chat', chatRouter);
 
-app.get('/', (req, res) => {
+/*app.get('/', (req, res) => {
   if (req.hostname != 'localhost')
     return res.status(404).send({ success: false, msg: 'Access denied' });
   res.send(adminPage);
-});
+});*/
 // console.log(process.env.PORT);
 const server = app.listen(process.env.PORT, () => {
   console.log(`server is running on port ${process.env.PORT}`);
