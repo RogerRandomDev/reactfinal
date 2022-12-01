@@ -161,7 +161,7 @@ function Chat() {
         <div className='flex sm:flex-col flex-wrap gap-4'>
           {usersInConversation.map((user, idx) => {
             return (
-              <a
+              <div
                 key={idx}
                 onclick={(e)=>{navigate(`/chat/${user._id}`)}}
                 className='flex gap-4 items-center bg-[#6e799e] p-4 rounded cursor-pointer hover:bg-blue-800 group transition w-[45%] sm:w-auto'>
@@ -173,7 +173,7 @@ function Chat() {
                 <p className='text-xl text-slate-200 group-hover:text-[#eee] transition'>
                   {user.username}
                 </p>
-              </a>
+              </div>
             );
           })}
         </div>

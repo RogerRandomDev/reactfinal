@@ -79,11 +79,11 @@ function ProductCard({ id, type = "favorite", image, title, price, location, lin
         //   </div>
         // </div>
       }
-      <a className="block relative" onclick={(e)=>{navigate(`/productDetail?id=${id}`)}}>
+      <div className="block relative" onclick={(e)=>{navigate(`/productDetail?id=${id}`)}}>
         <div className="absolute inset-0 bg-[#121212] opacity-[0.2] hidden group-hover:block"></div>
         <img src={image} alt={"Product"} className="rounded w-60 aspect-square object-cover" />
-      </a>
-      <a className="font-semibold text-lg group-hover:underline hover:underline" onclick={(e)=>{navigate(`/productDetail?id=${id}`)}}>{title}</a>
+      </div>
+      <div className="font-semibold text-lg group-hover:underline hover:underline" onclick={(e)=>{navigate(`/productDetail?id=${id}`)}}>{title}</div>
       <h3 className="text-base">${price}</h3>
       <h3 className="text-sm text-slate-400">{location}</h3>
     </div>
