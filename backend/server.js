@@ -8,7 +8,7 @@ const fs = require('fs');
 //routers
 const userRouter = require('./Routes/user');
 const productRouter = require('./Routes/product');
-const {router,socket} = require('./Routes/chat');
+const {router} = require('./Routes/chat');
 const chatRouter=router;
 //admin page
 const adminPage = fs.readFileSync(__dirname + '/interface/index.html', 'utf-8');
@@ -52,8 +52,9 @@ app.get('/', (req, res) => {
   res.send(adminPage);
 });
 // console.log(process.env.PORT);
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT, () => {
   console.log(`server is running on port ${process.env.PORT}`);
 });
+require('./middleware/chat')(server)
 
-module.exports = app
+
