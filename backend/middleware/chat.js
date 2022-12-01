@@ -7,7 +7,12 @@ const app=require("../server")
 // * Socket IO
 // */
 const build=async (app)=>{
-const io = require('socket.io')(app)
+const io = require('socket.io')(app,{
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+})
 
 io.use((socket, next) => {
   // const sessionID = socket.handshake.auth.sessionID;
