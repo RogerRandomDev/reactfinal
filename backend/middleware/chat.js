@@ -1,3 +1,4 @@
+const { decodeToken } = require('../controllers/auth');
 const {
   sendMessage,
   getMessages,
@@ -7,7 +8,12 @@ const app=require("../server")
 // * Socket IO
 // */
 const build=async (app)=>{
-const io = require('socket.io')(app)
+const io = require('socket.io')(app,{
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+})
 
 io.use((socket, next) => {
   // const sessionID = socket.handshake.auth.sessionID;
@@ -29,7 +35,6 @@ io.use((socket, next) => {
 });
 
 io.on('connection', (socket) => {
-  console.log('connected')
   const users = [];
   for (let [id, socket] of io.of('/').sockets) {
     users.push({
@@ -58,7 +63,7 @@ io.on('connection', (socket) => {
     sendMessage(token,to,content);
     socket.to(to).emit('private message', {
       content,
-      from: socket.userID,
+      from: decodeToken(token).userID,
     });
   });
 });
