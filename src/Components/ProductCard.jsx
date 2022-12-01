@@ -57,7 +57,7 @@ function ProductCard({ id, type = "favorite", image, title, price, location, lin
   }
   return (
     <div
-      // onClick={(e)=>navigate("/productDetail")} 
+      onclick={()=>{console.log(link);navigate(`/productDetail?id=${id}`)}}
       className="flex flex-col justify-center gap-1 group cursor-pointer relative overflow-hidden mx-auto md:mx-0">
       {
         type === "favorite" ?
