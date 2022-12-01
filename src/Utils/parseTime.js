@@ -6,7 +6,26 @@ const parseTime = (dateString) => {
     let dateType = date.getHours() > 12 ? 'PM' : 'AM';
     let dateMinutes =
       date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
-    return `${dateHours}:${dateMinutes} ${dateType}`;
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'June',
+      'July',
+      'Aug',
+      'Sept',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+
+    let dateToday = new Date().getDate() - date.getDate();
+    let oldDate = `${monthNames[date.getMonth()]} ${date.getDate()}`;
+    return `${
+      dateToday === 0 ? '' : oldDate
+    } ${dateHours}:${dateMinutes} ${dateType}`;
   }
   return 'unknown';
 };

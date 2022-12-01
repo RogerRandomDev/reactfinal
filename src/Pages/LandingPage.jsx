@@ -165,11 +165,11 @@ function LandingPage() {
         // console.log("front end req sent");
         swal({
           title: `Email Confirmation Sent to ${state.email}`,
-          text: 'Please Sign in after Account Confirmation',
-          icon: 'success',
-          button: 'Cool!',
-        });
-        let newUserData = await sendRequest('user/createAccount', 'POST', {
+          text: "Please Sign in after Account Confirmation",
+          icon: "success",
+          button: "Cool!"
+        })
+        await sendRequest("user/createAccount", "POST", {
           body: {
             email: state.email,
             password: state.password,
@@ -297,9 +297,8 @@ function LandingPage() {
                 dispatch({ type: 'username', payload: e.target.value })
               }
               name='username'
-              className={`py-2  px-4 rounded w-9/12 text-neutral-900 ${
-                state.userType === 'business' ? 'block' : 'hidden'
-              }`}
+              className={`py-2  px-4 rounded w-9/12 text-neutral-900 ${state.userType === 'business' ? 'block' : 'hidden'
+                }`}
             />
             <input
               placeholder='Password'
@@ -319,9 +318,8 @@ function LandingPage() {
                 dispatch({ type: 'confirmPassword', payload: e.target.value })
               }
               name='confirmPassword'
-              className={`py-2 rounded w-9/12 px-4 text-neutral-900 ${
-                state.userType === 'business' ? 'block' : 'hidden'
-              }`}
+              className={`py-2 rounded w-9/12 px-4 text-neutral-900 ${state.userType === 'business' ? 'block' : 'hidden'
+                }`}
             />
             <input type='hidden' name='userType' value={state.userType} />
             {!loggingIn ? (

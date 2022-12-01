@@ -1,3 +1,4 @@
+const { decodeToken } = require('../controllers/auth');
 const {
   sendMessage,
   getMessages,
@@ -63,7 +64,7 @@ io.on('connection', (socket) => {
     sendMessage(token,to,content);
     socket.to(to).emit('private message', {
       content,
-      from: socket.userID,
+      from: decodeToken(token).userID,
     });
   });
 });
