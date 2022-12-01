@@ -108,6 +108,7 @@ function Chat() {
         setUsers((prevUsers) => [...prevUsers, user]);
       });
       socket.on('private message', ({ content, from }) => {
+        console.log(content, from);
         if (from == tokenInUrl) {
           dispatch({ type: 'other', payload: content });
         }
@@ -160,7 +161,7 @@ function Chat() {
             return (
               <a
                 key={idx}
-                href={`http://localhost:3000/chat/${user._id}`}
+                href={`https://6389205d33f17b578e2ec202--poetic-centaur-45e982.netlify.app/chat/${user._id}`}
                 className='flex gap-4 items-center bg-[#6e799e] p-4 rounded cursor-pointer hover:bg-blue-800 group transition w-[45%] sm:w-auto'>
                 <img
                   src={`https://res.cloudinary.com/dztnsrrta/image/upload/${user.icon}`}

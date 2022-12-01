@@ -60,7 +60,7 @@ const purchaseProduct = async (buyerToken,productID)=> {
         destination:sellerData.card,
         _id:sellerData._id
     })
-    sendSMS(sellerData.contact,`User ${buyerData.name} wants to purchase ${productData.name}. Please navigate to the site and contact the buyer at location https://localhost:3000/profile?id=${buyerData._id}`)
+    sendSMS(sellerData.contact,`User ${buyerData.name} wants to purchase ${productData.name}. Please navigate to the site and contact the buyer at location https://6389205d33f17b578e2ec202--poetic-centaur-45e982.netlify.app/profile?id=${buyerData._id}`)
     return {success:true,msg:'transaction complete'}
     }catch(e){
         return {success:false,msg:'transaction error',e}
