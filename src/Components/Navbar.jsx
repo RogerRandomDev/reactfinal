@@ -9,15 +9,22 @@ import { ReactComponent as Mobilesvg } from '../assets/halfnote.svg';
 import { useNavigate } from 'react-router';
 import { getLocal } from '../Utils/useLocalStorageAuth';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 export default function Navbar() {
   let [navHidden, setNavHidden] = useState(true);
   let [sideHidden, setSideHidden] = useState(true);
-
+  const [userData, setUserData] = useState(null);
   const { state } = useContext(userContext);
+
+  useEffect(() => {
+    setUserData(state.user);
+  }, []);
+
   const navigate = useNavigate();
 
   const handleLogOut = () => {
     localStorage.clear();
+    setUserData({});
     navigate('/login');
   };
 
@@ -129,14 +136,9 @@ export default function Navbar() {
           className='hidden md:inline-block mr-5 bg-none text-gray-300 hover:text-gray-200 transition-colors'>
           About Us
         </Link>
-
-        {/* <Link to="/productdetail" className="hidden md:inline-block bg-none text-gray-300 hover:text-gray-200 transition-colors">Customer List</Link> */}
       </div>
-      {/* dashboard, all products, add/edit product, customer list */}
-      {/* profile button with My account, settings, and logout */}
-      {/* profile thing on right hidden on mobile and put on three dots instead */}
       <ol className='relative hidden md:inline-block h-full ml-auto md:ml-0 list-none flex-1 md:flex-5'>
-        {getLocal('user') ? (
+        {JSON.parse(localStorage.getItem('user')) ? (
           <button
             className='text-white block w-max ml-auto pl-4 mr-3 z-30'
             onClick={() => {
@@ -145,13 +147,15 @@ export default function Navbar() {
             <img
               src={
                 'https://res.cloudinary.com/dztnsrrta/image/upload/' +
-                state?.user?.icon
+                JSON.parse(localStorage.getItem('user')).icon
               }
               alt='Profile'
               className='w-10 h-10 inline-block place-self-center rounded-full mr-2'
             />
             <p className='inline-block mr-1'>
-              {state?.user?.username?.split(' ')[0] || 'Guest'}
+              {JSON.parse(localStorage.getItem('user')).username?.split(
+                ' '
+              )[0] || 'Guest'}
             </p>
             <IoMdArrowDropdown
               className={`inline-block ${
