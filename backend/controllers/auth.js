@@ -2,6 +2,7 @@ require('dotenv').config();
 const jsonwebtoken = require('jsonwebtoken');
 const { connectDB } = require('../db/connect');
 const { hashString, compareHash } = require('../middleware/hash');
+const atob = require('atob');
 //const {getUser} = require("./User");
 const timers = require('timers');
 
