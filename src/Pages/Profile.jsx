@@ -12,7 +12,7 @@ import useGetUserProducts from '../hooks/useGetUserProducts';
 import ProductCardSkeleton from '../Components/Skeletons/ProductCardSkeleton';
 import { getLocal } from '../Utils/useLocalStorageAuth';
 function Profile() {
-  const { state } = useContext(userContext);
+  const { state, dispatch } = useContext(userContext);
   const [loading, setLoading] = useState(true);
   const [userProducts, setUserProducts] = useState([]);
   const [userData, setUserData] = useState(null);
@@ -21,7 +21,7 @@ function Profile() {
 
   // const userProducts = useGetUserProducts(state.user._id);
   useEffect(() => {
-    if (localStorage.getItem('user')) {
+    if (localStorage.getItem('user') && state) {
       setLoading(true);
       let userID = window.location.search.substring(4);
       if (
@@ -33,14 +33,10 @@ function Profile() {
             user: userID,
           },
         }).then((res) => {
-          //  console.log(JSON.parse(res));
           setUserData(JSON.parse(res));
-          //  console.log(userData);
         });
       } else {
-        // console.log("40--",state);
-        setUserData(state.user);
-        // console.log("42-------",userData);
+        setUserData(JSON.parse(localStorage.getItem('user')));
       }
       sendRequest('product/showUser', 'POST', {
         body: {
@@ -56,14 +52,14 @@ function Profile() {
           favorites: JSON.parse(getLocal('user')).favorites,
         },
       });
-      sendRequest('product/showUser', 'POST', {
-        body: {
-          userID: userID.length < 10 ? state.user._id : userID,
-        },
-      }).then((products) => {
-        setUserProducts(JSON.parse(String(products)).products);
-        setLoading(false);
-      });
+      // sendRequest('product/showUser', 'POST', {
+      //   body: {
+      //     userID: userID.length < 10 ? state.user._id : userID,
+      //   },
+      // }).then((products) => {
+      //   setUserProducts(JSON.parse(String(products)).products);
+      //   setLoading(false);
+      // });
       if (!userID || userID == JSON.parse(localStorage.getItem('user'))._id) {
         sendRequest('product/favoritedProducts', 'POST', {
           body: {
