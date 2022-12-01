@@ -6,7 +6,7 @@ import parseTime from '../Utils/parseTime';
 import { sendRequest } from '../Utils/requests';
 import { useNavigate } from 'react-router-dom';
 function Chat() {
-  const navigate=userNavigate();
+  const navigate=useNavigate();
   let { chatID } = useParams();
   const [message, setMessage] = useState('');
   const [usersInConversation, setUsersInConversation] = useState([]);
