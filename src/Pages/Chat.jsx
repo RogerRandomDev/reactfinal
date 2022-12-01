@@ -108,6 +108,7 @@ function Chat() {
         setUsers((prevUsers) => [...prevUsers, user]);
       });
       socket.on('private message', ({ content, from }) => {
+        console.log(content, from);
         if (from == tokenInUrl) {
           dispatch({ type: 'other', payload: content });
         }

@@ -53,8 +53,8 @@ const App = () => {
               <Route path='/' element={<Products />} />
               <Route path='/home' element={<TotalRevenue />} />
               <Route path='/login' element={<LandingPage />} />
-              <Route exact path='/chat/:chatID' element={<Chat />} />
-              <Route exact path='/chat' element={<Chat />} />
+              <Route path='/chat/:chatID' element={<Chat />} />
+              <Route path='/chat' element={<Chat />} />
               <Route path='/about' element={<AboutPage />} />
               <Route path='/about/terms' element={<TermsofService />} />
               <Route path='/about/privacy' element={<PrivacyPolicy />} />
@@ -137,7 +137,7 @@ const App = () => {
                   />
                 }
               />
-              <Route exact path='/productDetail' element={<ProductDetail />} />
+              <Route path='/productDetail' element={<ProductDetail />} />
 
               <Route path='/addEdit' element={<AddEditProduct />} />
               <Route path='/customers' element={<Customers />}></Route>
