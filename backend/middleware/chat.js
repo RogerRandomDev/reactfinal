@@ -6,7 +6,7 @@ const app=require("../server")
 // /*
 // * Socket IO
 // */
-const httpServer=require("http").createServer(app)
+const httpServer=require("https").createServer(app)
 const io = require('socket.io')(httpServer)
 
 io.use((socket, next) => {
