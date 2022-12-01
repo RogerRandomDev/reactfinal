@@ -35,7 +35,6 @@ io.use((socket, next) => {
 });
 
 io.on('connection', (socket) => {
-  console.log('connected')
   const users = [];
   for (let [id, socket] of io.of('/').sockets) {
     users.push({
