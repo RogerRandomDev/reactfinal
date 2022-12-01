@@ -7,7 +7,6 @@ import { useState } from 'react';
 import swal from 'sweetalert';
 import { useNavigate } from 'react-router';
 
-
 function AddEditProduct() {
   const [productData, setProductData] = useState({});
   const [loading, setLoading] = useState(true);
@@ -41,38 +40,19 @@ function AddEditProduct() {
   const { state, dispatch } = useContext(userContext);
   const initialState = { name: "", price: "", discount: "", description: "", status: "", images: [], pros: [], specifications: [] };
   const formReducer = (state, action) => {
-    if (action.type == "name") {
-      return { ...state, name: action.payload }
+    let data = [...state.images];
+    switch (action.type) {
+      case "name": case "price": case "discount": case "description": case "status": case "pros": case "specifications":
+        return { ...state, [action.type]: action.payload }
+      case "addImages":
+        data.push(action.payload);
+        return { ...state, images: data }
+      case "removeImages":
+        data = data.filter(d => d[0] !== action.payload);
+        return { ...state, images: data }
+      default:
+        throw new Error("No Matching Action Type");
     }
-    if (action.type == "price") {
-      return { ...state, price: action.payload }
-    }
-    if (action.type == "discount") {
-      return { ...state, discount: action.payload }
-    }
-    if (action.type == "description") {
-      return { ...state, description: action.payload }
-    }
-    if (action.type == "status") {
-      return { ...state, status: action.payload }
-    }
-    if (action.type == "addImages") {
-      let data = [...state.images];
-      data.push(action.payload);
-      return { ...state, images: data }
-    }
-    if (action.type == "removeImages") {
-      let data = [...state.images];
-      data = data.filter(d => d[0] !== action.payload);
-      return { ...state, images: data }
-    }
-    if (action.type == "pros") {
-      return { ...state, pros: action.payload }
-    }
-    if (action.type == "specifications") {
-      return { ...state, specifications: action.payload }
-    }
-    throw new Error("No Matching Action Type");
   };
   const [formState, formDispatch] = useReducer(formReducer, initialState);
 
