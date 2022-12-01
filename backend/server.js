@@ -8,7 +8,8 @@ const fs = require('fs');
 //routers
 const userRouter = require('./Routes/user');
 const productRouter = require('./Routes/product');
-const chatRouter = require('./Routes/chat');
+const {router} = require('./Routes/chat');
+const chatRouter=router;
 //admin page
 const adminPage = fs.readFileSync(__dirname + '/interface/index.html', 'utf-8');
 
@@ -44,12 +45,16 @@ app.use('/', async (req, res, next) => {
 });
 app.use('/product', productRouter);
 app.use('/chat', chatRouter);
-app.get('/', (req, res) => {
+
+/*app.get('/', (req, res) => {
   if (req.hostname != 'localhost')
     return res.status(404).send({ success: false, msg: 'Access denied' });
   res.send(adminPage);
-});
+});*/
 // console.log(process.env.PORT);
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT, () => {
   console.log(`server is running on port ${process.env.PORT}`);
 });
+require('./middleware/chat')(server)
+
+

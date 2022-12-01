@@ -19,11 +19,12 @@ const ProductSchema = new mongoose.Schema({
   },
   status: {
     type: String,
+    required: true,
     default: "Instock"
   },
   Location: {
     type: String,
-    default: 'nowhere'
+    default: 'Joe Mama Avenue'
   },
   Tags: {
     type: Array,
@@ -47,7 +48,8 @@ const ProductSchema = new mongoose.Schema({
   },
   discount: {
     type: Number,
-    default: 0
+    default: 0,
+    required: true
   }
 });
 

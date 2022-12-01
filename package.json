@@ -7,6 +7,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "apexcharts": "^3.36.0",
+    "atob": "^2.1.2",
     "bcrypt": "^5.1.0",
     "chart.js": "^3.9.1",
     "cloudinary": "^1.32.0",
@@ -53,6 +54,7 @@
     "frontend": "set PORT=3000 && react-scripts start",
     "start": "npm-run-all --parallel backend frontend",
     "build": "react-scripts build",
+    "runbuilt": "serve --single build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -75,7 +75,7 @@ function ProductDetailInformation({
         <LabeledDropdown label={'Quantity'} data={[1, 2, 3, 4, 5]} />
         <LabeledDropdown label={'Size'} data={['Small', 'Medium', 'Large']} />
       </div>
-      <Link to={`/chat?id=${creatorID}`}>
+      <Link to={`/chat/${creatorID}`}>
         <button className='btn-primary mt-8 w-full mb-5 py-2 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold flex items-center justify-center gap-4'>
           <AiOutlineShoppingCart />
           <p>Purchase</p>

@@ -1,13 +1,19 @@
+const { decodeToken } = require('../controllers/auth');
 const {
   sendMessage,
   getMessages,
 } = require('../controllers/chat');
+const app=require("../server")
 // /*
 // * Socket IO
 // */
-const io = require('socket.io')(3001, {
-  cors: { origin: '*' },
-});
+const build=async (app)=>{
+const io = require('socket.io')(app,{
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+})
 
 io.use((socket, next) => {
   // const sessionID = socket.handshake.auth.sessionID;
@@ -57,9 +63,9 @@ io.on('connection', (socket) => {
     sendMessage(token,to,content);
     socket.to(to).emit('private message', {
       content,
-      from: socket.userID,
+      from: decodeToken(token).userID,
     });
   });
 });
-
-module.exports = io;
+}
+module.exports = build;
