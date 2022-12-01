@@ -136,7 +136,7 @@ function LandingPage({ updateContext }) {
           icon: "success",
           button: "Cool!"
         })
-        let newUserData = await sendRequest("user/createAccount", "POST", {
+        await sendRequest("user/createAccount", "POST", {
           body: {
             email: state.email,
             password: state.password,
