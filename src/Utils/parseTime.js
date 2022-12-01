@@ -4,7 +4,9 @@ const parseTime = (dateString) => {
     let dateHours =
       date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
     let dateType = date.getHours() > 12 ? 'PM' : 'AM';
-    return `${dateHours}:${date.getMinutes()} ${dateType}`;
+    let dateMinutes =
+      date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+    return `${dateHours}:${dateMinutes} ${dateType}`;
   }
   return 'unknown';
 };

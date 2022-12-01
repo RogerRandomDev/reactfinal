@@ -21,10 +21,8 @@ const initialState = {
   businessLogo: '',
   description: '',
 };
-function LandingPage({ updateContext }) {
+function LandingPage() {
   const navigate = useNavigate();
-  // const context = useContext(userContext);
-
   const indicator = useRef(null);
   const userSelect = useRef(null);
   const businessSelect = useRef(null);

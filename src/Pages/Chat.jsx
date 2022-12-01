@@ -34,13 +34,6 @@ function Chat() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    // const sessionID = localStorage.getItem('sessionID');
-    // if (sessionID) {
-    //   socket.auth = { sessionID };
-    //   socket.connect();
-    // }
-    // socket.request = JSON.parse(localStorage.getItem('user'))._id;
-
     /**
      * Get From Database
      */
@@ -115,12 +108,9 @@ function Chat() {
         setUsers((prevUsers) => [...prevUsers, user]);
       });
       socket.on('private message', ({ content, from }) => {
-        console.log(content, from, '51');
-        dispatch({ type: 'other', payload: content });
-        // users.forEach((user) => {
-        //   if (user.userID === from) {
-        //   }
-        // });
+        if (from == tokenInUrl) {
+          dispatch({ type: 'other', payload: content });
+        }
       });
       socket.on('session', ({ sessionID, userID }) => {
         // attach to auth for reconnection
@@ -170,7 +160,7 @@ function Chat() {
             return (
               <a
                 key={idx}
-                href={`http://ubarterfront.onrender.com/chat/${user._id}`}
+                href={`http://localhost:3000/chat/${user._id}`}
                 className='flex gap-4 items-center bg-[#6e799e] p-4 rounded cursor-pointer hover:bg-blue-800 group transition w-[45%] sm:w-auto'>
                 <img
                   src={`https://res.cloudinary.com/dztnsrrta/image/upload/${user.icon}`}
