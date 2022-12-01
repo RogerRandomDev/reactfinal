@@ -2,15 +2,12 @@ const {
   sendMessage,
   getMessages,
 } = require('../controllers/chat');
+const app=require("../server")
 // /*
 // * Socket IO
 // */
-const express= require('express');
-const http = require("http")
-const app=express()
-const server=http.createServer(app)
-const io = require('socket.io')(server)
-server.listen(3001,()=>{console.log("chat listening on port 3001")})
+const httpServer=require("http").createServer(app)
+const io = require('socket.io')(httpServer)
 
 io.use((socket, next) => {
   // const sessionID = socket.handshake.auth.sessionID;
