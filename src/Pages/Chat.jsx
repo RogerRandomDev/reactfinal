@@ -4,7 +4,9 @@ import Message from '../Components/Message';
 import socket from '../socket';
 import parseTime from '../Utils/parseTime';
 import { sendRequest } from '../Utils/requests';
+import { useNavigate } from 'react-router-dom';
 function Chat() {
+  const navigate=userNavigate();
   let { chatID } = useParams();
   const [message, setMessage] = useState('');
   const [usersInConversation, setUsersInConversation] = useState([]);
@@ -161,7 +163,7 @@ function Chat() {
             return (
               <a
                 key={idx}
-                href={`https://poetic-centaur-45e982.netlify.app/chat/${user._id}`}
+                onclick={(e)=>{navigate(`/chat/${user._id}`)}}
                 className='flex gap-4 items-center bg-[#6e799e] p-4 rounded cursor-pointer hover:bg-blue-800 group transition w-[45%] sm:w-auto'>
                 <img
                   src={`https://res.cloudinary.com/dztnsrrta/image/upload/${user.icon}`}
