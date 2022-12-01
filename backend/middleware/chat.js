@@ -7,6 +7,7 @@ const {
 // */
 const io = require('socket.io')(3001, {
   cors: { origin: '*' },
+  path:"/chat/socket.io"
 });
 
 io.use((socket, next) => {
