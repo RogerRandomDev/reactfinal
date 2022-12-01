@@ -5,10 +5,12 @@ const {
 // /*
 // * Socket IO
 // */
-const io = require('socket.io')(3001, {
-  cors: { origin: '*' },
-  path:"/socket.io"
-});
+const express= require('express');
+const http = require("http")
+const app=express()
+const server=http.createServer(app)
+const io = require('socket.io')(server)
+server.listen(3001,()=>{console.log("chat listening on port 3001")})
 
 io.use((socket, next) => {
   // const sessionID = socket.handshake.auth.sessionID;
