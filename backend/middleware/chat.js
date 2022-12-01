@@ -2,13 +2,12 @@ const {
   sendMessage,
   getMessages,
 } = require('../controllers/chat');
+const app=require("../server")
 // /*
 // * Socket IO
 // */
-const io = require('socket.io')(3001, {
-  cors: { origin: '*' },
-  path:"/socket.io"
-});
+const build=async (app)=>{
+const io = require('socket.io')(app)
 
 io.use((socket, next) => {
   // const sessionID = socket.handshake.auth.sessionID;
@@ -30,6 +29,7 @@ io.use((socket, next) => {
 });
 
 io.on('connection', (socket) => {
+  console.log('connected')
   const users = [];
   for (let [id, socket] of io.of('/').sockets) {
     users.push({
@@ -62,5 +62,5 @@ io.on('connection', (socket) => {
     });
   });
 });
-
-module.exports = io;
+}
+module.exports = build;
