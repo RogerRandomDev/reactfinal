@@ -22,7 +22,6 @@ import Customers from './Pages/Customers';
 import Profile from './Pages/Profile';
 import Products from './Pages/Products';
 import NavBar from './Components/Navbar';
-import ReNavigate from './Components/ReNavigate';
 
 import { Provider as FavoritesProvider } from './Context/favoritesContext';
 import { Provider } from './Context/userContext';
