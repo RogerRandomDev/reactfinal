@@ -123,7 +123,7 @@ router.post('/show', async (req, res) => {
 router.post("/getReceipts", async (req,res) => {
   const { user,recieptPage} = JSON.parse(req.body)
   const output = await getReceiptsFor(user,recieptPage)
-  res.send(output)
+  res.status(200).send(output)
 })
 
 
