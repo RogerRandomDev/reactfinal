@@ -5,8 +5,7 @@ import {
   Routes as Switch,
   Route,
   useNavigate,
-  useLocation,
-  createBrowserRouter
+  useLocation
 } from 'react-router-dom';
 import { FaRegHeart } from 'react-icons/fa';
 import DataOverview from './Components/DataOverview';
@@ -28,6 +27,11 @@ import { Provider as FavoritesProvider } from './Context/favoritesContext';
 import { Provider } from './Context/userContext';
 import { useEffect } from 'react';
 import Chat from './Pages/Chat';
+const reNav = () => {
+  const location = useLocation();
+  const navigate=useNavigate();
+  return <>{location}</>
+}
 
 const App = () => {
   // const [user, setUser] = useState('');
@@ -48,8 +52,7 @@ const App = () => {
     <FavoritesProvider>
       <Provider>
         <div className='App pt-14'>
-          createBrowserRouter(
-            createRoutesFromElements(
+          <Router>
             <NavBar />
             <Switch>
               <Route path='/' element={<Products />} />
@@ -144,8 +147,9 @@ const App = () => {
               <Route path='/customers' element={<Customers />}></Route>
               <Route path='/profile' element={<Profile />}></Route>
               <Route path='/products' element={<Products />}></Route>
-            </Switch>))
-          
+              <Route path="*" element={<reNav />}></Route>
+            </Switch>
+          </Router>
           {/* <div className='flex gap-8'>
         <DataOverview fadedAccentColor="rgba(102, 88, 221, 0.25)" accentColor="rgb(102, 88, 221)" Icon={FaRegHeart} data="$58,947" description="Total Revenue"/>
         <DataOverview fadedAccentColor="rgba(102, 88, 221, 0.25)" accentColor="rgb(102, 88, 221)" Icon={FaRegHeart} data="$58,947" description="Total Revenue"/>
