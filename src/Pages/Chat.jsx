@@ -148,6 +148,7 @@ function Chat() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if(message==''){return}
     // socket.emit('sendmessage', message);
     // dispatch({ type: 'self', payload: message });
     onMessage(message);
