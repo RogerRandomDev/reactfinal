@@ -27,7 +27,7 @@ import { Provider as FavoritesProvider } from './Context/favoritesContext';
 import { Provider } from './Context/userContext';
 import { useEffect } from 'react';
 import Chat from './Pages/Chat';
-const reNav = () => {
+const ReNav = () => {
   const location = useLocation();
   const navigate=useNavigate();
   return <>{location}</>
@@ -147,7 +147,7 @@ const App = () => {
               <Route path='/customers' element={<Customers />}></Route>
               <Route path='/profile' element={<Profile />}></Route>
               <Route path='/products' element={<Products />}></Route> 
-              <Route path="*" element={<reNav />}></Route>
+              <Route path="*" element={<ReNav />}></Route>
             </Switch>
           </Router>
           {/* <div className='flex gap-8'>
