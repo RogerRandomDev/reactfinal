@@ -46,6 +46,7 @@ const App = () => {
   //doing this to ensure refreshing the page re-routes you correctly
   
   const navigate=useNavigate()
+  
   useEffect(() => {
     const location = useLocation()
     console.log(location)
