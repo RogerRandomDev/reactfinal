@@ -146,7 +146,7 @@ const App = () => {
               <Route path='/addEdit' element={<AddEditProduct />} />
               <Route path='/customers' element={<Customers />}></Route>
               <Route path='/profile' element={<Profile />}></Route>
-              <Route path='/products' element={<Products />}></Route>
+              <Route path='/products' element={<Products />}></Route> 
               <Route path="*" element={<reNav />}></Route>
             </Switch>
           </Router>
