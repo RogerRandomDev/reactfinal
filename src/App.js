@@ -4,7 +4,8 @@ import {
   BrowserRouter as Router,
   Routes as Switch,
   Route,
-  Navigate,
+  useNavigate,
+  useLocation,
 } from 'react-router-dom';
 import { FaRegHeart } from 'react-icons/fa';
 import DataOverview from './Components/DataOverview';
@@ -42,7 +43,14 @@ const App = () => {
   //   console.log(data);
   //   setUser(data);
   // };
-
+  //doing this to ensure refreshing the page re-routes you correctly
+  
+  const navigate=useNavigate()
+  useEffect(() => {
+    const location = useLocation()
+    console.log(location)
+    navigate(location.pathname)
+  },[])
   return (
     <FavoritesProvider>
       <Provider>
@@ -138,7 +146,6 @@ const App = () => {
                 }
               />
               <Route path='/productDetail' element={<ProductDetail />} />
-
               <Route path='/addEdit' element={<AddEditProduct />} />
               <Route path='/customers' element={<Customers />}></Route>
               <Route path='/profile' element={<Profile />}></Route>
