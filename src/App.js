@@ -6,6 +6,7 @@ import {
   Route,
   useNavigate,
   useLocation,
+  createBrowserRouter
 } from 'react-router-dom';
 import { FaRegHeart } from 'react-icons/fa';
 import DataOverview from './Components/DataOverview';
@@ -47,7 +48,8 @@ const App = () => {
     <FavoritesProvider>
       <Provider>
         <div className='App pt-14'>
-          <Router>
+          createBrowserRouter(
+            createRoutesFromElements(
             <NavBar />
             <Switch>
               <Route path='/' element={<Products />} />
@@ -142,8 +144,8 @@ const App = () => {
               <Route path='/customers' element={<Customers />}></Route>
               <Route path='/profile' element={<Profile />}></Route>
               <Route path='/products' element={<Products />}></Route>
-            </Switch>
-          </Router>
+            </Switch>))
+          
           {/* <div className='flex gap-8'>
         <DataOverview fadedAccentColor="rgba(102, 88, 221, 0.25)" accentColor="rgb(102, 88, 221)" Icon={FaRegHeart} data="$58,947" description="Total Revenue"/>
         <DataOverview fadedAccentColor="rgba(102, 88, 221, 0.25)" accentColor="rgb(102, 88, 221)" Icon={FaRegHeart} data="$58,947" description="Total Revenue"/>
