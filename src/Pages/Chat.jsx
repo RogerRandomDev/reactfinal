@@ -6,14 +6,14 @@ import parseTime from '../Utils/parseTime';
 import { sendRequest } from '../Utils/requests';
 import { useNavigate } from 'react-router-dom';
 function Chat() {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   let { chatID } = useParams();
   const [message, setMessage] = useState('');
   const [usersInConversation, setUsersInConversation] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [hasTokenInUrl, setHasTokenInUrl] = useState(null);
   const [loaded, setLoaded] = useState(false);
-  const [uid,setCHAT] = useState(chatID)
+  const [uid, setCHAT] = useState(chatID);
   const initialState = [];
   const messageReducer = (state, action) => {
     if (action.type === 'self' || action.type === 'other') {
@@ -34,7 +34,8 @@ function Chat() {
 
   const [state, dispatch] = useReducer(messageReducer, initialState);
   const [users, setUsers] = useState([]);
-  useEffect(() => {chatID=uid
+  useEffect(() => {
+    chatID = uid;
     /**
      * Get From Database
      */
@@ -150,8 +151,10 @@ function Chat() {
     e.preventDefault();
     // socket.emit('sendmessage', message);
     // dispatch({ type: 'self', payload: message });
-    onMessage(message);
-    setMessage('');
+    if (message.trim().length > 0) {
+      onMessage(message);
+      setMessage('');
+    }
   };
 
   return (
@@ -161,9 +164,11 @@ function Chat() {
           {usersInConversation.map((user, idx) => {
             return (
               <div
-                onClick={(e)=>{setCHAT(user._id);navigate(`/chat/${user._id}`)}}
+                onClick={(e) => {
+                  setCHAT(user._id);
+                  navigate(`/chat/${user._id}`);
+                }}
                 key={idx}
-                
                 className='flex gap-4 items-center bg-[#6e799e] p-4 rounded cursor-pointer hover:bg-blue-800 group transition w-[45%] sm:w-auto'>
                 <img
                   src={`https://res.cloudinary.com/dztnsrrta/image/upload/${user.icon}`}
@@ -224,8 +229,11 @@ function Chat() {
                 name='Message Input'
               />
               <button
+                disabled={message.trim().length === 0}
                 type='submit'
-                className='btn-primary w-max px-6 py-3 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold mr-4'>
+                className={`btn-primary w-max px-6 py-3 rounded bg-blue-500 hover:bg-blue-600 transition text-neutral-100 font-semibold mr-4 ${
+                  message.trim().length === 0 && 'bg-gray-400 hover:bg-gray-400'
+                }`}>
                 Send
               </button>
             </form>
