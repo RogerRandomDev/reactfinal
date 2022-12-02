@@ -142,7 +142,6 @@ const App = () => {
               <Route path='/customers' element={<Customers />}></Route>
               <Route path='/profile' element={<Profile />}></Route>
               <Route path='/products' element={<Products />}></Route>
-              <Route path="" element={<ReNavigate />} />
             </Switch>
           </Router>
           {/* <div className='flex gap-8'>
