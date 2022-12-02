@@ -22,6 +22,7 @@ import Customers from './Pages/Customers';
 import Profile from './Pages/Profile';
 import Products from './Pages/Products';
 import NavBar from './Components/Navbar';
+import ReNavigate from './Components/ReNavigate';
 
 import { Provider as FavoritesProvider } from './Context/favoritesContext';
 import { Provider } from './Context/userContext';
@@ -142,6 +143,7 @@ const App = () => {
               <Route path='/customers' element={<Customers />}></Route>
               <Route path='/profile' element={<Profile />}></Route>
               <Route path='/products' element={<Products />}></Route>
+              <Route path="" element={<ReNavigate />} />
             </Switch>
           </Router>
           {/* <div className='flex gap-8'>
