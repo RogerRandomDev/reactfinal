@@ -13,7 +13,7 @@ function Chat() {
   const [currentUser, setCurrentUser] = useState({});
   const [hasTokenInUrl, setHasTokenInUrl] = useState(null);
   const [loaded, setLoaded] = useState(false);
-
+  const [uid,setCHAT] = useState(chatID)
   const initialState = [];
   const messageReducer = (state, action) => {
     if (action.type === 'self' || action.type === 'other') {
@@ -34,8 +34,7 @@ function Chat() {
 
   const [state, dispatch] = useReducer(messageReducer, initialState);
   const [users, setUsers] = useState([]);
-  useEffect(() => {},chatID)
-  useEffect(() => {
+  useEffect(() => {chatID=uid
     /**
      * Get From Database
      */
@@ -124,7 +123,7 @@ function Chat() {
         socket.userID = userID;
       });
     });
-  }, []);
+  }, [uid]);
 
   useEffect(() => {
     let cUser = usersInConversation.find((u) => {
