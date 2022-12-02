@@ -162,7 +162,7 @@ function Chat() {
           {usersInConversation.map((user, idx) => {
             return (
               <div
-              onclick={(e)=>{console.log(e);navigate(`/chat/${user._id}`)}}
+                onClick={(e)=>{navigate(`/chat/${user._id}`)}}
                 key={idx}
                 
                 className='flex gap-4 items-center bg-[#6e799e] p-4 rounded cursor-pointer hover:bg-blue-800 group transition w-[45%] sm:w-auto'>
