@@ -34,7 +34,7 @@ function Chat() {
 
   const [state, dispatch] = useReducer(messageReducer, initialState);
   const [users, setUsers] = useState([]);
-
+  useEffect(() => {},chatID)
   useEffect(() => {
     /**
      * Get From Database
@@ -162,7 +162,7 @@ function Chat() {
           {usersInConversation.map((user, idx) => {
             return (
               <div
-                onClick={(e)=>{navigate(`/chat/${user._id}`)}}
+                onClick={(e)=>{chatID=user._id;navigate(`/chat/${user._id}`)}}
                 key={idx}
                 
                 className='flex gap-4 items-center bg-[#6e799e] p-4 rounded cursor-pointer hover:bg-blue-800 group transition w-[45%] sm:w-auto'>
