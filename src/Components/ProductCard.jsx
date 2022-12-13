@@ -57,7 +57,7 @@ function ProductCard({ id, type = "favorite", image, title, price, location, lin
   }
   return (
     <div
-      // onClick={(e)=>navigate("/productDetail")} 
+      onClick={(e)=>navigate(`/productDetail?id=${id}`)} 
       className="flex flex-col justify-center gap-1 group cursor-pointer relative overflow-hidden mx-auto md:mx-0">
       {
         type === "favorite" ?
@@ -79,11 +79,11 @@ function ProductCard({ id, type = "favorite", image, title, price, location, lin
         //   </div>
         // </div>
       }
-      <a href={link} className="block relative">
+      <div className="block relative">
         <div className="absolute inset-0 bg-[#121212] opacity-[0.2] hidden group-hover:block"></div>
         <img src={image} alt={"Product"} className="rounded w-60 aspect-square object-cover" />
-      </a>
-      <a className="font-semibold text-lg group-hover:underline hover:underline" href={link}>{title}</a>
+      </div>
+      <p className="font-semibold text-lg group-hover:underline hover:underline">{title}</p>
       <h3 className="text-base">${price}</h3>
       <h3 className="text-sm text-slate-400">{location}</h3>
     </div>

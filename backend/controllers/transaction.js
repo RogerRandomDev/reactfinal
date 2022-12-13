@@ -1,6 +1,6 @@
 const { connectDB } = require('../db/connect');
 const TransactionModel= require('../models/transactionModel');
-
+const {decodeToken} = require('./auth')
 require('dotenv').config();
 
 
@@ -13,7 +13,8 @@ const createReceipt = async(transactionData)=>{
     return {success:true,msg:"stored receipt"}
 }
 
-const getReceiptsFor = async (userID,viewPage=0)=>{
+const getReceiptsFor = async (userToken,viewPage=0)=>{
+    const userID=decodeToken(userToken).userID;
     var output={success:false,msg:"default output"}
     await connectDB(process.env.MONGO_URI)
 

@@ -3,7 +3,7 @@ const parseTime = (dateString) => {
     let date = new Date(dateString);
     let dateHours =
       date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
-    let dateType = date.getHours() > 12 ? 'PM' : 'AM';
+    let dateType = date.getHours() >= 12 ? 'PM' : 'AM';
     let dateMinutes =
       date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
     const monthNames = [
